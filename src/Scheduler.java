@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Scheduler {
 	
 	protected ArrayList<Teacher> teachers;
-	protected ArrayList<Class> classes;
+	protected ArrayList<ClassInSchool> classes;
 
 	public void setTeachers(ArrayList<Teacher> teachers) {
 		this.teachers = teachers;
 	}
 
-	public void setClasses(ArrayList<Class> classes) {
+	public void setClasses(ArrayList<ClassInSchool> classes) {
 		this.classes = classes;
 	}
 

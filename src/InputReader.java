@@ -19,8 +19,8 @@ public class InputReader {
 	 * @param filePath String Path to file with class information
 	 * @return ArrayList<Class> List of classes
 	 */
-	public ArrayList<Class> readClasses(String filePath) {
-		ArrayList<Class> result = new ArrayList<Class>();
+	public ArrayList<ClassInSchool> readClasses(String filePath) {
+		ArrayList<ClassInSchool> result = new ArrayList<ClassInSchool>();
 		
 		return result;
 	}

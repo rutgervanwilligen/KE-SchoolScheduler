@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Main {
 	
 	protected static ArrayList<Teacher> teachers;
-	protected static ArrayList<Class> classes;
+	protected static ArrayList<ClassInSchool> classes;
 
 	/**
 	 * Read input information from files.
