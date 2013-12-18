@@ -11,6 +11,14 @@ public class Teacher {
 	protected String grade;
 	protected ArrayList<Subject> subjects;
 	
+	// TODO Availabilities
 	
-	
+	public Teacher (String name, String code, int weeklyTeachingHours, ArrayList<Subject> subjects, 
+			String grade, String availableHours, String unavailableHours, String undesiredHours) {
+		this.name = name;
+		this.code = code;
+		this.weeklyTeachingHours = weeklyTeachingHours;
+		this.grade = grade;
+		this.subjects = subjects;
+	}
 }
