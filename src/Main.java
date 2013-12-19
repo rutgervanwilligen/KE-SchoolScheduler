@@ -28,7 +28,7 @@ public class Main {
 		scheduler.setTeachers(teachers);
 		scheduler.setClasses(classes);
 		
-		scheduler.schedule();
+		scheduler.createSchedule();
 	}
 
 	/**

@@ -45,5 +45,10 @@ public abstract class ClassInSchool {
 	public Level getLevel() {
 		return level;
 	}
+
+	public ArrayList<Lesson> getLessons() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
