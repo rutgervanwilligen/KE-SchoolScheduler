@@ -6,15 +6,24 @@ public class Lesson {
 	private Teacher teacher;
 	private ClassInSchool classInSchool;
 	private ArrayList<Student> students;
+	private Subject subject;
 	
 	private Weekday weekday;
 	private Hour hour;
 	
 	/**
-	 * Default constructor. Create new Lesson object without contents
+	 * Creates lesson object with weekday and hour, without other contents
+	 * @param weekday Weekday of the lesson
+	 * @param hour Hour of the lesson
 	 */
-	public Lesson () {
-
+	public Lesson(Weekday weekday, Hour hour) {
+		this.weekday = weekday;
+		this.hour = hour;
+		classroom = null;
+		teacher = null;
+		classInSchool = null;
+		students = new ArrayList<Student>();
+		subject = null;
 	}
 	
 	/**
@@ -22,17 +31,54 @@ public class Lesson {
 	 * are the students included in the ClassInSchool object.
 	 * @param weekday Weekday of the lesson
 	 * @param hour Hour of the lesson
+	 * @param subject Subject of the lesson
 	 * @param classroom Classroom of the lesson
 	 * @param teacher Teacher of the lesson
 	 * @param classInSchool Class that gets taught
 	 */
-	public Lesson(Weekday weekday, Hour hour, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
+	public Lesson(Weekday weekday, Hour hour, Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
 		this.weekday = weekday;
 		this.hour = hour;
+		this.subject = subject;
 		this.classroom = classroom;
 		this.teacher = teacher;
-		this.classInSchool = classInSchool;
+		setClassInSchool(classInSchool);
 	}
+	
+	/**
+	 * Returns whether the lesson is allocated to a ClassInSchool.
+	 * @param classInSchool ClassInSchool object to test for.
+	 */
+	public boolean isAllocatedTo(ClassInSchool classInSchool) {
+		return classInSchool.getName().equals(this.classInSchool.getName());
+	}
+	
+	/**
+	 * Returns whether the lesson is allocated to a teacher.
+	 * @param teacher Teacher object to test for.
+	 */
+	public boolean isAllocatedTo(Teacher teacher) {
+		return teacher.equals(this.teacher);
+	}
+	
+	/**
+	 * Returns whether the lesson is allocated to a student.
+	 * @param student Student object to test for.
+	 */
+	public boolean isAllocatedTo(Student student) {
+		return students.contains(student);
+	}
+	
+	/**
+	 * Returns whether the lesson is allocated for a specific weekday / hour combination.
+	 * @param weekday Weekday to test for.
+	 * @param hour Hour to test for.
+	 */
+	public boolean isAllocatedTo(Weekday weekday, Hour hour) {
+		return (weekday.equals(this.weekday) && hour.equals(this.hour));
+	}	
+	
+	
 	
 	/**
 	 * Allocate a classroom to the lesson object.
@@ -48,6 +94,14 @@ public class Lesson {
 	 */
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
+	}
+	
+	/**
+	 * Allocate a subject to the lesson object.
+	 * @param subject Subject to be allocated
+	 */
+	public void setSubject(Subject subject) {
+		this.subject = subject;
 	}
 	
 	/**
@@ -98,6 +152,14 @@ public class Lesson {
 	 */
 	public Classroom getClassroom() {
 		return classroom;
+	}
+	
+	/**
+	 * Get the subject of the lesson object.
+	 * @return Allocated subject
+	 */
+	public Subject getSubject() {
+		return subject;
 	}
 	
 	/**

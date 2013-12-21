@@ -11,7 +11,6 @@ public abstract class ClassInSchool {
 	
 	/**
 	 * Create new class in school.
-	 * 
 	 * @param year int Class's year
 	 * @param letter char Class's letter
 	 * @param level Level Class's education level
@@ -25,7 +24,6 @@ public abstract class ClassInSchool {
 	
 	/**
 	 * Add student to the class.
-	 * 
 	 * @param student Student Student to add
 	 */	
 	public boolean addStudent(Student student) {
