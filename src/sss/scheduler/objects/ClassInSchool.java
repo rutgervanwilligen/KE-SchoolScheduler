@@ -1,3 +1,4 @@
+package sss.scheduler.objects;
 import java.util.ArrayList;
 
 
@@ -47,8 +48,11 @@ public abstract class ClassInSchool {
 	}
 
 	public ArrayList<Lesson> getLessons() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Lesson> result = new ArrayList<Lesson>();
+		
+		result.add(new Lesson("LO"));
+		
+		return result;
 	}
 	
 }

@@ -1,4 +1,12 @@
+package sss;
 import java.util.ArrayList;
+
+import sss.io.ClassInputReader;
+import sss.io.InputReader;
+import sss.io.TeacherInputReader;
+import sss.scheduler.Scheduler;
+import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.Teacher;
 
 
 public class Main {
@@ -13,10 +21,8 @@ public class Main {
 	 * @param classesInputFile String File path to info file about classes.
 	 */
 	private static void readInput(String teacherInputFile, String classesInputFile) {
-		InputReader inputReader = new InputReader();
-
-		teachers = inputReader.readTeachers(teacherInputFile);
-		classes = inputReader.readClasses(classesInputFile);
+		teachers = InputReader.readTeachers(teacherInputFile);
+		classes = InputReader.readClasses(classesInputFile);
 	}
 
 	/**
@@ -51,6 +57,8 @@ public class Main {
 			startScheduler();
 			writeOutput();
 		}
+		
+		System.out.println("Done");
 	}
 
 	private static void printUsage() {

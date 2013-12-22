@@ -1,3 +1,5 @@
+package sss.scheduler.objects;
+
 
 public class HigherClass extends ClassInSchool {
 

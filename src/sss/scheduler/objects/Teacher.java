@@ -1,3 +1,4 @@
+package sss.scheduler.objects;
 import java.util.ArrayList;
 
 public class Teacher {

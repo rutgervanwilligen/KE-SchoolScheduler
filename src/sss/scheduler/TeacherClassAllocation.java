@@ -1,4 +1,9 @@
+package sss.scheduler;
 import java.util.TreeMap;
+
+import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.Subject;
+import sss.scheduler.objects.Teacher;
 
 public class TeacherClassAllocation {
 

@@ -1,5 +1,13 @@
+package sss.scheduler;
 import java.util.ArrayList;
 
+import sss.reasoner.LessonReasoner;
+import sss.reasoner.TimeslotReasoner;
+import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.Classroom;
+import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.Schedule;
+import sss.scheduler.objects.Teacher;
 import jess.JessException;
 
 
@@ -32,7 +40,7 @@ public class Scheduler {
 			try {
 				scheduleLessons(lessonsToSchedule);
 			} catch (JessException e) {
-				System.out.println(e.getMessage());
+				System.out.println("JessException: " + e.getMessage());
 			}
 		}
 		
@@ -40,19 +48,23 @@ public class Scheduler {
 
 	protected void scheduleLessons(ArrayList<Lesson> lessonsToSchedule) throws JessException {
 		LessonReasoner lessonReasoner = new LessonReasoner();
+		lessonReasoner.initiateEngine();
 		lessonReasoner.addObjects(teachers);
 		lessonReasoner.addObjects(classes);
 		lessonReasoner.setLessons(lessonsToSchedule);
 		
-		Lesson lessonToSchedule = lessonReasoner.getMostSuitableLesson();
-		while (lessonToSchedule != null) {
-			scheduleLesson(lessonToSchedule);
-			lessonToSchedule = lessonReasoner.getMostSuitableLesson();
-		}
+		Lesson lessonToSchedule = lessonReasoner.getBestLesson();
+		System.out.println("Got a lesson with rank: " + lessonToSchedule.getRank());
+		
+//		while (lessonToSchedule != null) {
+//			scheduleLesson(lessonToSchedule);
+//			lessonToSchedule = lessonReasoner.getBestLesson();
+//		}
 	}
 
 	protected void scheduleLesson(Lesson lesson) throws JessException {
 		TimeslotReasoner timeslotReasoner = new TimeslotReasoner();
+		timeslotReasoner.initiateEngine();
 		timeslotReasoner.addObjects(null);
 		timeslotReasoner.addLesson(lesson);
 		
