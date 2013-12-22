@@ -64,12 +64,80 @@ public class InputReader {
 	}
 	
 	/**
+	 * Read input file with classroom information
+	 * @param filePath String Path to file with classroom information
+	 * @return ArrayList<Class> List of classrooms
+	 */
+	public ArrayList<Classroom> readClassrooms(String filePath) {
+		ArrayList<Classroom> result = new ArrayList<Classroom>();
+		
+		File file = new File(filePath);
+		Scanner in, lineScanner, facilityScanner;
+		
+		try {
+			in = new Scanner(file);
+			
+			in.nextLine(); // Ignore headers
+			
+			while (in.hasNext()) {
+				String line = in.nextLine();
+				
+				lineScanner = new Scanner(line);
+				lineScanner.useDelimiter(";");
+				
+				String name = lineScanner.next();
+				int capacity = lineScanner.nextInt();
+				
+				String locationString = lineScanner.next();
+				Location location;
+				
+				if (locationString.equals("HG")) {
+					location = Location.HG;
+				} else {
+					location = Location.DEP;
+				}
+				
+				int floor = lineScanner.nextInt();
+				
+				String facilityString = lineScanner.next();
+				
+				ArrayList<Subject> facilities = new ArrayList<Subject>();
+				
+				facilityScanner = new Scanner(facilityString);
+				facilityScanner.useDelimiter("|");
+				
+				while (facilityScanner.hasNext()) {
+					// TODO Beter hiermee omgaan, wellicht opzoeken of die al bestaat ipv nieuwe aanmaken,
+					// zie ik nog niet goed voor me
+					facilities.add(new Subject(facilityScanner.next()));
+				}
+				
+				lineScanner.close();
+				facilityScanner.close();
+				
+				result.add(new Classroom(name, capacity, location, floor, facilities));
+			}
+			
+			in.close();
+								
+		} catch (FileNotFoundException e) {
+			System.out.println("Error: Classroom input file not found!");
+			System.exit(1);
+		}	
+		
+		return result;
+	}
+	
+	
+	/**
 	 * Read input file with class information
 	 * @param filePath String Path to file with class information
 	 * @return ArrayList<Class> List of classes
 	 */
 	public ArrayList<ClassInSchool> readClasses(String filePath) {
 		ArrayList<ClassInSchool> result = new ArrayList<ClassInSchool>();
+		
+		
 		
 		return result;
 	}
