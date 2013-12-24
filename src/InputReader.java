@@ -11,7 +11,6 @@ public class InputReader {
 	 * @return ArrayList<Teacher> List of teachers
 	 */
 	public ArrayList<Teacher> readTeachers(String filePath) {
-		// TODO Graag even verifieren of dit niet toevallig ook mooier kan, ik vind het echt een draak namelijk
 		ArrayList<Teacher> result = new ArrayList<Teacher>();
 		File file = new File(filePath);
 		Scanner in, lineScanner, subjectScanner;
@@ -64,9 +63,65 @@ public class InputReader {
 	}
 	
 	/**
+	 * Read input file with school hours information
+	 * @param filePath String Path to file with hours information
+	 * @return ArrayList<LessonHour> List of LessonHours
+	 */
+	public ArrayList<LessonHour> readHoursInfo(String filePath) {
+		ArrayList<LessonHour> result = new ArrayList<LessonHour>();
+		
+		File file = new File(filePath);
+		Scanner in, lineScanner, beginTimeScanner, endTimeScanner;
+		
+		try {
+			in = new Scanner(file);
+			
+			in.nextLine(); // Ignore headers
+			
+			while (in.hasNext()) {
+				String line = in.nextLine();
+				
+				lineScanner = new Scanner(line);
+				lineScanner.useDelimiter(";");
+				
+				int number = lineScanner.nextInt();
+
+				String beginTime = lineScanner.next();
+				String endTime = lineScanner.next();
+				
+				beginTimeScanner = new Scanner(beginTime);
+				beginTimeScanner.useDelimiter(":");
+				int beginTimeHours = beginTimeScanner.nextInt();
+				int beginTimeMinutes = beginTimeScanner.nextInt();
+				
+				endTimeScanner = new Scanner(endTime);
+				endTimeScanner.useDelimiter(":");
+				int endTimeHours = endTimeScanner.nextInt();
+				int endTimeMinutes = endTimeScanner.nextInt();
+				
+				lineScanner.close();
+				beginTimeScanner.close();
+				endTimeScanner.close();
+				
+				result.add(new LessonHour(number, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes));
+			}
+			
+			in.close();
+								
+		} catch (FileNotFoundException e) {
+			System.out.println("Error: Classroom input file not found!");
+			System.exit(1);
+		}	
+		
+		return result;
+	}
+	
+	
+	
+	/**
 	 * Read input file with classroom information
 	 * @param filePath String Path to file with classroom information
-	 * @return ArrayList<Class> List of classrooms
+	 * @return ArrayList<Classroom> List of classrooms
 	 */
 	public ArrayList<Classroom> readClassrooms(String filePath) {
 		ArrayList<Classroom> result = new ArrayList<Classroom>();
@@ -132,7 +187,7 @@ public class InputReader {
 	/**
 	 * Read input file with class information
 	 * @param filePath String Path to file with class information
-	 * @return ArrayList<Class> List of classes
+	 * @return ArrayList<ClassInSchool> List of classes
 	 */
 	public ArrayList<ClassInSchool> readClasses(String filePath) {
 		ArrayList<ClassInSchool> result = new ArrayList<ClassInSchool>();

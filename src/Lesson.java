@@ -9,14 +9,14 @@ public class Lesson {
 	private Subject subject;
 	
 	private Weekday weekday;
-	private Hour hour;
+	private LessonHour hour;
 	
 	/**
 	 * Creates lesson object with weekday and hour, without other contents
 	 * @param weekday Weekday of the lesson
 	 * @param hour Hour of the lesson
 	 */
-	public Lesson(Weekday weekday, Hour hour) {
+	public Lesson(Weekday weekday, LessonHour hour) {
 		this.weekday = weekday;
 		this.hour = hour;
 		classroom = null;
@@ -36,7 +36,7 @@ public class Lesson {
 	 * @param teacher Teacher of the lesson
 	 * @param classInSchool Class that gets taught
 	 */
-	public Lesson(Weekday weekday, Hour hour, Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
+	public Lesson(Weekday weekday, LessonHour hour, Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
 		this.weekday = weekday;
 		this.hour = hour;
 		this.subject = subject;
@@ -74,7 +74,7 @@ public class Lesson {
 	 * @param weekday Weekday to test for.
 	 * @param hour Hour to test for.
 	 */
-	public boolean isAllocatedTo(Weekday weekday, Hour hour) {
+	public boolean isAllocatedTo(Weekday weekday, LessonHour hour) {
 		return (weekday.equals(this.weekday) && hour.equals(this.hour));
 	}	
 	
@@ -198,7 +198,7 @@ public class Lesson {
 	 * Get the classroom of the lesson object.
 	 * @return Allocated hour
 	 */
-	public Hour getHour() {
+	public LessonHour getHour() {
 		return hour;
 	}
 }

@@ -6,11 +6,11 @@ public class Availability {
 	public final static String AV_PREF_NO = "rather not";
 
 	protected Weekday weekday;
-	protected Hour hour;
+	protected LessonHour hour;
 	protected String availability;
 	//TODO Availability als een ENUM? Zo niet: in de constructor een controle-iets? Hoe te koppelen aan AV_YES/AV_NO/AV_PREF_NO?
 	
-	public Availability(Weekday weekday, Hour hour, String availability) {
+	public Availability(Weekday weekday, LessonHour hour, String availability) {
 		this.weekday = weekday;
 		this.hour = hour;
 		this.availability = availability;
@@ -28,7 +28,7 @@ public class Availability {
 	 * Get the hour of the Availability object.
 	 * @return Hour of the Availability object.
 	 */
-	public Hour getHour() {
+	public LessonHour getHour() {
 		return hour;
 	}
 	
