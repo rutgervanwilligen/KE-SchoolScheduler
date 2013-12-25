@@ -206,6 +206,10 @@ public class Lesson {
 		return hour;
 	}
 
+	/**
+	 * Get the rank generated for selecting the best classroom. 
+	 * @return
+	 */
 	public int getRank() {
 		return this.ranking;
 	}
