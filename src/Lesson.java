@@ -1,6 +1,12 @@
-package sss.scheduler.objects;
-
 import java.util.ArrayList;
+
+import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.Classroom;
+import sss.scheduler.objects.LessonHour;
+import sss.scheduler.objects.Student;
+import sss.scheduler.objects.Subject;
+import sss.scheduler.objects.Teacher;
+import sss.scheduler.objects.Weekday;
 
 public class Lesson {
 
@@ -12,8 +18,6 @@ public class Lesson {
 	
 	private Weekday weekday;
 	private LessonHour hour;
-	
-	protected int ranking = 0;
 	
 	/**
 	 * Creates lesson object with weekday and hour, without other contents
@@ -204,9 +208,5 @@ public class Lesson {
 	 */
 	public LessonHour getHour() {
 		return hour;
-	}
-
-	public int getRank() {
-		return this.ranking;
 	}
 }

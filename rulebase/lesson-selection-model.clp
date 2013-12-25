@@ -1,4 +1,4 @@
 (defrule wrong-rule
-  (Lesson {subject} )
+  ( + 1 1 )
   =>
   ((System.out) println "Hello, little one!"))

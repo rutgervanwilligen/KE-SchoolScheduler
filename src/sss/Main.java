@@ -6,6 +6,7 @@ import sss.io.InputReader;
 import sss.io.TeacherInputReader;
 import sss.scheduler.Scheduler;
 import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Teacher;
 
 
@@ -13,6 +14,7 @@ public class Main {
 	
 	protected static ArrayList<Teacher> teachers;
 	protected static ArrayList<ClassInSchool> classes;
+	protected static ArrayList<LessonHour> hours;
 
 	/**
 	 * Read input information from files.
@@ -20,7 +22,8 @@ public class Main {
 	 * @param teacherInputFile String File path to info file about teachers.
 	 * @param classesInputFile String File path to info file about classes.
 	 */
-	private static void readInput(String teacherInputFile, String classesInputFile) {
+	private static void readInput(String teacherInputFile, String classesInputFile, String hoursInputFile) {
+		hours = InputReader.readHoursInfo(hoursInputFile);
 		teachers = InputReader.readTeachers(teacherInputFile);
 		classes = InputReader.readClasses(classesInputFile);
 	}
@@ -45,15 +48,16 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		String teacherInputFile, classesInputFile;
+		String teacherInputFile, classesInputFile, hoursInputFile;
 		
-		if (args.length != 2) {
+		if (args.length != 3) {
 			printUsage();
 		} else {
 			teacherInputFile = args[0];
 			classesInputFile = args[1];
+			hoursInputFile = args[2];
 			
-			readInput(teacherInputFile, classesInputFile);
+			readInput(teacherInputFile, classesInputFile, hoursInputFile);
 			startScheduler();
 			writeOutput();
 		}

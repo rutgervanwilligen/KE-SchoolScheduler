@@ -22,4 +22,24 @@ public class Teacher {
 		this.grade = grade;
 		this.subjects = subjects;
 	}
+	
+	
+	/**
+	 * Returns the teacher's (unique) code.
+	 * @return Teacher's unique code.
+	 */
+	public String getCode() {
+		return code;
+	}
+	
+	/**
+	 * Returns whether the teacher object is equal to t, by comparing the teacher code.
+	 * @param teacher Teacher object to compare.
+	 * @return Truth value denoting equality.
+	 */
+	public boolean equals(Object t) {
+		if (t == null) return false;
+		if (!(t instanceof Teacher)) return false;
+		return ( ((Teacher)t).getCode().equals(this.getCode()));
+	}
 }

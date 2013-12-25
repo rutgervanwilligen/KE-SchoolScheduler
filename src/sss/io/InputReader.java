@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Teacher;
 
@@ -46,6 +47,11 @@ public abstract class InputReader {
 
 	public static ArrayList<ClassInSchool> readClasses(String filePath) {
 		ClassInputReader reader = new ClassInputReader();
+		return reader.read(filePath);
+	}
+
+	public static ArrayList<LessonHour> readHoursInfo(String filePath) {
+		HourInputReader reader = new HourInputReader();
 		return reader.read(filePath);
 	}
 

@@ -33,7 +33,7 @@ public class TeacherInputReader extends InputReader {
 		while (subjectScanner.hasNext()) {
 			// TODO Beter hiermee omgaan, wellicht opzoeken of die al bestaat ipv nieuwe aanmaken,
 			// zie ik nog niet goed voor me
-			subjects.add(new Subject(subjectScanner.next()));
+			subjects.add(new Subject(subjectScanner.next(), "a", false));
 		}
 		
 		lineScanner.close();

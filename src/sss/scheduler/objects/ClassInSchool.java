@@ -12,7 +12,6 @@ public abstract class ClassInSchool {
 	
 	/**
 	 * Create new class in school.
-	 * 
 	 * @param year int Class's year
 	 * @param letter char Class's letter
 	 * @param level Level Class's education level
@@ -26,7 +25,6 @@ public abstract class ClassInSchool {
 	
 	/**
 	 * Add student to the class.
-	 * 
 	 * @param student Student Student to add
 	 */	
 	public boolean addStudent(Student student) {
@@ -46,11 +44,15 @@ public abstract class ClassInSchool {
 	public Level getLevel() {
 		return level;
 	}
-
+	
+	public ArrayList<Student> getStudents () {
+		return studentList;
+	}
+	
 	public ArrayList<Lesson> getLessons() {
 		ArrayList<Lesson> result = new ArrayList<Lesson>();
 		
-		result.add(new Lesson("LO"));
+		result.add(new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year)));
 		
 		return result;
 	}
