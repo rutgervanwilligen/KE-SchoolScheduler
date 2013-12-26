@@ -23,17 +23,20 @@ public class LessonReasoner extends Reasoner {
 	}
 	
 	public Lesson getBestLesson() throws JessException {
+		System.out.println("number of lessons left: " + lessons.size());
 		Lesson result = null;
 		
 		engine.resetToMark(marker);
 		engine.addAll(lessons);
 		engine.run();
 		
-		Iterator generatedSubjects = engine.getObjects(new Filter.ByClass(Lesson.class));
+		Iterator generatedLessons = engine.getObjects(new Filter.ByClass(Lesson.class));
 		// filter best suitable subject
-		result = (Lesson) generatedSubjects.next();
+		if (generatedLessons.hasNext())
+			result = (Lesson) generatedLessons.next();
 		
 		lessons.remove(result);
+		
 		
 		return result;
 	}

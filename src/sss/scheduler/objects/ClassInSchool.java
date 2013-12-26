@@ -51,7 +51,8 @@ public abstract class ClassInSchool {
 	
 	public ArrayList<Lesson> getLessons() {
 		ArrayList<Lesson> result = new ArrayList<Lesson>();
-		
+
+		result.add(new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year)));
 		result.add(new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year)));
 		
 		return result;

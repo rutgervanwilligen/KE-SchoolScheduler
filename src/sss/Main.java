@@ -23,7 +23,7 @@ public class Main {
 	 * @param classesInputFile String File path to info file about classes.
 	 */
 	private static void readInput(String teacherInputFile, String classesInputFile, String hoursInputFile) {
-		hours = InputReader.readHoursInfo(hoursInputFile);
+//		hours = InputReader.readHoursInfo(hoursInputFile);
 		teachers = InputReader.readTeachers(teacherInputFile);
 		classes = InputReader.readClasses(classesInputFile);
 	}
@@ -50,12 +50,13 @@ public class Main {
 	public static void main(String[] args) {
 		String teacherInputFile, classesInputFile, hoursInputFile;
 		
-		if (args.length != 3) {
+		if (args.length != 2) {
 			printUsage();
 		} else {
 			teacherInputFile = args[0];
 			classesInputFile = args[1];
-			hoursInputFile = args[2];
+			hoursInputFile = "dummy";
+//			hoursInputFile = args[2];
 			
 			readInput(teacherInputFile, classesInputFile, hoursInputFile);
 			startScheduler();

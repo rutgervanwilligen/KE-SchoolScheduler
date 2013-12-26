@@ -41,6 +41,7 @@ public class Scheduler {
 				scheduleLessons(lessonsToSchedule);
 			} catch (JessException e) {
 				System.out.println("JessException: " + e.getMessage());
+				System.out.print(e.getStackTrace());
 			}
 		}
 		
@@ -54,12 +55,12 @@ public class Scheduler {
 		lessonReasoner.setLessons(lessonsToSchedule);
 		
 		Lesson lessonToSchedule = lessonReasoner.getBestLesson();
-		System.out.println("Got a lesson with rank: " + lessonToSchedule.getRank());
 		
-//		while (lessonToSchedule != null) {
+		while (lessonToSchedule != null) {
+			System.out.println("Got a lesson with rank: " + lessonToSchedule.getRanking());
 //			scheduleLesson(lessonToSchedule);
-//			lessonToSchedule = lessonReasoner.getBestLesson();
-//		}
+			lessonToSchedule = lessonReasoner.getBestLesson();
+		}
 	}
 
 	protected void scheduleLesson(Lesson lesson) throws JessException {

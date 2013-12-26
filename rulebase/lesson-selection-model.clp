@@ -1,4 +1,11 @@
+;;; Classes ;;;
+(defclass Lesson sss.scheduler.objects.Lesson)
+
+(reset)
+
+
+;;; Rules ;;;
 (defrule wrong-rule
-  ( + 1 1 )
+  ( Lesson (ranking ?ranking) )
   =>
-  ((System.out) println "Hello, little one!"))
+  (bind ?ranking 1))

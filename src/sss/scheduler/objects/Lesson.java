@@ -210,7 +210,15 @@ public class Lesson {
 	 * Get the rank generated for selecting the best classroom. 
 	 * @return
 	 */
-	public int getRank() {
+	public int getRanking() {
 		return this.ranking;
+	}
+	
+	/**
+	 * Set the rank generated for selecting the best classroom. 
+	 * @return
+	 */
+	public void getRanking(int ranking) {
+		this.ranking = ranking;
 	}
 }
