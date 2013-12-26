@@ -1,0 +1,22 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.Weekday;
+
+/**
+ * Rule base used to solve the towers of hanoi problem.
+ */
+public ruleBase BaseLesson {
+
+  rule oneDisc {  // Base case
+    declarations
+      Lesson lesson;
+    conditions
+      lesson.getWeekday().equals(Weekday.MONDAY);
+      lesson.getRanking() == 0;
+    actions
+      lesson.setRanking(2);
+      modified(lesson);
+  }
+
+}

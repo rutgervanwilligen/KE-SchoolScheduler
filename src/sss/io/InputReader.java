@@ -33,7 +33,7 @@ public abstract class InputReader {
 			in.close();
 								
 		} catch (FileNotFoundException e) {
-			System.out.println("Error: Teacher input file not found!");
+			System.out.println("Error: input file not found!");
 			System.exit(1);
 		}
 	}

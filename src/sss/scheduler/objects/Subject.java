@@ -15,6 +15,8 @@ public class Subject {
 		this.homework = homework;
 	}
 	
-	
+	public String getName() {
+		return this.name;
+	}
 	
 }

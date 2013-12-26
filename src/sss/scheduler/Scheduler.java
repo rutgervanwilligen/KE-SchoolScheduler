@@ -48,19 +48,9 @@ public class Scheduler {
 	}
 
 	protected void scheduleLessons(ArrayList<Lesson> lessonsToSchedule) throws JessException {
-		LessonReasoner lessonReasoner = new LessonReasoner();
-		lessonReasoner.initiateEngine();
-		lessonReasoner.addObjects(teachers);
-		lessonReasoner.addObjects(classes);
-		lessonReasoner.setLessons(lessonsToSchedule);
-		
-		Lesson lessonToSchedule = lessonReasoner.getBestLesson();
-		
-		while (lessonToSchedule != null) {
-			System.out.println("Got a lesson with rank: " + lessonToSchedule.getRanking());
-//			scheduleLesson(lessonToSchedule);
-			lessonToSchedule = lessonReasoner.getBestLesson();
-		}
+		LessonReasoner reasoner = new LessonReasoner();
+		reasoner.addLessons(lessonsToSchedule);
+		reasoner.getBestLesson();
 	}
 
 	protected void scheduleLesson(Lesson lesson) throws JessException {

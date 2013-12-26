@@ -13,7 +13,7 @@ public class Lesson {
 	private Weekday weekday;
 	private LessonHour hour;
 	
-	protected int ranking = 0;
+	protected int ranking;
 	
 	/**
 	 * Creates lesson object with weekday and hour, without other contents
@@ -28,6 +28,7 @@ public class Lesson {
 		classInSchool = null;
 		students = new ArrayList<Student>();
 		subject = null;
+		ranking = 0;
 	}
 	
 	/**
@@ -218,7 +219,7 @@ public class Lesson {
 	 * Set the rank generated for selecting the best classroom. 
 	 * @return
 	 */
-	public void getRanking(int ranking) {
+	public void setRanking(int ranking) {
 		this.ranking = ranking;
 	}
 }

@@ -53,7 +53,7 @@ public abstract class ClassInSchool {
 		ArrayList<Lesson> result = new ArrayList<Lesson>();
 
 		result.add(new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year)));
-		result.add(new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year)));
+		result.add(new Lesson(Weekday.TUESDAY, new LessonHour(year, year, year, year, year)));
 		
 		return result;
 	}
