@@ -56,8 +56,16 @@ public abstract class ClassInSchool {
 	public ArrayList<Lesson> getLessons() {
 		ArrayList<Lesson> result = new ArrayList<Lesson>();
 
-		result.add(new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year)));
-		result.add(new Lesson(Weekday.TUESDAY, new LessonHour(year, year, year, year, year)));
+		// FIXME: temp invulling van lessons, moet nog aangepast worden.
+		Lesson a = new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year));
+		a.setSubject(new Subject("handenarbeid", "HA", false));
+		result.add(a);
+		Lesson b = new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year));
+		b.setSubject(new Subject("lichamelijke opvoeding", "LO", false));
+		result.add(b);
+		Lesson c = new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year));
+		c.setSubject(new Subject("nederlands", "NL", false));
+		result.add(c);
 		
 		return result;
 	}

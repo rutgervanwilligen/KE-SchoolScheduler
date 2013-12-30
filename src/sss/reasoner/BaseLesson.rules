@@ -1,21 +1,37 @@
 package sss.reasoner;
 
 import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Weekday;
 
 /**
- * Rule base used to solve the towers of hanoi problem.
+ * Rule base used to select lessons.
  */
 public ruleBase BaseLesson {
 
-  rule oneDisc {  // Base case
+  rule lessonSelection1 {
     declarations
       Lesson lesson;
+    localdecl
+      Integer ranking = lesson.getRanking();
     conditions
-      lesson.getWeekday().equals(Weekday.MONDAY);
+      lesson.getSubject().getCode().equals("LO");
       lesson.getRanking() == 0;
     actions
-      lesson.setRanking(2);
+      lesson.setRanking(ranking + 10);
+      modified(lesson);
+  }
+  
+  rule lessonSelection2 {
+    declarations
+      Lesson lesson;
+    localdecl
+      Integer ranking = lesson.getRanking();
+    conditions
+      lesson.getSubject().getCode().equals("HA");
+      lesson.getRanking() == 0;
+    actions
+      lesson.setRanking(ranking + 5);
       modified(lesson);
   }
 
