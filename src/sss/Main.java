@@ -1,20 +1,26 @@
 package sss;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
-import sss.io.ClassInputReader;
 import sss.io.InputReader;
-import sss.io.TeacherInputReader;
 import sss.scheduler.Scheduler;
+import sss.scheduler.SubjectClassAllocation;
+import sss.scheduler.TeacherClassAllocation;
 import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.LessonHour;
+import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Teacher;
-
 
 public class Main {
 	
-	protected static ArrayList<Teacher> teachers;
-	protected static ArrayList<ClassInSchool> classes;
+	protected static TreeMap<String, Teacher> teachers;
+	protected static TreeMap<String, ClassInSchool> classes;
+	protected static TreeMap<String, Subject> subjects;
+	protected static TreeMap<String, Classroom> classrooms;
 	protected static ArrayList<LessonHour> hours;
+	protected static SubjectClassAllocation subjectsClasses;
+	protected static TeacherClassAllocation teachersClasses;
 
 	/**
 	 * Read input information from files.
@@ -22,10 +28,16 @@ public class Main {
 	 * @param teacherInputFile String File path to info file about teachers.
 	 * @param classesInputFile String File path to info file about classes.
 	 */
-	private static void readInput(String teacherInputFile, String classesInputFile, String hoursInputFile) {
-//		hours = InputReader.readHoursInfo(hoursInputFile);
-		teachers = InputReader.readTeachers(teacherInputFile);
-		classes = InputReader.readClasses(classesInputFile);
+	private static void readInput(String teacherInputFile, String classesInputFile, 
+			String hoursInputFile, String subjectsInputFile, String classroomsInputFile,
+			String subjectsClassesInputFile, String teachersClassesInputFile) {
+		hours = InputReader.readHoursInfo(hoursInputFile);
+		subjects = InputReader.readSubjectsInfo(subjectsInputFile);
+		teachers = InputReader.readTeachersInfo(teacherInputFile, hours, subjects);
+		classrooms = InputReader.readClassroomsInfo(classroomsInputFile, subjects);
+		classes = InputReader.readClassesInfo(classesInputFile, teachers);
+		subjectsClasses = InputReader.readSubjectsClassesInfo(subjectsClassesInputFile, subjects, classes);
+		teachersClasses = InputReader.readTeachersClassesInfo(teachersClassesInputFile, teachers, subjects, classes);
 	}
 
 	/**
@@ -48,7 +60,8 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		String teacherInputFile, classesInputFile, hoursInputFile;
+		String teacherInputFile, classesInputFile, hoursInputFile, subjectsInputFile, 
+		classroomsInputFile, subjectsClassesInputFile, teachersClassesInputFile;
 		
 		if (args.length != 2) {
 			printUsage();
@@ -56,9 +69,14 @@ public class Main {
 			teacherInputFile = args[0];
 			classesInputFile = args[1];
 			hoursInputFile = "dummy";
+			subjectsInputFile = "dummy";
+			classroomsInputFile = "dummy";
+			subjectsClassesInputFile = "dummy";
+			teachersClassesInputFile = "dummy";
 //			hoursInputFile = args[2];
 			
-			readInput(teacherInputFile, classesInputFile, hoursInputFile);
+			readInput(teacherInputFile, classesInputFile, hoursInputFile, subjectsInputFile, 
+					classroomsInputFile, subjectsClassesInputFile, teachersClassesInputFile);
 			startScheduler();
 			writeOutput();
 		}

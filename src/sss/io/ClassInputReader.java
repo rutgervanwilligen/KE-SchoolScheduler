@@ -1,31 +1,39 @@
 package sss.io;
 
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.HigherClass;
 import sss.scheduler.objects.Level;
 import sss.scheduler.objects.LowerClass;
+import sss.scheduler.objects.Teacher;
 
 public class ClassInputReader extends InputReader {
 	
-	protected static ArrayList<ClassInSchool> classes;
+	protected static TreeMap<String, ClassInSchool> classes;
+	protected static TreeMap<String, Teacher> teachers;
+	
+	public ClassInputReader (TreeMap<String, Teacher> teachers) {
+		ClassInputReader.teachers = teachers;
+	}
 	
 	protected void readLine(String line) {
-		Scanner lineScanner, subjectScanner;
+		Scanner lineScanner;
 		Level level;
 		
 		lineScanner = new Scanner(line);
 		lineScanner.useDelimiter(";");
 		
 		String name = lineScanner.next();
-		int year = Integer.valueOf(lineScanner.next());
 		String levelString = lineScanner.next();
+		int year = Integer.valueOf(lineScanner.next());
+		char letter = lineScanner.next().charAt(0);
 		int size = Integer.valueOf(lineScanner.next());
-		String mentor = lineScanner.next();
-		String courses = lineScanner.next();
-			
+		
+		String mentorString = lineScanner.next();
+		Teacher mentor = teachers.get(mentorString);
+					
 		lineScanner.close();
 		
 		if (levelString.equals('H')) {
@@ -35,16 +43,16 @@ public class ClassInputReader extends InputReader {
 		}
 		
 		if (year <= 3) {
-			classes.add(new LowerClass(year, 'a', level));
+			classes.put(name, new LowerClass(name, level, year, letter, mentor, size));
 		} else {
-			classes.add(new HigherClass(year, 'a', level));
+			classes.put(name, new HigherClass(name, level, year, letter, mentor, size));
 		}
 
 		System.out.println("Read class " + name);
 	}
 
-	public ArrayList<ClassInSchool> read(String filePath) {
-		classes = new ArrayList<ClassInSchool>();
+	public TreeMap<String, ClassInSchool> read(String filePath) {
+		classes = new TreeMap<String, ClassInSchool>();
 		
 		readFile(filePath);
 		System.out.println("Number of classes read: " +  classes.size());

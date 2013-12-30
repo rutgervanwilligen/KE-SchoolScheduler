@@ -9,6 +9,8 @@ public abstract class ClassInSchool {
 	protected int year;
 	protected char letter;
 	protected Level level;
+	protected int size;
+	protected Teacher mentor;
 	
 	/**
 	 * Create new class in school.
@@ -16,11 +18,13 @@ public abstract class ClassInSchool {
 	 * @param letter char Class's letter
 	 * @param level Level Class's education level
 	 */
-	public ClassInSchool (int year, char letter, Level level) {
+	public ClassInSchool (String name, Level level, int year, char letter, Teacher mentor, int size) {
+		this.name = name;
 		this.year = year;
 		this.letter = letter;
 		this.level = level;
-		name = level + Integer.toString(year) + letter;
+		this.size = size;
+		this.mentor = mentor;
 	}
 	
 	/**

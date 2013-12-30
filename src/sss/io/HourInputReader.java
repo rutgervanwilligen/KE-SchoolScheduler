@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import sss.scheduler.objects.LessonHour;
-import sss.scheduler.objects.Subject;
-import sss.scheduler.objects.Teacher;
 
 public class HourInputReader extends InputReader {
 	

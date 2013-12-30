@@ -1,5 +1,6 @@
 package sss.scheduler;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import sss.reasoner.LessonReasoner;
 import sss.reasoner.TimeslotReasoner;
@@ -14,18 +15,18 @@ import jess.JessException;
 public class Scheduler {
 	
 	protected Schedule schedule;
-	protected ArrayList<Teacher> teachers;
-	protected ArrayList<ClassInSchool> classes;
+	protected TreeMap<String, Teacher> teachers;
+	protected TreeMap<String, ClassInSchool> classes;
 	
 	public Scheduler() {
 		schedule = new Schedule();
 	}
 
-	public void setTeachers(ArrayList<Teacher> teachers) {
+	public void setTeachers(TreeMap<String, Teacher> teachers) {
 		this.teachers = teachers;
 	}
 
-	public void setClasses(ArrayList<ClassInSchool> classes) {
+	public void setClasses(TreeMap<String, ClassInSchool> classes) {
 		this.classes = classes;
 	}
 

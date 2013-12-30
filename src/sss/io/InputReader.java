@@ -3,22 +3,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeMap;
 
+import sss.scheduler.SubjectClassAllocation;
+import sss.scheduler.TeacherClassAllocation;
 import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Teacher;
 
 public abstract class InputReader {
-	
-	/**
-	 * Read input file with teacher information
-	 * @param filePath String Path to file with teacher information.<br>Input file should be in .CSV format, fields delimited by semicolon.<br>Fields should be in the following order: Name;Code;Subject[|Anothersubject];WeeklyHours;AvailableHours;UnavailableHours;UndesiredHours;
-	 * @return ArrayList<Teacher> List of teachers
-	 */
+
 	protected void readFile(String filePath) {
-		// TODO Graag even verifieren of dit niet toevallig ook mooier kan, ik vind het echt een draak namelijk
-		ArrayList<Teacher> result = new ArrayList<Teacher>();
 		File file = new File(filePath);
 		Scanner in;
 		
@@ -40,19 +37,41 @@ public abstract class InputReader {
 	
 	abstract void readLine(String line);
 
-	public static ArrayList<Teacher> readTeachers(String filePath) {
-		TeacherInputReader reader = new TeacherInputReader();
+	public static TreeMap<String, Teacher> readTeachersInfo(String filePath, 
+			ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects) {
+		TeacherInputReader reader = new TeacherInputReader(hours, subjects);
 		return reader.read(filePath);
 	}
 
-	public static ArrayList<ClassInSchool> readClasses(String filePath) {
-		ClassInputReader reader = new ClassInputReader();
+	public static TreeMap<String, ClassInSchool> readClassesInfo(String filePath, TreeMap<String, Teacher> teachers) {
+		ClassInputReader reader = new ClassInputReader(teachers);
 		return reader.read(filePath);
 	}
 
+	public static TreeMap<String, Subject> readSubjectsInfo(String filePath) {
+		SubjectInputReader reader = new SubjectInputReader();
+		return reader.read(filePath);
+	}
+	
+	public static TreeMap<String, Classroom> readClassroomsInfo(String filePath, TreeMap<String, Subject> subjects) {
+		ClassroomInputReader reader = new ClassroomInputReader(subjects);
+		return reader.read(filePath);
+	}
+	
+	public static SubjectClassAllocation readSubjectsClassesInfo(String filePath, 
+			TreeMap<String, Subject> subjects, TreeMap<String, ClassInSchool> classes) {
+		SubjectsClassesInputReader reader = new SubjectsClassesInputReader(subjects, classes);
+		return reader.read(filePath);
+	}
+	
+	public static TeacherClassAllocation readTeachersClassesInfo(String filePath, TreeMap<String, Teacher> teachers,
+			TreeMap<String, Subject> subjects, TreeMap<String, ClassInSchool> classes) {
+		TeachersClassesInputReader reader = new TeachersClassesInputReader(teachers, subjects, classes);
+		return reader.read(filePath);
+	}
+	
 	public static ArrayList<LessonHour> readHoursInfo(String filePath) {
 		HourInputReader reader = new HourInputReader();
 		return reader.read(filePath);
 	}
-
 }

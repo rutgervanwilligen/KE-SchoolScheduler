@@ -11,18 +11,27 @@ public class Teacher {
 	protected int weeklyTeachingHours;
 	protected String grade;
 	protected ArrayList<Subject> subjects;
+	protected Availability[] availabilities;
 	
 	// TODO Availabilities
 	
 	public Teacher (String name, String code, int weeklyTeachingHours, ArrayList<Subject> subjects, 
-			String grade, String availableHours, String unavailableHours, String undesiredHours) {
+			String grade, Availability[] availabilities) {
 		this.name = name;
 		this.code = code;
 		this.weeklyTeachingHours = weeklyTeachingHours;
 		this.grade = grade;
 		this.subjects = subjects;
+		this.availabilities = availabilities;
 	}
-	
+
+	/**
+	 * Returns the teacher's availability on a specific index.
+	 * @return Teacher's availability on this index.
+	 */
+	public Availability getAvailability(int index) {
+		return availabilities[index];
+	}
 	
 	/**
 	 * Returns the teacher's (unique) code.

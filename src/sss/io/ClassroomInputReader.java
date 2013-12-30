@@ -2,21 +2,25 @@ package sss.io;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeMap;
 
-import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
-import sss.scheduler.objects.HigherClass;
-import sss.scheduler.objects.Level;
 import sss.scheduler.objects.Location;
-import sss.scheduler.objects.LowerClass;
 import sss.scheduler.objects.Subject;
 
 public class ClassroomInputReader extends InputReader {
 	
-	protected static ArrayList<Classroom> classrooms;
+	protected static TreeMap<String, Classroom> classrooms;
+	protected static TreeMap<String, Subject> subjects;
+	
+	public ClassroomInputReader (TreeMap<String, Subject> subjects) {
+		ClassroomInputReader.subjects = subjects;
+	}
 	
 	protected void readLine(String line) {
 		Scanner lineScanner, facilityScanner;
+		boolean general = false;
+		boolean computers = false;
 		
 		lineScanner = new Scanner(line);
 		lineScanner.useDelimiter(";");
@@ -43,19 +47,24 @@ public class ClassroomInputReader extends InputReader {
 		facilityScanner.useDelimiter("|");
 		
 		while (facilityScanner.hasNext()) {
-			// TODO Beter hiermee omgaan, wellicht opzoeken of die al bestaat ipv nieuwe aanmaken,
-			// zie ik nog niet goed voor me
-			facilities.add(new Subject(facilityScanner.next(), "a", false));
+			String next = facilityScanner.next();
+			if (next.equals("ALG")) {
+				general = true;
+			} else if (next.equals("CP")) {
+				computers = true;
+			} else {
+				facilities.add(subjects.get(next));
+			}
 		}
 		
 		lineScanner.close();
 		facilityScanner.close();
 		
-		classrooms.add(new Classroom(name, capacity, location, floor, facilities));
+		classrooms.put(name, new Classroom(name, capacity, location, floor, general, computers, facilities));
 	}
 
-	public ArrayList<Classroom> read(String filePath) {
-		classrooms = new ArrayList<Classroom>();
+	public TreeMap<String, Classroom> read(String filePath) {
+		classrooms = new TreeMap<String, Classroom>();
 		
 		readFile(filePath);
 		System.out.println("Number of classrooms read: " +  classrooms.size());

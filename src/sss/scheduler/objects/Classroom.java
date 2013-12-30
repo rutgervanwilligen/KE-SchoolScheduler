@@ -13,12 +13,17 @@ public class Classroom {
 	protected Location location;
 	protected int floor;
 	protected ArrayList<Subject> facilities;
+	protected boolean computerRoom;
+	protected boolean generalUse;
 	
-	public Classroom (String roomNumber, int capacity, Location location, int floor, ArrayList<Subject> facilities) {
+	public Classroom (String roomNumber, int capacity, Location location, int floor, 
+			boolean computerRoom, boolean generalUse, ArrayList<Subject> facilities) {
 		this.roomNumber = roomNumber;
 		this.capacity = capacity;
 		this.location = location;
 		this.floor = floor;
+		this.computerRoom = computerRoom;
+		this.generalUse = generalUse;
 		this.facilities = facilities;
 	}
 	
@@ -42,4 +47,11 @@ public class Classroom {
 		return facilities;
 	}
 	
+	public boolean isSuitedForGeneralUse() {
+		return generalUse;
+	}
+	
+	public boolean isComputerRoom() {
+		return computerRoom;
+	}
 }
