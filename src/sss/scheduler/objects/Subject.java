@@ -12,15 +12,15 @@ public class Subject {
 		this.homework = homework;
 	}
 	
-	public String getCode() {
-		return this.code;
-	}
-	
 	public boolean requiresHomework() {
 		return homework;
 	}
 	
 	public String getCode() {
 		return code;
-	}	
+	}
+	
+	public String getName() {
+		return name;
+	}
 }
