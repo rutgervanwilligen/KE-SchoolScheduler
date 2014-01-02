@@ -19,16 +19,30 @@ public class SubjectsClassesInputReader extends InputReader {
 	}
 	
 	protected void readLine(String line) {
-		Scanner lineScanner;
-		
-		lineScanner = new Scanner(line);
+		Scanner lineScanner = new Scanner(line);
 		lineScanner.useDelimiter(";");
 		
+		String subjectString = lineScanner.next();
+		
+		while (lineScanner.hasNext()) {
+			String unit = lineScanner.next();
+			parseUnit(unit, subjectString);
+		}
+		
 		lineScanner.close();
-	
-	//	TODO Parsen uit vakkenurenaantallen.csv. Nogal lastig ivm onleesbare/variabele kolommen.	
-	//	subjectsClasses.allocateHours(subjectString, classString, n);
 	}
+	
+	protected void parseUnit(String unit, String subjectString) {
+		Scanner unitScanner = new Scanner(unit);
+		unitScanner.useDelimiter("|");
+		
+		String classString = unitScanner.next();
+		int hourCount = unitScanner.nextInt();
+		
+		subjectsClasses.allocateHours(subjectString, classString, hourCount);
+		unitScanner.close();
+	}
+	
 	
 	public SubjectClassAllocation read(String filePath) {
 		subjectsClasses = new SubjectClassAllocation(subjects, classes);

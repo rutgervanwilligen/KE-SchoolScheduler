@@ -9,6 +9,7 @@ import sss.scheduler.objects.Schedule;
 public ruleBase BaseLesson {
 
   rule lessonSelection1 {
+  /* First, all LO lessons should be picked for allocating */
     declarations
       Lesson lesson;
       Schedule schedule;
@@ -23,6 +24,7 @@ public ruleBase BaseLesson {
   }
   
   rule lessonSelection2 {
+  /* If the LO lessons are allocated, the HV lessons are up next */
     declarations
       Lesson lesson;
       Schedule schedule;
@@ -33,6 +35,19 @@ public ruleBase BaseLesson {
       !lesson.isAllocatedToTimeslot();
     actions
 	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+  }
+  
+  rule lessonSelection3 {
+  /* If the previous rules don't apply, pick a random lesson to allocate */
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+    actions
+      schedule.addToSchedulingSet(lesson);
       modified(schedule);
   }
 
