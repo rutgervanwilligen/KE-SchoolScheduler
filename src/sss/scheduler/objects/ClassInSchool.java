@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 
 public abstract class ClassInSchool implements Comparable<ClassInSchool> {
+	
+	//TODO Student list (eigenlijk niet belangrijk in onderbouw, though
 
 	protected ArrayList<Student> studentList;
 	protected String name;
@@ -19,6 +21,7 @@ public abstract class ClassInSchool implements Comparable<ClassInSchool> {
 	 * @param level Level Class's education level
 	 */
 	public ClassInSchool (String name, Level level, int year, char letter, Teacher mentor, int size) {
+		studentList = new ArrayList<Student>();
 		this.name = name;
 		this.year = year;
 		this.letter = letter;

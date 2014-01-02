@@ -76,9 +76,8 @@ public class Main {
 					classroomsInputFile, subjectsClassesInputFile, teachersClassesInputFile);
 			startScheduler();
 			writeOutput();
+			System.out.println("Done");
 		}
-		
-		System.out.println("Done");
 	}
 
 	private static void printUsage() {
@@ -88,8 +87,8 @@ public class Main {
 		System.out.println("  Hours input file (ureninfo.csv");
 		System.out.println("  Subjects input file (vakkeninfo.csv)");
 		System.out.println("  Classrooms input file (lokaleninfo.csv)");
-		System.out.println("  Subjects-classes allocations input file(vakkenurenaantallen.csv");
-		System.out.println("  Teachers-classes allocations input file(klassendocenten.csv");
+		System.out.println("  Subjects-classes allocations input file (vakkenurenaantallen.csv");
+		System.out.println("  Teachers-classes allocations input file (klassendocenten.csv");
 	}
 
 }

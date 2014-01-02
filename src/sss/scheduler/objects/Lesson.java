@@ -42,6 +42,7 @@ public class Lesson {
 	 * @param classInSchool Class that gets taught
 	 */
 	public Lesson(Weekday weekday, LessonHour hour, Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
+		students = new ArrayList<Student>();
 		this.weekday = weekday;
 		this.hour = hour;
 		this.subject = subject;
@@ -57,6 +58,7 @@ public class Lesson {
 	 * @param classInSchool Class that gets taught
 	 */
 	public Lesson(Subject subject, Teacher teacher, ClassInSchool classInSchool) {
+		students = new ArrayList<Student>();
 		this.subject = subject;
 		this.teacher = teacher;
 		setClassInSchool(classInSchool);
