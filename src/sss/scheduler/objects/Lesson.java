@@ -50,9 +50,60 @@ public class Lesson {
 		setClassInSchool(classInSchool);
 	}
 	
+	public Lesson(Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
+		this.subject = subject;
+		this.teacher = teacher;
+		setClassInSchool(classInSchool);
+		classroom = null;
+		weekday = null;
+		hour = null;
+	}
+	
+	/**
+	 * Returns whether the lesson is allocated to a classroom.
+	 * @return Returns whether the lesson is allocated to a classroom.
+	 */
+	public boolean isAllocatedToClassroom() {
+		return (classroom != null);
+	}
+	
+	/**
+	 * Returns whether the lesson is allocated to a time slot.
+	 * @return Returns whether the lesson is allocated to a time slot.
+	 */
+	public boolean isAllocatedToTimeslot() {
+		return (weekday != null && hour != null);
+	}	
+	
+	/**
+	 * Allocate a lesson to a weekday and hour.
+	 * @param weekday The weekday to allocate the lesson to.
+	 * @param hour The hour to allocate the lesson to.
+	 */
+	public void allocateTimeslot(Weekday weekday, LessonHour hour) {
+		this.weekday = weekday;
+		this.hour = hour;
+	}
+
+	/**
+	 * Removes the allocated time slot for this lesson.
+	 */
+	public void removeTimeslot() {
+		weekday = null;
+		hour = null;
+	}
+	
+	/**
+	 * Removes the allocated classroom for this lesson.
+	 */
+	public void removeClassroom() {
+		classroom = null;
+	}
+	
 	/**
 	 * Returns whether the lesson is allocated to a ClassInSchool.
 	 * @param classInSchool ClassInSchool object to test for.
+	 * @return Returns whether the lesson is allocated to the specified ClassInSchool.
 	 */
 	public boolean isAllocatedTo(ClassInSchool classInSchool) {
 		return classInSchool.getName().equals(this.classInSchool.getName());
@@ -81,15 +132,13 @@ public class Lesson {
 	 */
 	public boolean isAllocatedTo(Weekday weekday, LessonHour hour) {
 		return (weekday.equals(this.weekday) && hour.equals(this.hour));
-	}	
-	
-	
+	}		
 	
 	/**
 	 * Allocate a classroom to the lesson object.
 	 * @param classroom Classroom to be allocated
 	 */
-	public void setClassRoom(Classroom classroom) {
+	public void setClassroom(Classroom classroom) {
 		this.classroom = classroom;
 	}
 	

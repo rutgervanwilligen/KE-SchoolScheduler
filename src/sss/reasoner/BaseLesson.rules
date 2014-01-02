@@ -12,11 +12,9 @@ public ruleBase BaseLesson {
   rule lessonSelection1 {
     declarations
       Lesson lesson;
-    localdecl
-      Integer ranking = lesson.getRanking();
     conditions
       lesson.getSubject().getCode().equals("LO");
-      lesson.getRanking() == 0;
+      !lesson.isAllocatedToTimeslot();
     actions
       lesson.setRanking(ranking + 10);
       modified(lesson);
@@ -25,11 +23,9 @@ public ruleBase BaseLesson {
   rule lessonSelection2 {
     declarations
       Lesson lesson;
-    localdecl
-      Integer ranking = lesson.getRanking();
     conditions
-      lesson.getSubject().getCode().equals("HA");
-      lesson.getRanking() == 0;
+      lesson.getSubject().getCode().equals("HV");
+      !lesson.isAllocatedToTimeslot();
     actions
       lesson.setRanking(ranking + 5);
       modified(lesson);

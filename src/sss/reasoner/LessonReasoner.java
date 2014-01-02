@@ -1,14 +1,11 @@
 package sss.reasoner;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Lesson;
-import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Teacher;
-import jess.Filter;
-import jess.JessException;
+import jeops.conflict.PriorityConflictSet;
 
 public class LessonReasoner extends Reasoner {
 	
@@ -30,13 +27,13 @@ public class LessonReasoner extends Reasoner {
 		this.teachers = teachers;
 	}
 	
-	public void addLessons(ArrayList<Lesson> lessons) throws JessException {
+	public void addLessons(ArrayList<Lesson> lessons) {
         this.lessons = lessons;
 	}
 	
-	public Lesson getBestLesson() throws JessException {
+	public Lesson getBestLesson() {
 
-	    BaseLesson kb = new BaseLesson();
+	    BaseLesson kb = new BaseLesson(new PriorityConflictSet());
 	    for (Lesson lesson : lessons) {
 			kb.tell(lesson);
 		}

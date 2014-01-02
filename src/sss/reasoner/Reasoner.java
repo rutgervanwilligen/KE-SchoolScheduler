@@ -33,7 +33,7 @@ public class Reasoner {
 		this.filePath = filePath;
 	}
 	
-	public void addObjects(Collection objects) throws JessException {
+	public void addObjects(Collection<?> objects) throws JessException {
 		engine.addAll(objects);
 		
 		// mark
