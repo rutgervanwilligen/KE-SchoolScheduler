@@ -1,8 +1,7 @@
 package sss.reasoner;
 
 import sss.scheduler.objects.Lesson;
-import sss.scheduler.objects.Subject;
-import sss.scheduler.objects.Weekday;
+import sss.scheduler.objects.Schedule;
 
 /**
  * Rule base used to select lessons.

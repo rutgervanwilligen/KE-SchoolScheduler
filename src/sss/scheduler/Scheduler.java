@@ -62,8 +62,13 @@ public class Scheduler {
 	}
 	
 	public void allocateLessonToClassroomAndTimeslot() {
-		
+		ClassroomTimeslotAllocationKB kb = new ClassroomTimeslotAllocationKB();
+		kb.tell(schedule);
+		kb.run();
+		// Lesson from schedule's "conflict set" is now allocated to classroom and time slot
 	}
+	
+	
 	
 	public void addAllLessonsToSchedule() {
 		
