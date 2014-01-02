@@ -9,15 +9,9 @@ import jeops.conflict.PriorityConflictSet;
 
 public class LessonReasoner extends Reasoner {
 	
-	public static final String SUBJECT_REASONER_FILE = "/home/thomas/School/KE/FinalAssignment/program/ke-school-scheduler/rulebase/lesson-selection-model.clp";
-
 	protected ArrayList<Lesson> lessons;
 	protected ArrayList<ClassInSchool> classes;
 	protected ArrayList<Teacher> teachers;
-	
-	public LessonReasoner() {
-		this.addRuleFile(SUBJECT_REASONER_FILE);
-	}
 	
 	public void addClasses(ArrayList<ClassInSchool> classes) {
 		this.classes = classes;
@@ -33,7 +27,7 @@ public class LessonReasoner extends Reasoner {
 	
 	public Lesson getBestLesson() {
 
-	    BaseLesson kb = new BaseLesson(new PriorityConflictSet());
+		LessonSelectionKB kb = new LessonSelectionKB(new PriorityConflictSet());
 	    for (Lesson lesson : lessons) {
 			kb.tell(lesson);
 		}

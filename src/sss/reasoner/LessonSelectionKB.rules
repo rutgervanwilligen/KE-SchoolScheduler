@@ -6,7 +6,7 @@ import sss.scheduler.objects.Schedule;
 /**
  * Rule base used to select lessons.
  */
-public ruleBase BaseLesson {
+public ruleBase LessonSelectionKB {
 
   rule lessonSelection1 {
   /* First, all LO lessons should be picked for allocating */

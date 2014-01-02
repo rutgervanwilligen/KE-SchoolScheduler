@@ -1,0 +1,8 @@
+package sss.reasoner;
+
+/**
+ * Rule base used to select lessons.
+ */
+public ruleBase ClassroomTimeslotAllocationKB {
+
+}

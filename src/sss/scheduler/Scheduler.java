@@ -4,7 +4,8 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import jeops.conflict.PriorityConflictSet;
-import sss.reasoner.LessionSelectionKB;
+import sss.reasoner.ClassroomTimeslotAllocationKB;
+import sss.reasoner.LessonSelectionKB;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.Lesson;
