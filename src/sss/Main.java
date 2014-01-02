@@ -41,13 +41,11 @@ public class Main {
 	}
 
 	/**
-	 * Create scheduler, set required data and start scheduler.
+	 * Create scheduler with all data and start scheduler.
 	 */
 	private static void startScheduler() {
-		Scheduler scheduler = new Scheduler();
-		
-		scheduler.setTeachers(teachers);
-		scheduler.setClasses(classes);
+		Scheduler scheduler = new Scheduler(hours, subjects, teachers, 
+				classrooms, classes, subjectsClasses, teachersClasses);
 		
 		scheduler.createSchedule();
 	}

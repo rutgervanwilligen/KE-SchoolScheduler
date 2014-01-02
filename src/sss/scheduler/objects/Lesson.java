@@ -49,8 +49,14 @@ public class Lesson {
 		this.teacher = teacher;
 		setClassInSchool(classInSchool);
 	}
-	
-	public Lesson(Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
+
+	/**
+	 * Create Lesson object without classroom or time slot
+	 * @param subject Subject of the lesson
+	 * @param teacher Teacher of the lesson
+	 * @param classInSchool Class that gets taught
+	 */
+	public Lesson(Subject subject, Teacher teacher, ClassInSchool classInSchool) {
 		this.subject = subject;
 		this.teacher = teacher;
 		setClassInSchool(classInSchool);

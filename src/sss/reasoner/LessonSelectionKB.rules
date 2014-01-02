@@ -12,23 +12,29 @@ public ruleBase BaseLesson {
   rule lessonSelection1 {
     declarations
       Lesson lesson;
+      Schedule schedule;
     conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
       lesson.getSubject().getCode().equals("LO");
       !lesson.isAllocatedToTimeslot();
     actions
-      lesson.setRanking(ranking + 10);
-      modified(lesson);
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
   }
   
   rule lessonSelection2 {
     declarations
       Lesson lesson;
+      Schedule schedule;
     conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
       lesson.getSubject().getCode().equals("HV");
       !lesson.isAllocatedToTimeslot();
     actions
-      lesson.setRanking(ranking + 5);
-      modified(lesson);
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
   }
 
 }

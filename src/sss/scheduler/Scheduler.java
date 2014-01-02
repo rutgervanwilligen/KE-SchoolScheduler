@@ -1,68 +1,87 @@
 package sss.scheduler;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import sss.reasoner.LessonReasoner;
-import sss.reasoner.TimeslotReasoner;
+import jeops.conflict.PriorityConflictSet;
+import sss.reasoner.LessionSelectionKB;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Schedule;
+import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Teacher;
-import jess.JessException;
-
 
 public class Scheduler {
 	
 	protected Schedule schedule;
+	protected ArrayList<LessonHour> hours;
+	protected TreeMap<String, Subject> subjects;
+	protected TreeMap<String, Classroom> classrooms;
 	protected TreeMap<String, Teacher> teachers;
 	protected TreeMap<String, ClassInSchool> classes;
+	protected SubjectClassAllocation subjectsClasses;
+	protected TeacherClassAllocation teachersClasses;
 	
-	public Scheduler() {
+	public Scheduler(ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects, 
+			TreeMap<String, Teacher> teachers, TreeMap<String, Classroom> classrooms, 
+			TreeMap<String, ClassInSchool> classes, SubjectClassAllocation subjectsClasses, 
+			TeacherClassAllocation teachersClasses) {
 		schedule = new Schedule();
-	}
-
-	public void setTeachers(TreeMap<String, Teacher> teachers) {
+		this.hours = hours;
+		this.subjects = subjects;
 		this.teachers = teachers;
-	}
-
-	public void setClasses(TreeMap<String, ClassInSchool> classes) {
+		this.classrooms = classrooms;
 		this.classes = classes;
+		this.subjectsClasses = subjectsClasses;
+		this.teachersClasses = teachersClasses;
 	}
-
+	
+	/**
+	 * Main scheduling loop as found in the knowledge model.
+	 */
 	public void createSchedule() {
-		ClassInSchool classToSchedule;
-		ArrayList<Lesson> lessonsToSchedule;
+		addAllLessonsToSchedule();
 		
-		while (! classes.isEmpty()) {
-			classToSchedule = classes.remove(0);
-			
-			lessonsToSchedule = classToSchedule.getLessons();
-			try {
-				scheduleLessons(lessonsToSchedule);
-			} catch (JessException e) {
-				System.out.println("JessException: " + e.getMessage());
-				System.out.print(e.getStackTrace());
-			}
+		while (schedule.containsUnallocatedLessons()) {
+			selectLessonToSchedule();
+			allocateLessonToClassroomAndTimeslot();
 		}
 		
-	}
-
-	protected void scheduleLessons(ArrayList<Lesson> lessonsToSchedule) throws JessException {
-		LessonReasoner reasoner = new LessonReasoner();
-		reasoner.addLessons(lessonsToSchedule);
-		reasoner.getBestLesson();
-	}
-
-	protected void scheduleLesson(Lesson lesson) throws JessException {
-		TimeslotReasoner timeslotReasoner = new TimeslotReasoner();
-		timeslotReasoner.initiateEngine();
-		timeslotReasoner.addObjects(null);
-		timeslotReasoner.addLesson(lesson);
 		
-		timeslotReasoner.run();
 		
-		Classroom classroom = timeslotReasoner.getBestClassroom();
+	}
+	
+	
+	public void selectLessonToSchedule() {
+		LessonSelectionKB kb = new LessonSelectionKB(new PriorityConflictSet());
+		kb.tell(schedule);
+		kb.run();
+		// Lesson to schedule is now stored in schedule's "conflict set"
+	}
+	
+	public void allocateLessonToClassroomAndTimeslot() {
+		
+	}
+	
+	public void addAllLessonsToSchedule() {
+		
+		for (Entry<String, Subject> subjectEntry : subjects.entrySet()) {
+			for (Entry<String, ClassInSchool> classEntry : classes.entrySet()) {
+				Subject s = subjectEntry.getValue();
+				ClassInSchool c = classEntry.getValue();
+				Teacher t = teachersClasses.getTeacher(s, c);
+				
+				int numberOfClasses = subjectsClasses.getHours(s, c);
+				
+				while (numberOfClasses > 0) {
+					Lesson newLesson = new Lesson(s, t, c);
+					schedule.addLesson(newLesson);
+					numberOfClasses --;
+				}
+			}
+		}
 	}
 
 }
