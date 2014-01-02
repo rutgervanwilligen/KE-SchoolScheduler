@@ -61,17 +61,16 @@ public class Main {
 		String teacherInputFile, classesInputFile, hoursInputFile, subjectsInputFile, 
 		classroomsInputFile, subjectsClassesInputFile, teachersClassesInputFile;
 		
-		if (args.length != 2) {
+		if (args.length != 7) {
 			printUsage();
 		} else {
 			teacherInputFile = args[0];
 			classesInputFile = args[1];
-			hoursInputFile = "dummy";
-			subjectsInputFile = "dummy";
-			classroomsInputFile = "dummy";
-			subjectsClassesInputFile = "dummy";
-			teachersClassesInputFile = "dummy";
-//			hoursInputFile = args[2];
+			hoursInputFile = args[2];
+			subjectsInputFile = args[3];
+			classroomsInputFile = args[4];
+			subjectsClassesInputFile = args[5];
+			teachersClassesInputFile = args[6];
 			
 			readInput(teacherInputFile, classesInputFile, hoursInputFile, subjectsInputFile, 
 					classroomsInputFile, subjectsClassesInputFile, teachersClassesInputFile);
@@ -83,7 +82,14 @@ public class Main {
 	}
 
 	private static void printUsage() {
-		System.out.println("You are doing it wrong!");
+		System.out.println("Usage: <java Main> with the following arguments:");
+		System.out.println("  Teacher input file (docenteninfo.csv)");
+		System.out.println("  Classes input file (klasseninfo.csv)");
+		System.out.println("  Hours input file (ureninfo.csv");
+		System.out.println("  Subjects input file (vakkeninfo.csv)");
+		System.out.println("  Classrooms input file (lokaleninfo.csv)");
+		System.out.println("  Subjects-classes allocations input file(vakkenurenaantallen.csv");
+		System.out.println("  Teachers-classes allocations input file(klassendocenten.csv");
 	}
 
 }

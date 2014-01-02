@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import sss.scheduler.objects.LessonHour;
+import sss.scheduler.objects.Weekday;
 
 public class HourInputReader extends InputReader {
 	
@@ -30,11 +31,42 @@ public class HourInputReader extends InputReader {
 		int endTimeHours = endTimeScanner.nextInt();
 		int endTimeMinutes = endTimeScanner.nextInt();
 		
+		getDaysAndAddHours(lineScanner.next(), number, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes);
+		
 		lineScanner.close();
 		beginTimeScanner.close();
 		endTimeScanner.close();
 		
-		hours.add(new LessonHour(number, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes));
+	}
+	
+	public void getDaysAndAddHours(String days, int number, int beginTimeHours, int beginTimeMinutes,
+			int endTimeHours, int endTimeMinutes) {
+		
+		Scanner daysScanner = new Scanner(days);
+		daysScanner.useDelimiter("\\|");
+		
+		while (daysScanner.hasNext()) {
+			Weekday weekday = getWeekday(daysScanner.next());
+			hours.add(new LessonHour(weekday, number, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes));	
+		}
+	}
+	
+	public Weekday getWeekday(String day) {
+		if (day.equals("MA")) {
+			return Weekday.MONDAY;
+		} else if (day.equals("DI")) {
+			return Weekday.TUESDAY;
+		} else if (day.equals("WO")) {
+			return Weekday.WEDNESDAY;
+		} else if (day.equals("DO")) {
+			return Weekday.THURSDAY;
+		} else if (day.equals("VR")) {
+			return Weekday.FRIDAY;
+		} else {
+			System.out.println("Weekday in hours input file not sane!");
+			System.exit(1);
+			return null;
+		}
 	}
 	
 	public ArrayList<LessonHour> read(String filePath) {

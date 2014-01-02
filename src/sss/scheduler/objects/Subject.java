@@ -1,6 +1,6 @@
 package sss.scheduler.objects;
 
-public class Subject {
+public class Subject implements Comparable<Subject> {
 	
 	private String name;
 	private String code;
@@ -22,5 +22,10 @@ public class Subject {
 	
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Subject s) {
+		return code.compareTo(s.getCode());
 	}
 }

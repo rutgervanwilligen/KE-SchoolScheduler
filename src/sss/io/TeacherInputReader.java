@@ -40,7 +40,7 @@ public class TeacherInputReader extends InputReader {
 		ArrayList<Subject> subjectArray = new ArrayList<Subject>();
 		
 		subjectScanner = new Scanner(subjectString);
-		subjectScanner.useDelimiter("|");
+		subjectScanner.useDelimiter("\\|");
 		
 		while (subjectScanner.hasNext()) {
 			subjectArray.add(subjects.get(subjectScanner.next()));
@@ -50,7 +50,6 @@ public class TeacherInputReader extends InputReader {
 		subjectScanner.close();
 		
 		teachers.put(code, new Teacher(name, code, weeklyHours, subjectArray, grade, availabilities));
-		System.out.println("Read teacher " + name);
 	}
 	
 	private Availability[] parseAvailabilities(String available, String unavailable, String undesired) {
@@ -59,7 +58,7 @@ public class TeacherInputReader extends InputReader {
 		
 		if (!available.equals("none")) {
 			scanner = new Scanner(available);
-			scanner.useDelimiter("|");
+			scanner.useDelimiter("\\|");
 			while (scanner.hasNext()) {
 				result = parseUnit(result, scanner.next(), Availability.YES);
 			}
@@ -68,7 +67,7 @@ public class TeacherInputReader extends InputReader {
 		
 		if (!unavailable.equals("none")) {
 			scanner = new Scanner(unavailable);
-			scanner.useDelimiter("|");
+			scanner.useDelimiter("\\|");
 			while (scanner.hasNext()) {
 				result = parseUnit(result, scanner.next(), Availability.NO);
 			}
@@ -77,7 +76,7 @@ public class TeacherInputReader extends InputReader {
 		
 		if (!undesired.equals("none")) {
 			scanner = new Scanner(undesired);
-			scanner.useDelimiter("|");
+			scanner.useDelimiter("\\|");
 			while (scanner.hasNext()) {
 				result = parseUnit(result, scanner.next(), Availability.RATHER_NOT);
 			}
@@ -89,7 +88,7 @@ public class TeacherInputReader extends InputReader {
 	
 	private Availability[] parseUnit(Availability[] result, String unit, Availability availability) {
 		Scanner scanner = new Scanner(unit);
-		
+				
 		if (unit.contains("-")) { // Unit contains more than 1 availability
 			scanner.useDelimiter("-");
 			int first = scanner.nextInt() - 1;

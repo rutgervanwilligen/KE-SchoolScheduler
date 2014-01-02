@@ -47,8 +47,6 @@ public class ClassInputReader extends InputReader {
 		} else {
 			classes.put(name, new HigherClass(name, level, year, letter, mentor, size));
 		}
-
-		System.out.println("Read class " + name);
 	}
 
 	public TreeMap<String, ClassInSchool> read(String filePath) {
