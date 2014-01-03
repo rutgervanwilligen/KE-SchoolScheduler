@@ -2,3 +2,5 @@ bin/
 .classpath
 .settings/
 Jess71p2/
+src/sss/scheduler/objects/*.class
+src/sss/reasoner/*.class

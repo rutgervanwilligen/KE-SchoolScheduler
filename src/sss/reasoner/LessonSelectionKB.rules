@@ -19,6 +19,7 @@ public ruleBase LessonSelectionKB {
       lesson.getSubject().getCode().equals("LO");
       !lesson.isAllocatedToTimeslot();
     actions
+      System.out.println("lessonSelection1 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
   }
@@ -34,6 +35,7 @@ public ruleBase LessonSelectionKB {
       lesson.getSubject().getCode().equals("HV");
       !lesson.isAllocatedToTimeslot();
     actions
+      System.out.println("lessonSelection2 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
   }
@@ -47,6 +49,7 @@ public ruleBase LessonSelectionKB {
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
     actions
+      System.out.println("lessonSelection3 fired");
       schedule.addToSchedulingSet(lesson);
       modified(schedule);
   }

@@ -1,8 +1,44 @@
 package sss.reasoner;
 
+import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.Schedule;
+import sss.scheduler.objects.Teacher;
+import sss.scheduler.objects.LessonHour;
+import sss.scheduler.objects.Classroom;
+import sss.scheduler.objects.Availability;
+import sss.scheduler.objects.ClassInSchool;
+
 /**
- * Rule base used to select lessons.
+ * Rule base used to allocate a lesson object to a classroom and time slot.
  */
 public ruleBase ClassroomTimeslotAllocationKB {
-
+  
+  rule allocationRule1 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	  Teacher teacher;
+  	localdecl
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+    conditions
+  	  schedule.containsLessonInSchedulingSet(lessonToAllocate); // Eigenlijk overbodig
+  	  !lessonToAllocate.isAllocatedToTimeslot(); // Eigenlijk overbodig
+  	  
+  	  classroom.isAvailable(hour);
+  	  classToAllocate.isAvailable(hour);
+  	  teacher.getAvailability(hour) == Availability.AVAILABLE;
+      teacher.getScheduledValue(hour) == Availability.AVAILABLE;
+    actions
+      System.out.println("allocationRule1 fired");
+  	  schedule.schedule(lessonToAllocate, classroom, hour);
+  	  classroom.setToUnavailable(hour);
+  	  classToAllocate.setToUnavailable(hour);
+  	  teacher.setToUnavailable(hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  }
 }

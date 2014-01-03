@@ -34,8 +34,8 @@ public class Main {
 		hours = InputReader.readHoursInfo(hoursInputFile);
 		subjects = InputReader.readSubjectsInfo(subjectsInputFile);
 		teachers = InputReader.readTeachersInfo(teacherInputFile, hours, subjects);
-		classrooms = InputReader.readClassroomsInfo(classroomsInputFile, subjects);
-		classes = InputReader.readClassesInfo(classesInputFile, teachers);
+		classrooms = InputReader.readClassroomsInfo(classroomsInputFile, hours, subjects);
+		classes = InputReader.readClassesInfo(classesInputFile, hours, teachers);
 		subjectsClasses = InputReader.readSubjectsClassesInfo(subjectsClassesInputFile, subjects, classes);
 		teachersClasses = InputReader.readTeachersClassesInfo(teachersClassesInputFile, teachers, subjects, classes);
 	}
@@ -47,6 +47,7 @@ public class Main {
 		Scheduler scheduler = new Scheduler(hours, subjects, teachers, 
 				classrooms, classes, subjectsClasses, teachersClasses);
 		
+		System.out.println("Starting schedule creation");
 		scheduler.createSchedule();
 	}
 

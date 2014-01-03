@@ -10,18 +10,15 @@ public class Lesson {
 	private ArrayList<Student> students;
 	private Subject subject;
 	
-	private Weekday weekday;
 	private LessonHour hour;
 	
 	protected int ranking;
 	
 	/**
 	 * Creates lesson object with weekday and hour, without other contents
-	 * @param weekday Weekday of the lesson
 	 * @param hour Hour of the lesson
 	 */
-	public Lesson(Weekday weekday, LessonHour hour) {
-		this.weekday = weekday;
+	public Lesson(LessonHour hour) {
 		this.hour = hour;
 		classroom = null;
 		teacher = null;
@@ -41,9 +38,8 @@ public class Lesson {
 	 * @param teacher Teacher of the lesson
 	 * @param classInSchool Class that gets taught
 	 */
-	public Lesson(Weekday weekday, LessonHour hour, Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
+	public Lesson(LessonHour hour, Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
 		students = new ArrayList<Student>();
-		this.weekday = weekday;
 		this.hour = hour;
 		this.subject = subject;
 		this.classroom = classroom;
@@ -63,7 +59,6 @@ public class Lesson {
 		this.teacher = teacher;
 		setClassInSchool(classInSchool);
 		classroom = null;
-		weekday = null;
 		hour = null;
 	}
 	
@@ -80,7 +75,7 @@ public class Lesson {
 	 * @return Returns whether the lesson is allocated to a time slot.
 	 */
 	public boolean isAllocatedToTimeslot() {
-		return (weekday != null && hour != null);
+		return (hour != null);
 	}	
 	
 	/**
@@ -88,8 +83,7 @@ public class Lesson {
 	 * @param weekday The weekday to allocate the lesson to.
 	 * @param hour The hour to allocate the lesson to.
 	 */
-	public void allocateTimeslot(Weekday weekday, LessonHour hour) {
-		this.weekday = weekday;
+	public void allocateTimeslot(LessonHour hour) {
 		this.hour = hour;
 	}
 
@@ -97,7 +91,6 @@ public class Lesson {
 	 * Removes the allocated time slot for this lesson.
 	 */
 	public void removeTimeslot() {
-		weekday = null;
 		hour = null;
 	}
 	
@@ -138,8 +131,8 @@ public class Lesson {
 	 * @param weekday Weekday to test for.
 	 * @param hour Hour to test for.
 	 */
-	public boolean isAllocatedTo(Weekday weekday, LessonHour hour) {
-		return (weekday.equals(this.weekday) && hour.equals(this.hour));
+	public boolean isAllocatedTo(LessonHour hour) {
+		return (hour.equals(this.hour));
 	}		
 	
 	/**
@@ -253,7 +246,7 @@ public class Lesson {
 	 * @return Allocated weekday
 	 */
 	public Weekday getWeekday() {
-		return weekday;
+		return hour.getWeekday();
 	}
 	
 	/**

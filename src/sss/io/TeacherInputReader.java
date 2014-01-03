@@ -60,7 +60,7 @@ public class TeacherInputReader extends InputReader {
 			scanner = new Scanner(available);
 			scanner.useDelimiter("\\|");
 			while (scanner.hasNext()) {
-				result = parseUnit(result, scanner.next(), Availability.YES);
+				result = parseUnit(result, scanner.next(), Availability.AVAILABLE);
 			}
 			scanner.close();
 		}
@@ -69,7 +69,7 @@ public class TeacherInputReader extends InputReader {
 			scanner = new Scanner(unavailable);
 			scanner.useDelimiter("\\|");
 			while (scanner.hasNext()) {
-				result = parseUnit(result, scanner.next(), Availability.NO);
+				result = parseUnit(result, scanner.next(), Availability.UNAVAILABLE);
 			}
 			scanner.close();
 		}

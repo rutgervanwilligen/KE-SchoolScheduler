@@ -1,10 +1,12 @@
 package sss.io;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
 
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.HigherClass;
+import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Level;
 import sss.scheduler.objects.LowerClass;
 import sss.scheduler.objects.Teacher;
@@ -13,8 +15,10 @@ public class ClassInputReader extends InputReader {
 	
 	protected static TreeMap<String, ClassInSchool> classes;
 	protected static TreeMap<String, Teacher> teachers;
+	protected static ArrayList<LessonHour> hours;
 	
-	public ClassInputReader (TreeMap<String, Teacher> teachers) {
+	public ClassInputReader (ArrayList<LessonHour> hours, TreeMap<String, Teacher> teachers) {
+		ClassInputReader.hours = hours;
 		ClassInputReader.teachers = teachers;
 	}
 	
@@ -43,9 +47,9 @@ public class ClassInputReader extends InputReader {
 		}
 		
 		if (year <= 3) {
-			classes.put(name, new LowerClass(name, level, year, letter, mentor, size));
+			classes.put(name, new LowerClass(name, level, year, letter, mentor, size, hours.size()));
 		} else {
-			classes.put(name, new HigherClass(name, level, year, letter, mentor, size));
+			classes.put(name, new HigherClass(name, level, year, letter, mentor, size, hours.size()));
 		}
 	}
 

@@ -59,6 +59,15 @@ public class Schedule {
 	}
 	
 	/**
+	 * Returns whether a lesson object is present in the scheduling set.
+	 * @param lesson Lesson to check.
+	 * @return Boolean value indicating whether the lesson is in the scheduling set.
+	 */
+	public boolean containsLessonInSchedulingSet(Lesson lesson) {
+		return lessonsToAllocate.contains(lesson);
+	}
+	
+	/**
 	 * Returns whether the schedule contains unallocated lessons.
 	 * @return Boolean value indicating whether the schedule contains unallocated lessons.
 	 */
@@ -92,16 +101,32 @@ public class Schedule {
 	}
 	
 	/**
+	 * Returns the unallocated lessons in the schedule.
+	 * @return ArrayList of unallocated lessons.
+	 */
+	public ArrayList<Lesson> getUnallocatedLessons() {
+		return unallocatedLessons;
+	}
+	
+	/**
+	 * Returns the allocated lessons in the schedule.
+	 * @return ArrayList of allocated lessons.
+	 */
+	public ArrayList<Lesson> getAllocatedLessons() {
+		return allocatedLessons;
+	}
+	
+	/**
 	 * Allocate a Lesson present in the scheduling set to a classroom, weekday and hour.
 	 * @param lesson Lesson object to allocate.
 	 * @param classroom Classroom object to allocate the lesson to.
 	 * @param weekday Weekday to allocate the lesson to.
 	 * @param hour Hour to allocate the lesson to.
 	 */
-	public void schedule(Lesson lesson, Classroom classroom, Weekday weekday, LessonHour hour) {
+	public void schedule(Lesson lesson, Classroom classroom, LessonHour hour) {
 		lessonsToAllocate.remove(lesson);
 		lesson.setClassroom(classroom);
-		lesson.allocateTimeslot(weekday, hour);
+		lesson.allocateTimeslot(hour);
 		allocatedLessons.add(lesson);
 	}
 	

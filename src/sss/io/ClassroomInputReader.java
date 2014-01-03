@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 import sss.scheduler.objects.Classroom;
+import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Location;
 import sss.scheduler.objects.Subject;
 
@@ -12,9 +13,11 @@ public class ClassroomInputReader extends InputReader {
 	
 	protected static TreeMap<String, Classroom> classrooms;
 	protected static TreeMap<String, Subject> subjects;
+	protected static ArrayList<LessonHour> hours;
 	
-	public ClassroomInputReader (TreeMap<String, Subject> subjects) {
+	public ClassroomInputReader (ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects) {
 		ClassroomInputReader.subjects = subjects;
+		ClassroomInputReader.hours = hours;
 	}
 	
 	protected void readLine(String line) {
@@ -60,7 +63,7 @@ public class ClassroomInputReader extends InputReader {
 		lineScanner.close();
 		facilityScanner.close();
 		
-		classrooms.put(name, new Classroom(name, capacity, location, floor, general, computers, facilities));
+		classrooms.put(name, new Classroom(name, capacity, location, floor, general, computers, facilities, hours.size()));
 	}
 
 	public TreeMap<String, Classroom> read(String filePath) {

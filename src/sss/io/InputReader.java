@@ -43,8 +43,9 @@ public abstract class InputReader {
 		return reader.read(filePath);
 	}
 
-	public static TreeMap<String, ClassInSchool> readClassesInfo(String filePath, TreeMap<String, Teacher> teachers) {
-		ClassInputReader reader = new ClassInputReader(teachers);
+	public static TreeMap<String, ClassInSchool> readClassesInfo(String filePath, 
+			ArrayList<LessonHour> hours, TreeMap<String, Teacher> teachers) {
+		ClassInputReader reader = new ClassInputReader(hours, teachers);
 		return reader.read(filePath);
 	}
 
@@ -53,8 +54,9 @@ public abstract class InputReader {
 		return reader.read(filePath);
 	}
 	
-	public static TreeMap<String, Classroom> readClassroomsInfo(String filePath, TreeMap<String, Subject> subjects) {
-		ClassroomInputReader reader = new ClassroomInputReader(subjects);
+	public static TreeMap<String, Classroom> readClassroomsInfo(String filePath, ArrayList<LessonHour> hours, 
+			TreeMap<String, Subject> subjects) {
+		ClassroomInputReader reader = new ClassroomInputReader(hours, subjects);
 		return reader.read(filePath);
 	}
 	

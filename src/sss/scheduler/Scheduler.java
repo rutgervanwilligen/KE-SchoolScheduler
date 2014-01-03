@@ -58,18 +58,46 @@ public class Scheduler {
 	public void selectLessonToSchedule() {
 		LessonSelectionKB kb = new LessonSelectionKB(new PriorityConflictSet());
 		kb.tell(schedule);
+		
+		// TODO is deze stap nodig? Feitelijk zitten al die lessons al in het schedule
+		// maar ik denk dat de KB er anders niet mee om kan gaan
+		for (Lesson lesson : schedule.getUnallocatedLessons()) {
+			kb.tell(lesson);
+		}
+		
 		kb.run();
 		// Lesson to schedule is now stored in schedule's "conflict set"
 	}
 	
 	public void allocateLessonToClassroomAndTimeslot() {
 		ClassroomTimeslotAllocationKB kb = new ClassroomTimeslotAllocationKB();
+		
+		// Add schedule to KB
 		kb.tell(schedule);
+		
+		// Add classrooms to KB
+		for (Entry<String, Classroom> entry : classrooms.entrySet()) {
+			kb.tell(entry.getValue());
+		}
+		
+		// Add hours to KB
+		for (LessonHour hour : hours) {
+			kb.tell(hour);
+		}
+		
+		// Add teachers to KB
+		for (Entry<String, Teacher> entry : teachers.entrySet()) {
+			kb.tell(entry.getValue());
+		}
+		
+		// Add lessons from schedule's conflict set to KB
+		for (Lesson lesson : schedule.getSchedulingSet()) {
+			kb.tell(lesson);
+		}
+		
 		kb.run();
 		// Lesson from schedule's "conflict set" is now allocated to classroom and time slot
-	}
-	
-	
+	}	
 	
 	public void addAllLessonsToSchedule() {
 		

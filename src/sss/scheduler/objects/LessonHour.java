@@ -1,6 +1,6 @@
 package sss.scheduler.objects;
 
-public class LessonHour {
+public class LessonHour implements Comparable<LessonHour> {
 	
 	private final int number;
 	private final Weekday weekday;
@@ -28,5 +28,22 @@ public class LessonHour {
 	
 	public ClockValue getEndTime () {
 		return endTime;
+	}
+
+	@Override
+	public int compareTo(LessonHour other) {
+		Weekday otherWeekday = other.getWeekday();
+		if (!(weekday == otherWeekday)) {
+			return weekday.compareTo(otherWeekday);
+		} else {
+			int otherNumber = other.getHour();
+			if (number < otherNumber) {
+				return -1;
+			} else if (number > otherNumber) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
 	}
 }
