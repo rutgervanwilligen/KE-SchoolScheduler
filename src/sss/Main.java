@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import sss.io.InputReader;
+import sss.io.OutputWriter;
 import sss.scheduler.Scheduler;
 import sss.scheduler.SubjectClassAllocation;
 import sss.scheduler.TeacherClassAllocation;
@@ -21,6 +22,8 @@ public class Main {
 	protected static ArrayList<LessonHour> hours;
 	protected static SubjectClassAllocation subjectsClasses;
 	protected static TeacherClassAllocation teachersClasses;
+	
+	protected static Scheduler scheduler;
 
 	/**
 	 * Read input information from files.
@@ -44,7 +47,7 @@ public class Main {
 	 * Create scheduler with all data and start scheduler.
 	 */
 	private static void startScheduler() {
-		Scheduler scheduler = new Scheduler(hours, subjects, teachers, 
+		scheduler = new Scheduler(hours, subjects, teachers, 
 				classrooms, classes, subjectsClasses, teachersClasses);
 		
 		System.out.println("Starting schedule creation");
@@ -55,6 +58,8 @@ public class Main {
 	 * Ask what output to write and print it?
 	 */
 	private static void writeOutput() {
+		OutputWriter outputWriter = new OutputWriter(scheduler.getSchedule(), classes);
+		outputWriter.writeClassSchedulesToFile();
 		
 	}
 	

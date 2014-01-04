@@ -1,0 +1,352 @@
+H1A
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Wiskunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Informatica
+TUESDAY, 11:40-12:20, Maatschappijleer
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Informatica
+WEDNESDAY, 11:40-12:20, Nederlands
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Latijn
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Latijn
+FRIDAY, 11:40-12:20, Wiskunde
+
+H1B
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Wiskunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Informatica
+TUESDAY, 11:40-12:20, Maatschappijleer
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Informatica
+WEDNESDAY, 11:40-12:20, Nederlands
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Latijn
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Latijn
+FRIDAY, 11:40-12:20, Wiskunde
+
+H2A
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Natuurkunde
+MONDAY, 12:20-13:0, Scheikunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Latijn
+TUESDAY, 11:40-12:20, Natuurkunde
+TUESDAY, 12:20-13:0, Wiskunde
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Latijn
+WEDNESDAY, 11:40-12:20, Nederlands
+WEDNESDAY, 12:20-13:0, Wiskunde
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Maatschappijleer
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Maatschappijleer
+FRIDAY, 11:40-12:20, Scheikunde
+
+H2B
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Scheikunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Latijn
+TUESDAY, 11:40-12:20, Natuurkunde
+TUESDAY, 12:20-13:0, Wiskunde
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Latijn
+WEDNESDAY, 11:40-12:20, Nederlands
+WEDNESDAY, 12:20-13:0, Wiskunde
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Maatschappijleer
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Natuurkunde
+FRIDAY, 11:40-12:20, Scheikunde
+
+H3A
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Natuurkunde
+MONDAY, 12:20-13:0, Scheikunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Latijn
+TUESDAY, 11:40-12:20, Natuurkunde
+TUESDAY, 12:20-13:0, Wiskunde
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Latijn
+WEDNESDAY, 11:40-12:20, Nederlands
+WEDNESDAY, 12:20-13:0, Wiskunde
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Maatschappijleer
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Maatschappijleer
+FRIDAY, 11:40-12:20, Scheikunde
+
+H3B
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Scheikunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Latijn
+TUESDAY, 11:40-12:20, Nederlands
+TUESDAY, 12:20-13:0, Wiskunde
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Latijn
+WEDNESDAY, 11:40-12:20, Natuurkunde
+WEDNESDAY, 12:20-13:0, Wiskunde
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Natuurkunde
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Maatschappijleer
+FRIDAY, 11:40-12:20, Scheikunde
+
+V1A
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Wiskunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Informatica
+TUESDAY, 11:40-12:20, Maatschappijleer
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Informatica
+WEDNESDAY, 11:40-12:20, Nederlands
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Latijn
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Latijn
+FRIDAY, 11:40-12:20, Wiskunde
+
+V1B
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Wiskunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Informatica
+TUESDAY, 11:40-12:20, Maatschappijleer
+TUESDAY, 12:20-13:0, Wiskunde
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Informatica
+WEDNESDAY, 11:40-12:20, Nederlands
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Latijn
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Latijn
+
+V2A
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Natuurkunde
+MONDAY, 12:20-13:0, Scheikunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Latijn
+TUESDAY, 11:40-12:20, Natuurkunde
+TUESDAY, 12:20-13:0, Scheikunde
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Latijn
+WEDNESDAY, 12:20-13:0, Wiskunde
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Maatschappijleer
+THURSDAY, 11:40-12:20, Nederlands
+THURSDAY, 12:20-13:0, Wiskunde
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Maatschappijleer
+FRIDAY, 11:40-12:20, Nederlands
+
+V2B
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Scheikunde
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Maatschappijleer
+TUESDAY, 11:40-12:20, Natuurkunde
+TUESDAY, 12:20-13:0, Wiskunde
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 9:55-10:35, Grieks
+WEDNESDAY, 11:0-11:40, Latijn
+WEDNESDAY, 11:40-12:20, Natuurkunde
+WEDNESDAY, 12:20-13:0, Wiskunde
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Latijn
+THURSDAY, 11:40-12:20, Nederlands
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Geschiedenis
+FRIDAY, 11:0-11:40, Nederlands
+FRIDAY, 11:40-12:20, Scheikunde
+
+V3A
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Frans
+MONDAY, 11:0-11:40, Geschiedenis
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Nederlands
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Biologie
+TUESDAY, 9:55-10:35, Frans
+TUESDAY, 11:0-11:40, Geschiedenis
+TUESDAY, 11:40-12:20, Maatschappijleer
+TUESDAY, 12:20-13:0, Scheikunde
+WEDNESDAY, 8:30-9:15, Handvaardigheid
+WEDNESDAY, 9:15-9:55, Biologie
+WEDNESDAY, 11:40-12:20, Natuurkunde
+WEDNESDAY, 12:20-13:0, Scheikunde
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Engels
+THURSDAY, 9:55-10:35, Grieks
+THURSDAY, 11:0-11:40, Latijn
+THURSDAY, 11:40-12:20, Natuurkunde
+THURSDAY, 12:20-13:0, Wiskunde
+FRIDAY, 8:30-9:15, Aardrijkskunde
+FRIDAY, 9:15-9:55, Engels
+FRIDAY, 9:55-10:35, Grieks
+FRIDAY, 11:0-11:40, Latijn
+FRIDAY, 11:40-12:20, Nederlands
+FRIDAY, 12:20-13:0, Wiskunde
+
+V3B
+MONDAY, 8:30-9:15, Lichamelijke Opvoeding
+MONDAY, 9:15-9:55, Aardrijkskunde
+MONDAY, 9:55-10:35, Engels
+MONDAY, 11:0-11:40, Grieks
+MONDAY, 11:40-12:20, Maatschappijleer
+MONDAY, 12:20-13:0, Nederlands
+TUESDAY, 8:30-9:15, Lichamelijke Opvoeding
+TUESDAY, 9:15-9:55, Aardrijkskunde
+TUESDAY, 9:55-10:35, Engels
+TUESDAY, 11:0-11:40, Geschiedenis
+TUESDAY, 11:40-12:20, Maatschappijleer
+TUESDAY, 12:20-13:0, Scheikunde
+WEDNESDAY, 9:55-10:35, Frans
+WEDNESDAY, 11:0-11:40, Geschiedenis
+WEDNESDAY, 11:40-12:20, Natuurkunde
+WEDNESDAY, 12:20-13:0, Scheikunde
+THURSDAY, 8:30-9:15, Handvaardigheid
+THURSDAY, 9:15-9:55, Biologie
+THURSDAY, 9:55-10:35, Frans
+THURSDAY, 11:0-11:40, Latijn
+THURSDAY, 11:40-12:20, Natuurkunde
+THURSDAY, 12:20-13:0, Wiskunde
+FRIDAY, 8:30-9:15, Handvaardigheid
+FRIDAY, 9:15-9:55, Biologie
+FRIDAY, 9:55-10:35, Grieks
+FRIDAY, 11:0-11:40, Latijn
+FRIDAY, 11:40-12:20, Nederlands
+FRIDAY, 12:20-13:0, Wiskunde
+

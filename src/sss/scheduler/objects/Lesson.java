@@ -2,7 +2,7 @@ package sss.scheduler.objects;
 
 import java.util.ArrayList;
 
-public class Lesson {
+public class Lesson implements Comparable<Lesson> {
 
 	private Classroom classroom;
 	private Teacher teacher;
@@ -271,5 +271,28 @@ public class Lesson {
 	 */
 	public void setRanking(int ranking) {
 		this.ranking = ranking;
+	}
+
+	@Override
+	public int compareTo(Lesson o) {
+		if (this.getWeekday().equals(o.getWeekday())) {
+			return this.getHour().getStartTime().compareTo(o.getHour().getStartTime());
+		} else {
+			if (this.getWeekday().equals(Weekday.MONDAY)) {
+				return -1;
+			} else if(this.getWeekday().equals(Weekday.TUESDAY) && !o.getWeekday().equals(Weekday.MONDAY)) {
+				return -1;
+			} else if(this.getWeekday().equals(Weekday.WEDNESDAY) &&
+					!o.getWeekday().equals(Weekday.TUESDAY) &&
+					!o.getWeekday().equals(Weekday.MONDAY)) {
+				return -1;
+			} else if(this.getWeekday().equals(Weekday.THURSDAY) &&
+					!o.getWeekday().equals(Weekday.WEDNESDAY) &&
+					!o.getWeekday().equals(Weekday.TUESDAY) &&
+					!o.getWeekday().equals(Weekday.MONDAY)) {
+				return -1;
+			}
+		}
+		return 1;
 	}
 }

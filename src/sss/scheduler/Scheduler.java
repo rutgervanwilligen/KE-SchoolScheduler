@@ -24,6 +24,9 @@ public class Scheduler {
 	protected TreeMap<String, ClassInSchool> classes;
 	protected SubjectClassAllocation subjectsClasses;
 	protected TeacherClassAllocation teachersClasses;
+
+	protected LessonSelectionKB lessonSelectionKB;
+	protected ClassroomTimeslotAllocationKB lessonAllocationKB;
 	
 	public Scheduler(ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects, 
 			TreeMap<String, Teacher> teachers, TreeMap<String, Classroom> classrooms, 
@@ -44,58 +47,57 @@ public class Scheduler {
 	 */
 	public void createSchedule() {
 		addAllLessonsToSchedule();
+		createdLessonScheduleKB();
+		createdLessonAllocationKB();
 		
 		while (schedule.containsUnallocatedLessons()) {
 			selectLessonToSchedule();
 			allocateLessonToClassroomAndTimeslot();
 		}
-		
-		
-		
 	}
 	
-	
-	public void selectLessonToSchedule() {
-		LessonSelectionKB kb = new LessonSelectionKB(new PriorityConflictSet());
-		kb.tell(schedule);
-		
-		// TODO is deze stap nodig? Feitelijk zitten al die lessons al in het schedule
-		// maar ik denk dat de KB er anders niet mee om kan gaan
+	protected void createdLessonScheduleKB() {
+		lessonSelectionKB = new LessonSelectionKB(new PriorityConflictSet());
+		lessonSelectionKB.tell(schedule);
 		for (Lesson lesson : schedule.getUnallocatedLessons()) {
-			kb.tell(lesson);
+			lessonSelectionKB.tell(lesson);
 		}
-		
-		kb.run();
-		// Lesson to schedule is now stored in schedule's "conflict set"
 	}
 	
-	public void allocateLessonToClassroomAndTimeslot() {
-		ClassroomTimeslotAllocationKB kb = new ClassroomTimeslotAllocationKB();
+	protected void createdLessonAllocationKB() {
+		lessonAllocationKB = new ClassroomTimeslotAllocationKB();
 		
 		// Add schedule to KB
-		kb.tell(schedule);
+		lessonAllocationKB.tell(schedule);
 		
 		// Add classrooms to KB
 		for (Entry<String, Classroom> entry : classrooms.entrySet()) {
-			kb.tell(entry.getValue());
+			lessonAllocationKB.tell(entry.getValue());
 		}
 		
 		// Add hours to KB
 		for (LessonHour hour : hours) {
-			kb.tell(hour);
+			lessonAllocationKB.tell(hour);
 		}
 		
 		// Add teachers to KB
 		for (Entry<String, Teacher> entry : teachers.entrySet()) {
-			kb.tell(entry.getValue());
+			lessonAllocationKB.tell(entry.getValue());
 		}
-		
-		// Add lessons from schedule's conflict set to KB
+	}
+	
+	
+	public void selectLessonToSchedule() {
+		lessonSelectionKB.retract(schedule);
+		lessonSelectionKB.tell(schedule);
+		lessonSelectionKB.run();
+	}
+	
+	public void allocateLessonToClassroomAndTimeslot() {// Add lessons from schedule's conflict set to KB
 		for (Lesson lesson : schedule.getSchedulingSet()) {
-			kb.tell(lesson);
+			lessonAllocationKB.tell(lesson);
 		}
-		
-		kb.run();
+		lessonAllocationKB.run();
 		// Lesson from schedule's "conflict set" is now allocated to classroom and time slot
 	}	
 	
@@ -116,6 +118,10 @@ public class Scheduler {
 				}
 			}
 		}
+	}
+
+	public Schedule getSchedule() {
+		return schedule;
 	}
 
 }

@@ -286,7 +286,7 @@ import sss.scheduler.objects.ClassInSchool;
      * Executes the action part of the rule allocationRule1
      */
     private void allocationRule1() {
-      System.out.println("allocationRule1 fired");
+      System.out.println("allocationRule1 fired " + sss_scheduler_objects_Lesson_1.getSubject().getName());
   	  sss_scheduler_objects_Schedule_1.schedule(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Classroom_1, sss_scheduler_objects_LessonHour_1);
   	  sss_scheduler_objects_Classroom_1.setToUnavailable(sss_scheduler_objects_LessonHour_1);
   	  (sss_scheduler_objects_Lesson_1.getClassInSchool()).setToUnavailable(sss_scheduler_objects_LessonHour_1);
@@ -535,7 +535,7 @@ import sss.scheduler.objects.ClassInSchool;
 /**
  * Knowledge base created by JEOPS from file ClassroomTimeslotAllocationKB.rules
  *
- * @version Jan 3, 2014
+ * @version Jan 4, 2014
  */
 public class ClassroomTimeslotAllocationKB extends jeops.AbstractKnowledgeBase {
 

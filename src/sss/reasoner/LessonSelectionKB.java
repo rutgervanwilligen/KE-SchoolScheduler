@@ -223,6 +223,7 @@ import sss.scheduler.objects.Schedule;
       System.out.println("lessonSelection1 fired");
 	  sss_scheduler_objects_Schedule_1.addToSchedulingSet(sss_scheduler_objects_Lesson_1);
       modified(sss_scheduler_objects_Schedule_1);
+      retract(sss_scheduler_objects_Lesson_1);
       }
 
 
@@ -899,7 +900,7 @@ import sss.scheduler.objects.Schedule;
 /**
  * Knowledge base created by JEOPS from file LessonSelectionKB.rules
  *
- * @version Jan 3, 2014
+ * @version Jan 4, 2014
  */
 public class LessonSelectionKB extends jeops.AbstractKnowledgeBase {
 

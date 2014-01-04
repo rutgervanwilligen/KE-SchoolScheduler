@@ -22,6 +22,7 @@ public ruleBase LessonSelectionKB {
       System.out.println("lessonSelection1 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
+      retract(lesson);
   }
   
   rule lessonSelection2 {

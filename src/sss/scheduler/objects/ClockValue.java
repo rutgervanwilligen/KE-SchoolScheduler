@@ -1,5 +1,5 @@
 package sss.scheduler.objects;
-public class ClockValue {
+public class ClockValue implements Comparable<ClockValue>{
 	
 	private final int hours;
 	private final int minutes;
@@ -22,6 +22,18 @@ public class ClockValue {
 		int thatValueInMinutes = cv.getHours() * 60 + cv.getMinutes();
 		
 		return Math.abs(thisValueInMinutes - thatValueInMinutes);
+	}
+
+	@Override
+	public int compareTo(ClockValue o) {
+		// TODO: extend this with minutes
+		if (hours < o.getHours()) {
+			return -1;
+		} else if (hours > o.getHours()) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 	
 }
