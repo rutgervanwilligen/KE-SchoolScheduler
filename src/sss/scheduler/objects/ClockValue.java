@@ -26,13 +26,20 @@ public class ClockValue implements Comparable<ClockValue>{
 
 	@Override
 	public int compareTo(ClockValue o) {
-		// TODO: extend this with minutes
-		if (hours < o.getHours()) {
+		int otherHours = o.getHours();
+		if (hours < otherHours) {
 			return -1;
-		} else if (hours > o.getHours()) {
+		} else if (hours > otherHours) {
 			return 1;
 		} else {
-			return 0;
+			int otherMinutes = o.getMinutes();
+			if (minutes < otherMinutes) {
+				return -1;
+			} else if (minutes > otherMinutes) {
+				return 1;
+			} else {
+				return 0;
+			}
 		}
 	}
 	

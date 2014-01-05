@@ -275,21 +275,22 @@ public class Lesson implements Comparable<Lesson> {
 
 	@Override
 	public int compareTo(Lesson o) {
-		if (this.getWeekday().equals(o.getWeekday())) {
+		Weekday thisWeekday = getWeekday();
+		Weekday otherWeekday = o.getWeekday();
+		if (thisWeekday.equals(otherWeekday)) {
 			return this.getHour().getStartTime().compareTo(o.getHour().getStartTime());
 		} else {
-			if (this.getWeekday().equals(Weekday.MONDAY)) {
+			if (thisWeekday.equals(Weekday.MONDAY)) {
 				return -1;
-			} else if(this.getWeekday().equals(Weekday.TUESDAY) && !o.getWeekday().equals(Weekday.MONDAY)) {
+			} else if(thisWeekday.equals(Weekday.TUESDAY) && 
+					!otherWeekday.equals(Weekday.MONDAY)) {
 				return -1;
-			} else if(this.getWeekday().equals(Weekday.WEDNESDAY) &&
-					!o.getWeekday().equals(Weekday.TUESDAY) &&
-					!o.getWeekday().equals(Weekday.MONDAY)) {
+			} else if(thisWeekday.equals(Weekday.WEDNESDAY) &&
+					!otherWeekday.equals(Weekday.TUESDAY) &&
+					!otherWeekday.equals(Weekday.MONDAY)) {
 				return -1;
-			} else if(this.getWeekday().equals(Weekday.THURSDAY) &&
-					!o.getWeekday().equals(Weekday.WEDNESDAY) &&
-					!o.getWeekday().equals(Weekday.TUESDAY) &&
-					!o.getWeekday().equals(Weekday.MONDAY)) {
+			} else if(thisWeekday.equals(Weekday.THURSDAY) &&
+					otherWeekday.equals(Weekday.FRIDAY)) {
 				return -1;
 			}
 		}
