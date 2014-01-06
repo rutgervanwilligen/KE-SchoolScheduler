@@ -42,10 +42,14 @@ public class SubjectsClassesInputReader extends InputReader {
 		String classString = unitScanner.next();
 		ArrayList<ClassInSchool> classesToAllocateFor = getClassesFromString(classString);
 		
-		int hourCount = unitScanner.nextInt();
+		ArrayList<String> hourNeeds = new ArrayList<String>();
+		
+		while (unitScanner.hasNext()) {
+			hourNeeds.add(unitScanner.next());
+		}
 		
 		for (ClassInSchool c : classesToAllocateFor) {
-			subjectsClasses.allocateHours(subjectString, c.getName(), hourCount);			
+			subjectsClasses.allocateHourNeeds(subjectString, c.getName(), hourNeeds);			
 		}
 		unitScanner.close();
 	}

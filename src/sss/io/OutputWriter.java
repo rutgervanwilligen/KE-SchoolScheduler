@@ -32,7 +32,9 @@ public class OutputWriter {
 				writer.print(writeClassSchedule(classInSchool));
 			}
 			writer.close();
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	}

@@ -148,6 +148,17 @@ public class Classroom {
 	}
 	
 	/**
+	 * Returns whether this room is suited for a specified lesson.
+	 * @param lesson Lesson to check.
+	 * @return Boolean value indicating whether the classroom is suited for the subject.
+	 */
+	public boolean isSuitedFor(Lesson lesson) {
+		if (lesson.needsComputerRoom() != computerRoom) return false;
+		if (lesson.allowedInGeneralRoom() != generalUse) return false;
+		return facilities.contains(lesson.getSubject());
+	}
+	
+	/**
 	 * Returns whether this classroom is suited for general use.
 	 * @return Boolean value indicating general usability.
 	 */

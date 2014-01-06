@@ -1,5 +1,6 @@
 package sss.scheduler;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -8,8 +9,8 @@ import sss.scheduler.objects.Subject;
 
 public class SubjectClassAllocation {
 	
-	// Contains a matrix, mapping the required amount of hours for each subject to each class.
-	private int[][] matrix;
+	// Contains a matrix of string vectors denoting needs and lengths of lesson hours for each subject and class.
+	private String[][][] matrix;
 	private TreeMap<Subject, Integer> subjectMap;
 	private TreeMap<ClassInSchool, Integer> classMap;
 
@@ -22,7 +23,7 @@ public class SubjectClassAllocation {
 	 * @param nClasses Number of classes in school.
 	 */
 	public SubjectClassAllocation (Map<String, Subject> subjects, Map<String, ClassInSchool> classes) {
-		matrix = new int[subjects.size()][classes.size()];
+		matrix = new String[subjects.size()][classes.size()][];
 		subjectMap = new TreeMap<Subject, Integer>();
 		classMap = new TreeMap<ClassInSchool, Integer>();
 		
@@ -54,8 +55,9 @@ public class SubjectClassAllocation {
 	 * @param c The class to allocate the teacher to.
 	 * @param n The amount of hours to allocate.
 	 */
-	public void allocateHours(Subject s, ClassInSchool c, int n) {
-		matrix[subjectMap.get(s)][classMap.get(c)] = n;
+	public void allocateHourNeeds(Subject s, ClassInSchool c, ArrayList<String> n) {
+		String[] stringArray = n.toArray(new String[n.size()]);
+		matrix[subjectMap.get(s)][classMap.get(c)] = stringArray;
 	}
 	
 	/**
@@ -64,10 +66,11 @@ public class SubjectClassAllocation {
 	 * @param classString The String identifier of the class to allocate the teacher to.
 	 * @param n The amount of hours to allocate.
 	 */
-	public void allocateHours(String subjectString, String classString, int n) {
+	public void allocateHourNeeds(String subjectString, String classString, ArrayList<String> n) {
+		String[] stringArray = n.toArray(new String[n.size()]);
 		Subject s = subjects.get(subjectString);
 		ClassInSchool c = classes.get(classString);
-		matrix[subjectMap.get(s)][classMap.get(c)] = n;
+		matrix[subjectMap.get(s)][classMap.get(c)] = stringArray;
 	}
 	
 	/**
@@ -76,7 +79,7 @@ public class SubjectClassAllocation {
 	 * @param c The class for which the teacher is returned
 	 * @return The amount of hours class c needs for subject s.
 	 */
-	public int getHours(Subject s, ClassInSchool c) {
+	public String[] getHours(Subject s, ClassInSchool c) {
 		return matrix[subjectMap.get(s)][classMap.get(c)];
 	}
 	
@@ -86,7 +89,7 @@ public class SubjectClassAllocation {
 	 * @param classString The String identifier of the class for which the teacher is returned
 	 * @return The amount of hours the class needs for the subject.
 	 */
-	public int getHours(String subjectString, String classString) {
+	public String[] getHours(String subjectString, String classString) {
 		Subject s = subjects.get(subjectString);
 		ClassInSchool c = classes.get(classString);			
 		return matrix[subjectMap.get(s)][classMap.get(c)];

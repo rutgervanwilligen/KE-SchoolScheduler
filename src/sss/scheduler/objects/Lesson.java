@@ -2,48 +2,57 @@ package sss.scheduler.objects;
 
 import java.util.ArrayList;
 
-public class Lesson implements Comparable<Lesson> {
+public abstract class Lesson implements Comparable<Lesson> {
 
-	private Classroom classroom;
-	private Teacher teacher;
-	private ClassInSchool classInSchool;
-	private ArrayList<Student> students;
-	private Subject subject;
+	protected Classroom classroom;
+	protected Teacher teacher;
+	protected ClassInSchool classInSchool;
+	protected ArrayList<Student> students;
+	protected Subject subject;
 	
-	private LessonHour hour;
+	protected LessonHour firstHour;
+	protected LessonHour secondHour;
+	protected boolean doubleHour;
 	
-	protected int ranking;
-	
+	private boolean allowedInGeneralRoom;
+	private boolean needsComputerRoom;
+		
 	/**
 	 * Creates lesson object with weekday and hour, without other contents
 	 * @param hour Hour of the lesson
 	 */
-	public Lesson(LessonHour hour) {
-		this.hour = hour;
+	public Lesson(LessonHour firstHour, LessonHour secondHour, boolean doubleHour) {
+		this.firstHour = firstHour;
+		this.secondHour = secondHour;
+		this.doubleHour = doubleHour;
 		classroom = null;
 		teacher = null;
 		classInSchool = null;
 		students = new ArrayList<Student>();
 		subject = null;
-		ranking = 0;
 	}
 	
 	/**
 	 * Create Lesson object with all fields instantiated. The students included in the class
 	 * are the students included in the ClassInSchool object.
-	 * @param weekday Weekday of the lesson
 	 * @param hour Hour of the lesson
 	 * @param subject Subject of the lesson
 	 * @param classroom Classroom of the lesson
 	 * @param teacher Teacher of the lesson
 	 * @param classInSchool Class that gets taught
 	 */
-	public Lesson(LessonHour hour, Subject subject, Classroom classroom, Teacher teacher, ClassInSchool classInSchool) {
+	public Lesson(LessonHour firstHour, LessonHour secondHour, boolean doubleHour, Subject subject, 
+			Classroom classroom, Teacher teacher, ClassInSchool classInSchool, boolean allowedInGeneralRoom,
+			boolean needsComputerRoom) {
 		students = new ArrayList<Student>();
-		this.hour = hour;
+		this.firstHour = firstHour;
+		this.secondHour = secondHour;
+		this.doubleHour = doubleHour;
 		this.subject = subject;
 		this.classroom = classroom;
 		this.teacher = teacher;
+		this.allowedInGeneralRoom = allowedInGeneralRoom;
+		this.needsComputerRoom = needsComputerRoom;
 		setClassInSchool(classInSchool);
 	}
 
@@ -53,13 +62,33 @@ public class Lesson implements Comparable<Lesson> {
 	 * @param teacher Teacher of the lesson
 	 * @param classInSchool Class that gets taught
 	 */
-	public Lesson(Subject subject, Teacher teacher, ClassInSchool classInSchool) {
+	public Lesson(boolean doubleHour, Subject subject, Teacher teacher, ClassInSchool classInSchool,
+			boolean allowedInGeneralRoom, boolean needsComputerRoom) {
 		students = new ArrayList<Student>();
+		this.doubleHour = doubleHour;
 		this.subject = subject;
 		this.teacher = teacher;
 		setClassInSchool(classInSchool);
 		classroom = null;
-		hour = null;
+		firstHour = null;
+		this.allowedInGeneralRoom = allowedInGeneralRoom;
+		this.needsComputerRoom = needsComputerRoom;
+	}
+	
+	/**
+	 * Returns whether the lesson needs to be allocated in a computer room.
+	 * @return Returns whether the lesson needs to be allocated in a computer room.
+	 */
+	public boolean needsComputerRoom() {
+		return needsComputerRoom;
+	}
+	
+	/**
+	 * Returns whether the lesson can be allocated to a general room.
+	 * @return Returns whether the lesson can be allocated to a general room.
+	 */
+	public boolean allowedInGeneralRoom() {
+		return allowedInGeneralRoom;
 	}
 	
 	/**
@@ -75,23 +104,23 @@ public class Lesson implements Comparable<Lesson> {
 	 * @return Returns whether the lesson is allocated to a time slot.
 	 */
 	public boolean isAllocatedToTimeslot() {
-		return (hour != null);
+		return (firstHour != null);
 	}	
 	
 	/**
-	 * Allocate a lesson to a weekday and hour.
-	 * @param weekday The weekday to allocate the lesson to.
-	 * @param hour The hour to allocate the lesson to.
+	 * Returns whether the lesson is a double hour or not.
+	 * @return Boolean value indicating whether the lesson is a double hour or not.
 	 */
-	public void allocateTimeslot(LessonHour hour) {
-		this.hour = hour;
-	}
+	public boolean isDoubleHour() {
+		return doubleHour;
+	}	
 
 	/**
 	 * Removes the allocated time slot for this lesson.
 	 */
 	public void removeTimeslot() {
-		hour = null;
+		firstHour = null;
+		secondHour = null;
 	}
 	
 	/**
@@ -128,11 +157,10 @@ public class Lesson implements Comparable<Lesson> {
 	
 	/**
 	 * Returns whether the lesson is allocated for a specific weekday / hour combination.
-	 * @param weekday Weekday to test for.
-	 * @param hour Hour to test for.
+	 * @param firstHour First hour to test for.
 	 */
-	public boolean isAllocatedTo(LessonHour hour) {
-		return (hour.equals(this.hour));
+	public boolean isAllocatedTo(LessonHour firstHour) {
+		return (firstHour.equals(this.firstHour));
 	}		
 	
 	/**
@@ -246,54 +274,19 @@ public class Lesson implements Comparable<Lesson> {
 	 * @return Allocated weekday
 	 */
 	public Weekday getWeekday() {
-		return hour.getWeekday();
+		return firstHour.getWeekday();
 	}
 	
 	/**
-	 * Get the classroom of the lesson object.
-	 * @return Allocated hour
+	 * Get the first hour of the lesson object.
+	 * @return Allocated first hour
 	 */
 	public LessonHour getHour() {
-		return hour;
-	}
-
-	/**
-	 * Get the rank generated for selecting the best classroom. 
-	 * @return
-	 */
-	public int getRanking() {
-		return this.ranking;
-	}
-	
-	/**
-	 * Set the rank generated for selecting the best classroom. 
-	 * @return
-	 */
-	public void setRanking(int ranking) {
-		this.ranking = ranking;
+		return firstHour;
 	}
 
 	@Override
 	public int compareTo(Lesson o) {
-		Weekday thisWeekday = getWeekday();
-		Weekday otherWeekday = o.getWeekday();
-		if (thisWeekday.equals(otherWeekday)) {
-			return this.getHour().getStartTime().compareTo(o.getHour().getStartTime());
-		} else {
-			if (thisWeekday.equals(Weekday.MONDAY)) {
-				return -1;
-			} else if(thisWeekday.equals(Weekday.TUESDAY) && 
-					!otherWeekday.equals(Weekday.MONDAY)) {
-				return -1;
-			} else if(thisWeekday.equals(Weekday.WEDNESDAY) &&
-					!otherWeekday.equals(Weekday.TUESDAY) &&
-					!otherWeekday.equals(Weekday.MONDAY)) {
-				return -1;
-			} else if(thisWeekday.equals(Weekday.THURSDAY) &&
-					otherWeekday.equals(Weekday.FRIDAY)) {
-				return -1;
-			}
-		}
-		return 1;
+		return getHour().compareTo(o.getHour());
 	}
 }

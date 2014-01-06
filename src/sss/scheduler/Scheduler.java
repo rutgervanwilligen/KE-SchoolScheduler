@@ -1,6 +1,7 @@
 package sss.scheduler;
 import java.util.ArrayList;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 import jeops.conflict.PriorityConflictSet;
@@ -8,9 +9,11 @@ import sss.reasoner.ClassroomTimeslotAllocationKB;
 import sss.reasoner.LessonSelectionKB;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
+import sss.scheduler.objects.DoubleHourLesson;
 import sss.scheduler.objects.Lesson;
 import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Schedule;
+import sss.scheduler.objects.SingleHourLesson;
 import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Teacher;
 
@@ -109,17 +112,46 @@ public class Scheduler {
 				ClassInSchool c = classEntry.getValue();
 				Teacher t = teachersClasses.getTeacher(s, c);
 				
-				int numberOfClasses = subjectsClasses.getHours(s, c);
+				String[] classNeeds = subjectsClasses.getHours(s, c);
 				
-				while (numberOfClasses > 0) {
-					Lesson newLesson = new Lesson(s, t, c);
-					schedule.addLesson(newLesson);
-					numberOfClasses --;
+				for (int i=0; i<classNeeds.length; i++) {
+					parseAndAddLesson(classNeeds[i], s, c, t);
 				}
 			}
 		}
 	}
 
+	public void parseAndAddLesson (String lessonString, Subject s, ClassInSchool c, Teacher t) {
+		Scanner stringScanner = new Scanner(lessonString);
+		
+		int nHours = stringScanner.nextInt();
+		
+		if (nHours == 0) { // No lesson object created
+			return;
+		}
+		
+		boolean needsComputerRoom = false;
+		boolean allowedInGeneralRoom = false;
+		
+		if (stringScanner.hasNext()) {
+			String facility = stringScanner.next();
+			if (facility.equals("C")) {
+				needsComputerRoom = true;
+			} else if (facility.equals("ALG")) {
+				allowedInGeneralRoom = true;
+			}
+		}
+
+		if (nHours == 1) {
+			schedule.addLesson(new SingleHourLesson(s, t, c, allowedInGeneralRoom, needsComputerRoom));
+		} else if (nHours == 2) {
+			schedule.addLesson(new DoubleHourLesson(s, t, c, allowedInGeneralRoom, needsComputerRoom));
+		} else {
+			System.out.println("Input not sane: misread nHours");
+			System.exit(1);
+		}
+	}
+	
 	public Schedule getSchedule() {
 		return schedule;
 	}

@@ -117,16 +117,29 @@ public class Schedule {
 	}
 	
 	/**
-	 * Allocate a Lesson present in the scheduling set to a classroom, weekday and hour.
-	 * @param lesson Lesson object to allocate.
+	 * Allocate a SingleHourLesson present in the scheduling set to a classroom and hour.
+	 * @param lesson Single hour lesson object to allocate.
 	 * @param classroom Classroom object to allocate the lesson to.
-	 * @param weekday Weekday to allocate the lesson to.
 	 * @param hour Hour to allocate the lesson to.
 	 */
-	public void schedule(Lesson lesson, Classroom classroom, LessonHour hour) {
+	public void scheduleSingleHourLesson(SingleHourLesson lesson, Classroom classroom, LessonHour hour) {
 		lessonsToAllocate.remove(lesson);
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(hour);
+		allocatedLessons.add(lesson);
+	}
+	
+	/**
+	 * Allocate a DoubleHourLesson present in the scheduling set to a classroom and hour.
+	 * @param lesson Double hour lesson object to allocate.
+	 * @param classroom Classroom object to allocate the lesson to.
+	 * @param firstHour First hour to allocate the lesson to.
+	 * @param secondHour Second hour to allocate the lesson to.
+	 */
+	public void scheduleDoubleHourLesson(DoubleHourLesson lesson, Classroom classroom, LessonHour firstHour, LessonHour secondHour) {
+		lessonsToAllocate.remove(lesson);
+		lesson.setClassroom(classroom);
+		lesson.allocateTimeslot(firstHour, secondHour);
 		allocatedLessons.add(lesson);
 	}
 	

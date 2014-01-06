@@ -7,7 +7,8 @@ public class LessonHour implements Comparable<LessonHour> {
 	private final ClockValue startTime;
 	private final ClockValue endTime;
 	
-	public LessonHour(Weekday weekday, int number, int startTimeHour, int startTimeMinutes, int endTimeHour, int endTimeMinutes) {
+	public LessonHour(Weekday weekday, int number, int startTimeHour, int startTimeMinutes, 
+			int endTimeHour, int endTimeMinutes) {
 		this.weekday = weekday;
 		this.number = number;
 		startTime = new ClockValue(startTimeHour, startTimeMinutes);
