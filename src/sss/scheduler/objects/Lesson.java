@@ -140,6 +140,15 @@ public abstract class Lesson implements Comparable<Lesson> {
 	}
 	
 	/**
+	 * Returns whether the lesson is allocated to a classroom.
+	 * @param classroom Classroom object to test for.
+	 * @return Returns whether the lesson is allocated to the specified Classroom.
+	 */
+	public boolean isAllocatedTo(Classroom classroom) {
+		return classroom.getRoomNumber().equals(this.classroom.getRoomNumber());
+	}
+	
+	/**
 	 * Returns whether the lesson is allocated to a teacher.
 	 * @param teacher Teacher object to test for.
 	 */

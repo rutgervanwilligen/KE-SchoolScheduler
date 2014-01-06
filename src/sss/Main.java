@@ -58,9 +58,9 @@ public class Main {
 	 * Ask what output to write and print it?
 	 */
 	private static void writeOutput() {
-		OutputWriter outputWriter = new OutputWriter(scheduler.getSchedule(), classes);
-		outputWriter.writeClassSchedulesToFile();
-		
+		OutputWriter.writeClassroomSchedulesToFile(scheduler.getSchedule(), classrooms);
+		OutputWriter.writeClassSchedulesToFile(scheduler.getSchedule(), classes);
+		OutputWriter.writeTeacherSchedulesToFile(scheduler.getSchedule(), teachers);
 	}
 	
 	public static void main(String[] args) {

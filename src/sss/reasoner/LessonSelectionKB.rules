@@ -46,11 +46,13 @@ public ruleBase LessonSelectionKB {
     declarations
       Lesson lesson;
       Schedule schedule;
+    localdecl
+      String lessonName = lesson.getSubject().getName();
     conditions
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
     actions
-      System.out.println("lessonSelection3 fired");
+      System.out.println("lessonSelection3 fired for " + lessonName);
       schedule.addToSchedulingSet(lesson);
       modified(schedule);
   }

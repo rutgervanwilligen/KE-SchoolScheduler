@@ -50,16 +50,20 @@ public class Scheduler {
 	 */
 	public void createSchedule() {
 		addAllLessonsToSchedule();
-		createdLessonScheduleKB();
-		createdLessonAllocationKB();
-		
+		createLessonScheduleKB();
+		createLessonAllocationKB();
+		int i = 0;
 		while (schedule.containsUnallocatedLessons()) {
 			selectLessonToSchedule();
 			allocateLessonToClassroomAndTimeslot();
+			
+			i++;
+			if (i > 300)
+				break;
 		}
 	}
 	
-	protected void createdLessonScheduleKB() {
+	protected void createLessonScheduleKB() {
 		lessonSelectionKB = new LessonSelectionKB(new PriorityConflictSet());
 		lessonSelectionKB.tell(schedule);
 		for (Lesson lesson : schedule.getUnallocatedLessons()) {
@@ -67,7 +71,7 @@ public class Scheduler {
 		}
 	}
 	
-	protected void createdLessonAllocationKB() {
+	protected void createLessonAllocationKB() {
 		lessonAllocationKB = new ClassroomTimeslotAllocationKB();
 		
 		// Add schedule to KB

@@ -1,6 +1,6 @@
 bin/
 .classpath
 .settings/
-Jess71p2/
+output/
 src/sss/scheduler/objects/*.class
 src/sss/reasoner/*.class

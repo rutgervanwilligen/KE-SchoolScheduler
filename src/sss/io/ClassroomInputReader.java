@@ -47,7 +47,7 @@ public class ClassroomInputReader extends InputReader {
 		ArrayList<Subject> facilities = new ArrayList<Subject>();
 		
 		facilityScanner = new Scanner(facilityString);
-		facilityScanner.useDelimiter("|");
+		facilityScanner.useDelimiter("\\|");
 		
 		while (facilityScanner.hasNext()) {
 			String next = facilityScanner.next();

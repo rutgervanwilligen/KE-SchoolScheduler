@@ -144,7 +144,7 @@ public class Classroom {
 	 * @return Boolean value indicating whether the classroom is suited for the subject.
 	 */
 	public boolean isSuitedFor(Subject subject) {
-		return facilities.contains(subject);
+		return (facilities.contains(subject));
 	}
 	
 	/**

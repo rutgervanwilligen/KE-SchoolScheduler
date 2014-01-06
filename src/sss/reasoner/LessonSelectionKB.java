@@ -631,7 +631,7 @@ import sss.scheduler.objects.Schedule;
      * Executes the action part of the rule lessonSelection3
      */
     private void lessonSelection3() {
-      System.out.println("lessonSelection3 fired");
+      System.out.println("lessonSelection3 fired for " + (sss_scheduler_objects_Lesson_1.getSubject().getName()));
       sss_scheduler_objects_Schedule_1.addToSchedulingSet(sss_scheduler_objects_Lesson_1);
       modified(sss_scheduler_objects_Schedule_1);
       }
@@ -900,7 +900,7 @@ import sss.scheduler.objects.Schedule;
 /**
  * Knowledge base created by JEOPS from file LessonSelectionKB.rules
  *
- * @version Jan 4, 2014
+ * @version Jan 6, 2014
  */
 public class LessonSelectionKB extends jeops.AbstractKnowledgeBase {
 

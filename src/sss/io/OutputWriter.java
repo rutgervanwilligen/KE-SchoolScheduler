@@ -9,27 +9,32 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.Lesson;
 import sss.scheduler.objects.Schedule;
+import sss.scheduler.objects.Teacher;
 
 public class OutputWriter {
 
-	protected Schedule schedule;
+	protected static Schedule schedule;
 	protected TreeMap<String, ClassInSchool> classes;
-
-	public OutputWriter(Schedule schedule, TreeMap<String, ClassInSchool> classes) {
-		this.schedule = schedule;
-		this.classes = classes;
-	}
-
-	public void writeClassSchedulesToFile() {
+	
+	public static void writeClassroomSchedulesToFile(Schedule schedule, TreeMap<String, Classroom> classrooms) {
 		PrintWriter writer;
 		try {
-			writer = new PrintWriter("output/classSchedules.csv", "UTF-8");
-			for (Entry<String, ClassInSchool> entry : classes.entrySet()) {
-				System.out.println(entry.getKey());
-				ClassInSchool classInSchool = entry.getValue();
-				writer.print(writeClassSchedule(classInSchool));
+			writer = new PrintWriter("output/classroomSchedules.csv", "UTF-8");
+			for (Entry<String, Classroom> entry : classrooms.entrySet()) {
+				Classroom classroom = entry.getValue();
+				String scheduleString = classroom.getRoomNumber() + "\n";
+				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
+				Collections.sort(lessons);
+				
+				for (Lesson lesson : lessons) {
+					if (lesson.isAllocatedTo(classroom))
+						scheduleString += writeLesson(lesson);
+				}
+				scheduleString+= "\n";
+				writer.print(scheduleString);
 			}
 			writer.close();
 		} catch (FileNotFoundException e) {
@@ -39,23 +44,61 @@ public class OutputWriter {
 		}
 	}
 
-	private String writeClassSchedule(ClassInSchool classInSchool) {
-		String schedule = classInSchool.getName() + "\n";
-		ArrayList<Lesson> lessons = this.schedule.getAllocatedLessons();
-		Collections.sort(lessons);
-		
-		for (Lesson lesson : lessons) {
-			if (lesson.isAllocatedTo(classInSchool))
-				schedule += lesson.getWeekday().name() + ", " +
-							lesson.getHour().getStartTime().getHours() + ":" + lesson.getHour().getStartTime().getMinutes() + "-" + 
-							lesson.getHour().getEndTime().getHours() + ":" + lesson.getHour().getEndTime().getMinutes() + ", " +
-							lesson.getSubject().getName() + "\n";
+	public static void writeClassSchedulesToFile(Schedule schedule, TreeMap<String, ClassInSchool> classes) {
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("output/classSchedules.csv", "UTF-8");
+			for (Entry<String, ClassInSchool> entry : classes.entrySet()) {
+				ClassInSchool classInSchool = entry.getValue();
+				String scheduleString = classInSchool.getName() + "\n";
+				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
+				Collections.sort(lessons);
+				
+				for (Lesson lesson : lessons) {
+					if (lesson.isAllocatedTo(classInSchool))
+						scheduleString += writeLesson(lesson);
+				}
+				scheduleString+= "\n";
+				writer.print(scheduleString);
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
-		schedule+= "\n";
-		
-		return schedule;
 	}
-	
-	
 
+	public static void writeTeacherSchedulesToFile(Schedule schedule, TreeMap<String, Teacher> teachers) {
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("output/teacherSchedules.csv", "UTF-8");
+			for (Entry<String, Teacher> entry : teachers.entrySet()) {
+				Teacher teacher = entry.getValue();
+				String scheduleString = teacher.getCode() + "\n";
+				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
+				Collections.sort(lessons);
+				
+				for (Lesson lesson : lessons) {
+					if (lesson.isAllocatedTo(teacher))
+						scheduleString += writeLesson(lesson);
+				}
+				scheduleString+= "\n";
+				writer.print(scheduleString);
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected static String writeLesson(Lesson lesson) {
+		return lesson.getWeekday().name() + ", " +
+				lesson.getHour().getStartTime().getHours() + ":" + lesson.getHour().getStartTime().getMinutes() + "-" + 
+				lesson.getHour().getEndTime().getHours() + ":" + lesson.getHour().getEndTime().getMinutes() + ", " +
+				lesson.getSubject().getName() + ", " +
+				lesson.getClassroom().getRoomNumber() + "\n";
+	}
 }
