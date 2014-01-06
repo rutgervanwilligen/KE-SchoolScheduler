@@ -84,6 +84,14 @@ public class Teacher {
 	}
 	
 	/**
+	 * Checks whether the teacher is suited for a lesson
+	 * @param lesson The lesson to check for
+	 */
+	public boolean isSuitedFor(Lesson lesson) {
+		return subjects.contains(lesson.getSubject());
+	}
+	
+	/**
 	 * Returns the teacher's indicated availability on a given LessonHour.
 	 * @param lessonHour The lesson hour to check the teacher's availability of.
 	 * @return Teacher's availability on the given LessonHour.
@@ -109,5 +117,9 @@ public class Teacher {
 		if (t == null) return false;
 		if (!(t instanceof Teacher)) return false;
 		return ( ((Teacher)t).getCode().equals(this.getCode()));
+	}
+
+	public String getName() {
+		return name;
 	}
 }

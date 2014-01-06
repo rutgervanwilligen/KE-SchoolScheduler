@@ -3,6 +3,7 @@ package sss.io;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import sss.scheduler.objects.ClockValue;
 import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Weekday;
 
@@ -72,9 +73,24 @@ public class HourInputReader extends InputReader {
 	public ArrayList<LessonHour> read(String filePath) {
 		hours = new ArrayList<LessonHour>();
 		readFile(filePath);
+		
+		addNextHours();
 		System.out.println("Number of hours read: " +  hours.size());
 		
 		return hours;
 	}
 
+	public void addNextHours() {
+		for (LessonHour hour : hours) {
+			Weekday weekday = hour.getWeekday();
+			ClockValue endTime = hour.getEndTime();
+			
+			for (LessonHour nextHour : hours) {
+				if (nextHour.getWeekday().equals(weekday) && nextHour.getStartTime().equals(endTime)) {
+					hour.addNextHour(nextHour);
+				}
+			}
+		}
+	}
+	
 }

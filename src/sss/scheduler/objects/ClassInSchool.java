@@ -121,6 +121,13 @@ public abstract class ClassInSchool implements Comparable<ClassInSchool> {
 	}
 	
 	/**
+	 * Returns the class's size.
+	 */	
+	public int getSize() {
+		return size;
+	}	
+	
+	/**
 	 * Returns the class's education level.
 	 */	
 	public Level getLevel() {
@@ -129,23 +136,6 @@ public abstract class ClassInSchool implements Comparable<ClassInSchool> {
 	
 	public ArrayList<Student> getStudents () {
 		return studentList;
-	}
-	
-	public ArrayList<Lesson> getLessons() {
-		ArrayList<Lesson> result = new ArrayList<Lesson>();
-
-		// FIXME: temp invulling van lessons, moet nog aangepast worden.
-//		Lesson a = new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year));
-//		a.setSubject(new Subject("handenarbeid", "HA", false));
-//		result.add(a);
-//		Lesson b = new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year));
-//		b.setSubject(new Subject("lichamelijke opvoeding", "LO", false));
-//		result.add(b);
-//		Lesson c = new Lesson(Weekday.MONDAY, new LessonHour(year, year, year, year, year));
-//		c.setSubject(new Subject("nederlands", "NL", false));
-//		result.add(c);
-		
-		return result;
 	}
 	
 	@Override

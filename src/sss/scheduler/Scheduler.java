@@ -1,7 +1,6 @@
 package sss.scheduler;
 import java.util.ArrayList;
 import java.util.Map.Entry;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 import jeops.conflict.PriorityConflictSet;
@@ -52,14 +51,9 @@ public class Scheduler {
 		addAllLessonsToSchedule();
 		createLessonScheduleKB();
 		createLessonAllocationKB();
-		int i = 0;
 		while (schedule.containsUnallocatedLessons()) {
 			selectLessonToSchedule();
 			allocateLessonToClassroomAndTimeslot();
-			
-			i++;
-			if (i > 300)
-				break;
 		}
 	}
 	
@@ -86,13 +80,7 @@ public class Scheduler {
 		for (LessonHour hour : hours) {
 			lessonAllocationKB.tell(hour);
 		}
-		
-		// Add teachers to KB
-		for (Entry<String, Teacher> entry : teachers.entrySet()) {
-			lessonAllocationKB.tell(entry.getValue());
-		}
 	}
-	
 	
 	public void selectLessonToSchedule() {
 		lessonSelectionKB.retract(schedule);
@@ -100,7 +88,8 @@ public class Scheduler {
 		lessonSelectionKB.run();
 	}
 	
-	public void allocateLessonToClassroomAndTimeslot() {// Add lessons from schedule's conflict set to KB
+	public void allocateLessonToClassroomAndTimeslot() {
+		// Add lessons from schedule's conflict set to KB
 		for (Lesson lesson : schedule.getSchedulingSet()) {
 			lessonAllocationKB.tell(lesson);
 		}
@@ -117,32 +106,33 @@ public class Scheduler {
 				Teacher t = teachersClasses.getTeacher(s, c);
 				
 				String[] classNeeds = subjectsClasses.getHours(s, c);
-				
-				for (int i=0; i<classNeeds.length; i++) {
-					parseAndAddLesson(classNeeds[i], s, c, t);
+								
+				for (String string : classNeeds) {
+					parseAndAddLesson(string, s, c, t);
 				}
 			}
 		}
 	}
 
 	public void parseAndAddLesson (String lessonString, Subject s, ClassInSchool c, Teacher t) {
-		Scanner stringScanner = new Scanner(lessonString);
-		
-		int nHours = stringScanner.nextInt();
-		
+		int nHours = Character.getNumericValue(lessonString.charAt(0));
+
 		if (nHours == 0) { // No lesson object created
 			return;
 		}
-		
+				
 		boolean needsComputerRoom = false;
 		boolean allowedInGeneralRoom = false;
 		
-		if (stringScanner.hasNext()) {
-			String facility = stringScanner.next();
+		if (lessonString.length() > 1) {
+			String facility = lessonString.substring(1);
 			if (facility.equals("C")) {
 				needsComputerRoom = true;
 			} else if (facility.equals("ALG")) {
 				allowedInGeneralRoom = true;
+			} else {
+				System.out.println("Input not sane -- String mismatch, ALG or C not read");
+				System.exit(1);
 			}
 		}
 

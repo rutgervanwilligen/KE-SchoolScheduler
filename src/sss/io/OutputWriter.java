@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
+import sss.scheduler.objects.DoubleHourLesson;
 import sss.scheduler.objects.Lesson;
 import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.Teacher;
@@ -95,10 +96,22 @@ public class OutputWriter {
 	}
 
 	protected static String writeLesson(Lesson lesson) {
-		return lesson.getWeekday().name() + ", " +
-				lesson.getHour().getStartTime().getHours() + ":" + lesson.getHour().getStartTime().getMinutes() + "-" + 
-				lesson.getHour().getEndTime().getHours() + ":" + lesson.getHour().getEndTime().getMinutes() + ", " +
-				lesson.getSubject().getName() + ", " +
-				lesson.getClassroom().getRoomNumber() + "\n";
+		System.out.println(lesson.getSubject().getName());
+		System.out.println(lesson.getTeacher().getName());
+		String result = lesson.getWeekday().name() + ", " +
+					lesson.getHour().getStartTime().getHours() + ":" + lesson.getHour().getStartTime().getMinutes() + "-" + 
+					lesson.getHour().getEndTime().getHours() + ":" + lesson.getHour().getEndTime().getMinutes() + ", " +
+					lesson.getSubject().getName() + ", " +
+					lesson.getTeacher().getName() + ", " +
+					lesson.getClassroom().getRoomNumber() + "\n";
+		if (lesson instanceof DoubleHourLesson) {
+			result += lesson.getWeekday().name() + ", " +
+					lesson.getHour().getNextHour().getStartTime().getHours() + ":" + lesson.getHour().getNextHour().getStartTime().getMinutes() + "-" + 
+					lesson.getHour().getNextHour().getEndTime().getHours() + ":" + lesson.getHour().getNextHour().getEndTime().getMinutes() + ", " +
+					lesson.getSubject().getName() + ", " +
+					lesson.getTeacher().getName() + ", " +
+					lesson.getClassroom().getRoomNumber() + "\n";
+		}
+		return result;
 	}
 }

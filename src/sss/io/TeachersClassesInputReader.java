@@ -28,10 +28,26 @@ public class TeachersClassesInputReader extends InputReader {
 		lineScanner = new Scanner(line);
 		lineScanner.useDelimiter(";");
 		
+		String className = lineScanner.next();
+		
+		parseUnits(className, lineScanner.next());
+		
 		lineScanner.close();
+	}
 	
-	//	TODO Parsen uit vakkenurenaantallen.csv. Nogal lastig ivm onleesbare/variabele kolommen.	
-	//	subjectsClasses.allocateHours(subjectString, classString, n);
+	public void parseUnits(String className, String units) {
+		Scanner unitScanner = new Scanner(units);
+		unitScanner.useDelimiter("\\|");
+		
+		while (unitScanner.hasNext()) {
+			Scanner tupleScanner = new Scanner(unitScanner.next());
+			tupleScanner.useDelimiter("-");
+			
+			String subjectCode = tupleScanner.next();
+			String teacherCode = tupleScanner.next();
+			
+			teachersClasses.allocateTeacher(teacherCode, subjectCode, className);
+		}
 	}
 	
 	public TeacherClassAllocation read(String filePath) {

@@ -52,6 +52,7 @@ public class ClassroomInputReader extends InputReader {
 		while (facilityScanner.hasNext()) {
 			String next = facilityScanner.next();
 			if (next.equals("ALG")) {
+				
 				general = true;
 			} else if (next.equals("CP")) {
 				computers = true;
@@ -59,11 +60,13 @@ public class ClassroomInputReader extends InputReader {
 				facilities.add(subjects.get(next));
 			}
 		}
-		
+		if (name.equals("0.05")) {
+			System.out.println("algemeen boolean: " + computers);
+		}
 		lineScanner.close();
 		facilityScanner.close();
 		
-		classrooms.put(name, new Classroom(name, capacity, location, floor, general, computers, facilities, hours.size()));
+		classrooms.put(name, new Classroom(name, capacity, location, floor, computers, general, facilities, hours.size()));
 	}
 
 	public TreeMap<String, Classroom> read(String filePath) {

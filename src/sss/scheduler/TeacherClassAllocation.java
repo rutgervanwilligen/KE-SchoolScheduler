@@ -70,7 +70,7 @@ public class TeacherClassAllocation {
 	 * @param subjectString The String identifier of the subject to allocate the teacher to.
 	 * @param classString The String identifier of the class to allocate the teacher to.
 	 */
-	public void allocateTeacher(String teacherString, Subject subjectString, ClassInSchool classString) {
+	public void allocateTeacher(String teacherString, String subjectString, String classString) {
 		Teacher t = teachers.get(teacherString);
 		Subject s = subjects.get(subjectString);
 		ClassInSchool c = classes.get(classString);

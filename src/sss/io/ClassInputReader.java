@@ -40,7 +40,7 @@ public class ClassInputReader extends InputReader {
 					
 		lineScanner.close();
 		
-		if (levelString.equals('H')) {
+		if (levelString.equals("H")) {
 			level = Level.HAVO;
 		} else {
 			level = Level.VWO;

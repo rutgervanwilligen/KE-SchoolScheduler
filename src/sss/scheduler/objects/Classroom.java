@@ -153,9 +153,14 @@ public class Classroom {
 	 * @return Boolean value indicating whether the classroom is suited for the subject.
 	 */
 	public boolean isSuitedFor(Lesson lesson) {
-		if (lesson.needsComputerRoom() != computerRoom) return false;
-		if (lesson.allowedInGeneralRoom() != generalUse) return false;
-		return facilities.contains(lesson.getSubject());
+		if (capacity < lesson.getClassInSchool().getSize()) return false;
+		if (lesson.needsComputerRoom() && computerRoom) {
+			return true;
+		}
+		if (lesson.allowedInGeneralRoom() && generalUse) {
+			return true;
+		}
+		return (facilities.contains(lesson.getSubject()));
 	}
 	
 	/**

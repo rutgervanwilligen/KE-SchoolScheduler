@@ -43,4 +43,7 @@ public class ClockValue implements Comparable<ClockValue>{
 		}
 	}
 	
+	public boolean equals(ClockValue cv) {
+		return (compareTo(cv) == 0);
+	}
 }

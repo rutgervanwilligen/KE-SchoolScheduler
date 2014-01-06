@@ -1,7 +1,7 @@
 naam;code;vakken;graad;wekelijkse-uren;uren-beschikbaar;uren-onbeschikbaar;uren-liever-niet
 G. Barendse;GB;WI;1;20;1-50;none;none
 A. van Willigen;AW;WI;1;20;1-20|26-45;21-25;46-50
-A. ten Teije;AT;LO;1;20;1-50;none;none
+A. ten Teije;AT;LO|MU;1;20;1-50;none;none
 F. van Harmelen;FH;HV;1;20;1-50;none;none
 A. Brouwer;AB;NL;1;20;1-50;none;none
 D. Florius;DF;LA|GR;1;32;1-50;none;none
@@ -10,5 +10,8 @@ T. Rustenburg;TR;BI;2;20;1-50;none;none
 B. Halekor;BH;AK;2;23;1-50;none;none
 C. de Vries;CV;EN;2;20;1-50;none;none
 I. Uytdehaage;IU;ML;2;20;1-50;none;none
-J. Jansen;JA;ML;2;20;1-50;none;none
 A. Noniem;AN;FA;1;20;1-50;none;none
+C. Omputernerd;CO;IN;1;20;1-50;none;none
+F. Lapdrol;FL;MU;1;20;1-50;none;none
+H. Elium;HE;NA;2;20;1-50;none;none
+R. Eactie;RE;SK;2;20;1-50;none;none
