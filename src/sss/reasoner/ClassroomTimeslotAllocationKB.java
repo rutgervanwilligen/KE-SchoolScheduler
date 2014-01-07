@@ -376,13 +376,7 @@ import sss.scheduler.objects.ClassInSchool;
      */
     private void allocationRule1() {
       System.out.println("allocationRule1 fired");
-  	  sss_scheduler_objects_Schedule_1.scheduleDoubleHourLesson(sss_scheduler_objects_DoubleHourLesson_1, sss_scheduler_objects_Classroom_1, sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_LessonHour_1.getNextHour()));
-  	  sss_scheduler_objects_Classroom_1.setToUnavailable(sss_scheduler_objects_LessonHour_1);
-  	  sss_scheduler_objects_Classroom_1.setToUnavailable((sss_scheduler_objects_LessonHour_1.getNextHour()));
-  	  (sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()).setToUnavailable(sss_scheduler_objects_LessonHour_1);
-  	  (sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()).setToUnavailable((sss_scheduler_objects_LessonHour_1.getNextHour()));
-  	  (sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).setToUnavailable(sss_scheduler_objects_LessonHour_1);
-  	  (sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).setToUnavailable((sss_scheduler_objects_LessonHour_1.getNextHour()));
+  	  sss_scheduler_objects_Schedule_1.scheduleDoubleHourLesson(sss_scheduler_objects_DoubleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_DoubleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_LessonHour_1.getNextHour()));
   	  modified(sss_scheduler_objects_Schedule_1);
   	  modified(sss_scheduler_objects_Classroom_1);
   	  modified((sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()));
@@ -683,10 +677,7 @@ import sss.scheduler.objects.ClassInSchool;
      */
     private void allocationRule2() {
       System.out.println("allocationRule2 fired");
-  	  sss_scheduler_objects_Schedule_1.scheduleSingleHourLesson(sss_scheduler_objects_SingleHourLesson_1, sss_scheduler_objects_Classroom_1, sss_scheduler_objects_LessonHour_1);
-  	  sss_scheduler_objects_Classroom_1.setToUnavailable(sss_scheduler_objects_LessonHour_1);
-  	  (sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()).setToUnavailable(sss_scheduler_objects_LessonHour_1);
-  	  (sss_scheduler_objects_SingleHourLesson_1.getTeacher()).setToUnavailable(sss_scheduler_objects_LessonHour_1);
+  	  sss_scheduler_objects_Schedule_1.scheduleSingleHourLesson(sss_scheduler_objects_SingleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_SingleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1);
   	  modified(sss_scheduler_objects_Schedule_1);
   	  modified(sss_scheduler_objects_Classroom_1);
   	  modified((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()));
@@ -1043,10 +1034,7 @@ import sss.scheduler.objects.ClassInSchool;
      */
     private void allocationRule3() {
       System.out.println("allocationRule3 fired");
-  	  sss_scheduler_objects_Schedule_1.scheduleSingleHourLesson(sss_scheduler_objects_SingleHourLesson_1, sss_scheduler_objects_Classroom_1, sss_scheduler_objects_LessonHour_1);
-  	  sss_scheduler_objects_Classroom_1.setToUnavailable(sss_scheduler_objects_LessonHour_1);
-  	  (sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()).setToUnavailable(sss_scheduler_objects_LessonHour_1);
-  	  (sss_scheduler_objects_SingleHourLesson_1.getTeacher()).setToUnavailable(sss_scheduler_objects_LessonHour_1);
+  	  sss_scheduler_objects_Schedule_1.scheduleSingleHourLesson(sss_scheduler_objects_SingleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_SingleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1);
   	  modified(sss_scheduler_objects_Schedule_1);
   	  modified(sss_scheduler_objects_Classroom_1);
   	  modified((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()));
@@ -1321,7 +1309,7 @@ import sss.scheduler.objects.ClassInSchool;
 /**
  * Knowledge base created by JEOPS from file ClassroomTimeslotAllocationKB.rules
  *
- * @version Jan 6, 2014
+ * @version Jan 7, 2014
  */
 public class ClassroomTimeslotAllocationKB extends jeops.AbstractKnowledgeBase {
 
