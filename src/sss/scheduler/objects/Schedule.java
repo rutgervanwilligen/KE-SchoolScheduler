@@ -141,11 +141,33 @@ public class Schedule {
 	 * @param classroom Classroom object to allocate the lesson to.
 	 * @param hour Hour to allocate the lesson to.
 	 */
-	public void scheduleSingleHourLesson(SingleHourLesson lesson, Classroom classroom, LessonHour hour) {
-		schedulingSet.remove(lesson);
+	public void scheduleSingleHourLesson(SingleHourLesson lesson, Classroom classroom, ClassInSchool classInSchool, Teacher teacher, LessonHour hour) {
+	  	schedulingSet.remove(lesson);
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(hour);
+	  	classroom.setToUnavailable(hour);
+	  	classInSchool.setToUnavailable(hour);
+	  	teacher.setToUnavailable(hour);
+	  	
 		allocatedLessons.add(lesson);
+	}
+	
+	/**
+	 * Deschedules a lesson. Also takes into account the availability of teacher, classroom, etc.
+	 * @param lesson
+	 */
+	protected void descheduleSingleHourLesson(SingleHourLesson lesson) {
+		allocatedLessons.remove(lesson);
+		
+		Classroom classroom = lesson.removeClassroom();
+		Teacher teacher = lesson.getTeacher();
+		ClassInSchool classInSchool = lesson.getClassInSchool();
+		LessonHour hour = lesson.unallocateTimeslot(1);
+	  	classroom.setToAvailable(hour);
+	  	classInSchool.setToAvailable(hour);
+	  	teacher.setToAvailable(hour);
+	  	
+	  	schedulingSet.add(lesson);
 	}
 	
 	/**
@@ -155,16 +177,85 @@ public class Schedule {
 	 * @param firstHour First hour to allocate the lesson to.
 	 * @param secondHour Second hour to allocate the lesson to.
 	 */
-	public void scheduleDoubleHourLesson(DoubleHourLesson lesson, Classroom classroom, LessonHour firstHour, LessonHour secondHour) {
+	public void scheduleDoubleHourLesson(DoubleHourLesson lesson, Classroom classroom, ClassInSchool classInSchool, Teacher teacher, LessonHour firstHour, LessonHour secondHour) {
 		schedulingSet.remove(lesson);
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(firstHour, secondHour);
+		classroom.setToUnavailable(firstHour);
+		classroom.setToUnavailable(secondHour);
+		classInSchool.setToUnavailable(firstHour);
+		classInSchool.setToUnavailable(secondHour);
+		teacher.setToUnavailable(firstHour);
+		teacher.setToUnavailable(secondHour);
+		
 		allocatedLessons.add(lesson);
 	}
 
 	public void markUnallocatableLessons() {
 		unallocatableLessons.addAll(schedulingSet);
 		schedulingSet.clear();
+	}
+	
+	/**
+	 * Deschedules a double lesson. Also takes into account the availability of teacher, classroom, etc.
+	 * @param lesson
+	 */
+	protected void descheduleDoubleHourLesson(DoubleHourLesson lesson) {
+		allocatedLessons.remove(lesson);
+		
+		Classroom classroom = lesson.removeClassroom();
+		Teacher teacher = lesson.getTeacher();
+		ClassInSchool classInSchool = lesson.getClassInSchool();
+		for (int i = 1; i < 2; i++) {
+			LessonHour hour = lesson.unallocateTimeslot(i);
+		  	classroom.setToAvailable(hour);
+		  	classInSchool.setToAvailable(hour);
+		  	teacher.setToAvailable(hour);	
+		}
+	  	
+	  	schedulingSet.add(lesson);
+	}
+	
+	/**
+	 * Deschedule the given lesson.
+	 * @param lesson Lesson to deschedule
+	 */
+	public void descheduleLesson(Lesson lesson) {
+		if (lesson.isDoubleHour()) {
+			descheduleDoubleHourLesson((DoubleHourLesson)lesson);
+		} else {
+			descheduleSingleHourLesson((SingleHourLesson)lesson);
+		}
+	}
+	
+	/**
+	 * Swap the timeslots of lesson 1 and lesson 2.
+	 * @param lesson1 Lesson to swap
+	 * @param lesson2 Lesson to swap
+	 */
+	public void swapLessons(Lesson lesson1, Lesson lesson2) {
+		LessonHour newFirstHourLesson1 = lesson2.getHour();
+		LessonHour newFirstHourLesson2 = lesson1.getHour();
+		
+		Classroom classroom1 = lesson1.getClassroom();
+		Classroom classroom2 = lesson2.getClassroom();
+
+		descheduleLesson(lesson1);
+		descheduleLesson(lesson2);
+		
+		if (lesson1.isDoubleHour()) {
+			LessonHour newSecondHourLesson1 = newFirstHourLesson1.getNextHour();
+			scheduleDoubleHourLesson((DoubleHourLesson)lesson1, classroom1, lesson1.getClassInSchool(), lesson1.getTeacher(), newFirstHourLesson1, newSecondHourLesson1);
+		} else {
+			scheduleSingleHourLesson((SingleHourLesson)lesson1, classroom1, lesson1.getClassInSchool(), lesson1.getTeacher(), newFirstHourLesson1);
+		}
+		
+		if (lesson2.isDoubleHour()) {
+			LessonHour newSecondHourLesson2 = newFirstHourLesson2.getNextHour();
+			scheduleDoubleHourLesson((DoubleHourLesson)lesson2, classroom2, lesson2.getClassInSchool(), lesson2.getTeacher(), newFirstHourLesson2, newSecondHourLesson2);
+		} else {
+			scheduleSingleHourLesson((SingleHourLesson)lesson2, classroom2, lesson2.getClassInSchool(), lesson2.getTeacher(), newFirstHourLesson2);
+		}
 	}
 	
 }

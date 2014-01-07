@@ -125,9 +125,13 @@ public abstract class Lesson implements Comparable<Lesson> {
 	
 	/**
 	 * Removes the allocated classroom for this lesson.
+	 * @return 
 	 */
-	public void removeClassroom() {
+	public Classroom removeClassroom() {
+		Classroom result = classroom;
 		classroom = null;
+		
+		return result;
 	}
 	
 	/**
@@ -293,9 +297,50 @@ public abstract class Lesson implements Comparable<Lesson> {
 	public LessonHour getHour() {
 		return firstHour;
 	}
+	
+	/**
+	 * Get the second hour of the lesson object.
+	 * @return Allocated second hour
+	 */
+	public LessonHour getSecondHour() {
+		return secondHour;
+	}
+
+	/**
+	 * Set the first lesson hour.
+	 * @param hour LessonHour to set
+	 */
+	public void setHour(LessonHour hour) {
+		this.firstHour = hour;
+	}
+
+	/**
+	 * Set the second lesson hour.
+	 * @param hour LessonHour to set
+	 */
+	public void setSecondHour(LessonHour hour) {
+		this.secondHour = hour;
+	}
 
 	@Override
 	public int compareTo(Lesson o) {
 		return getHour().compareTo(o.getHour());
 	}
+
+	public LessonHour unallocateTimeslot(int hourNumber) {
+		LessonHour hour;
+		switch (hourNumber) {
+		case 1:
+			hour = firstHour;
+			firstHour = null;
+			return hour;
+		case 2:
+			hour = secondHour;
+			secondHour = null;
+			return hour;
+		default:
+			return null;
+		}
+	}
+
 }
