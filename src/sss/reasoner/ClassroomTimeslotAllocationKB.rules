@@ -40,7 +40,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
       teacher.getScheduledValue(hour) == Availability.AVAILABLE;
       teacher.getScheduledValue(nextHour) == Availability.AVAILABLE;
     actions
-      System.out.println("allocationRule1 fired");
+//      System.out.println("allocationRule1 fired");
   	  schedule.scheduleDoubleHourLesson(lessonToAllocate, classroom, hour, nextHour);
   	  classroom.setToUnavailable(hour);
   	  classroom.setToUnavailable(nextHour);
@@ -74,7 +74,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.getAvailability(hour) == Availability.AVAILABLE;
       teacher.getScheduledValue(hour) == Availability.AVAILABLE;
     actions
-      System.out.println("allocationRule2 fired");
+//      System.out.println("allocationRule2 fired");
   	  schedule.scheduleSingleHourLesson(lessonToAllocate, classroom, hour);
   	  classroom.setToUnavailable(hour);
   	  classToAllocate.setToUnavailable(hour);
@@ -110,7 +110,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.getAvailability(hour) == Availability.AVAILABLE;
       teacher.getScheduledValue(hour) == Availability.AVAILABLE;
     actions
-      System.out.println("allocationRule3 fired");
+//      System.out.println("allocationRule3 fired");
   	  schedule.scheduleSingleHourLesson(lessonToAllocate, classroom, hour);
   	  classroom.setToUnavailable(hour);
   	  classToAllocate.setToUnavailable(hour);

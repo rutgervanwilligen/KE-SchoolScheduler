@@ -6,6 +6,8 @@ import java.util.TreeMap;
 import jeops.conflict.PriorityConflictSet;
 import sss.reasoner.ClassroomTimeslotAllocationKB;
 import sss.reasoner.LessonSelectionKB;
+import sss.reasoner.LessonSwapKB;
+import sss.reasoner.ScheduleEvaluationKB;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.DoubleHourLesson;
@@ -29,6 +31,8 @@ public class Scheduler {
 
 	protected LessonSelectionKB lessonSelectionKB;
 	protected ClassroomTimeslotAllocationKB lessonAllocationKB;
+	protected LessonSwapKB lessonSwapKB;
+	protected ScheduleEvaluationKB scheduleEvaluationKB;
 	
 	public Scheduler(ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects, 
 			TreeMap<String, Teacher> teachers, TreeMap<String, Classroom> classrooms, 
@@ -49,16 +53,72 @@ public class Scheduler {
 	 */
 	public void createSchedule() {
 		addAllLessonsToSchedule();
-		createLessonScheduleKB();
+		
+		createLessonSelectionKB();
 		createLessonAllocationKB();
+		createLessonSwapKB();
+		createScheduleEvaluationKB();
+
 		while (schedule.containsUnallocatedLessons()) {
 			selectLessonToSchedule();
 			allocateLessonToClassroomAndTimeslot();
+			
+			if (schedule.getSchedulingSet().size() > 0) {
+				// Still some lessons left in scheduling set --> unallocatable
+				schedule.markUnallocatableLessons();
+				allocateLessonsThroughSwap();
+			}
 		}
+		
+//		evaluateSchedule();
+		
 	}
 	
-	protected void createLessonScheduleKB() {
+	protected void createScheduleEvaluationKB() {
+		scheduleEvaluationKB = new ScheduleEvaluationKB(); //TODO Conflict set?
+	}
+	
+	protected void evaluateSchedule() {
+		scheduleEvaluationKB.flush();
+		scheduleEvaluationKB.tell(schedule);
+		
+		for (Entry<String, Teacher> entry : teachers.entrySet()) {
+			scheduleEvaluationKB.tell(entry.getValue());
+		}
+		
+		for (Entry<String, ClassInSchool> entry : classes.entrySet()) {
+			scheduleEvaluationKB.tell(entry.getValue());
+		}
+		
+		for (Lesson lesson : schedule.getAllocatedLessons()) {
+			scheduleEvaluationKB.tell(lesson);
+		}
+		
+		scheduleEvaluationKB.run();
+	}
+	
+	protected void allocateLessonsThroughSwap() {
+		lessonSwapKB.flush();
+		lessonSwapKB.tell(schedule);
+		
+		for (Lesson lesson : schedule.getUnallocatableLessons()) {
+			lessonSwapKB.tell(lesson);
+		}
+		
+		for (Lesson lesson : schedule.getAllocatedLessons()) {
+			lessonSwapKB.tell(lesson);
+		}
+		
+		lessonSwapKB.run();
+	}
+	
+	protected void createLessonSwapKB() {
+		lessonSwapKB = new LessonSwapKB(new PriorityConflictSet()); //TODO priority conflict set?
+	}
+	
+	protected void createLessonSelectionKB() {
 		lessonSelectionKB = new LessonSelectionKB(new PriorityConflictSet());
+
 		lessonSelectionKB.tell(schedule);
 		for (Lesson lesson : schedule.getUnallocatedLessons()) {
 			lessonSelectionKB.tell(lesson);

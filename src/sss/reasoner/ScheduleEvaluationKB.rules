@@ -1,0 +1,25 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.Schedule;
+import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.Teacher;
+import sss.scheduler.objects.ClassInSchool;
+
+/**
+ * Rule base used to evaluate a schedule.
+ */
+public ruleBase ScheduleEvaluationKB {
+
+  rule evaluationRule1 {
+    declarations
+      Schedule schedule;
+      Lesson lesson;
+      Teacher teacher;
+      ClassInSchool classInSchool;
+    conditions
+      schedule.containsAllocatedLesson(lesson);
+    actions
+      System.out.println("evaluationRule1 fired");
+      modified(schedule);
+  }
+}

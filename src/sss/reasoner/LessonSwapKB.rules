@@ -1,0 +1,22 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.Schedule;
+
+/**
+ * Rule base used to swap lessons.
+ */
+public ruleBase LessonSwapKB {
+
+  rule lessonSwap1 {
+    declarations
+      Lesson lesson, lesson2;
+      Schedule schedule;
+    conditions
+      schedule.containsUnallocatableLesson(lesson);
+      schedule.containsAllocatedLesson(lesson2);
+    actions
+      System.out.println("lessonSwap1 fired");
+      modified(schedule);
+  }
+}

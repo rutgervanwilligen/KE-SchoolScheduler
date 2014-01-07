@@ -60,9 +60,7 @@ public class ClassroomInputReader extends InputReader {
 				facilities.add(subjects.get(next));
 			}
 		}
-		if (name.equals("0.05")) {
-			System.out.println("algemeen boolean: " + computers);
-		}
+
 		lineScanner.close();
 		facilityScanner.close();
 		

@@ -6,14 +6,16 @@ import sss.scheduler.objects.Lesson;
 
 public class Schedule {
 	
-	private ArrayList<Lesson> allocatedLessons;
 	private ArrayList<Lesson> unallocatedLessons;
-	private ArrayList<Lesson> lessonsToAllocate;
+	private ArrayList<Lesson> schedulingSet;
+	private ArrayList<Lesson> allocatedLessons;
+	private ArrayList<Lesson> unallocatableLessons;
 
 	public Schedule () {
 		allocatedLessons = new ArrayList<Lesson>();
 		unallocatedLessons = new ArrayList<Lesson>();
-		lessonsToAllocate = new ArrayList<Lesson>();
+		schedulingSet = new ArrayList<Lesson>();
+		unallocatableLessons = new ArrayList<Lesson>();
 	}
 	
 	/**
@@ -50,6 +52,15 @@ public class Schedule {
 	}
 	
 	/**
+	 * Returns whether a lesson object is unallocatable.
+	 * @param lesson Lesson to check.
+	 * @return Boolean value indicating whether the lesson is unallocatable.
+	 */
+	public boolean containsUnallocatableLesson(Lesson lesson) {
+		return unallocatableLessons.contains(lesson);
+	}
+	
+	/**
 	 * Returns whether a lesson object is present but unallocated.
 	 * @param lesson Lesson to check.
 	 * @return Boolean value indicating whether the lesson is allocated.
@@ -64,7 +75,7 @@ public class Schedule {
 	 * @return Boolean value indicating whether the lesson is in the scheduling set.
 	 */
 	public boolean containsLessonInSchedulingSet(Lesson lesson) {
-		return lessonsToAllocate.contains(lesson);
+		return schedulingSet.contains(lesson);
 	}
 	
 	/**
@@ -81,7 +92,7 @@ public class Schedule {
 	 */
 	public void addToSchedulingSet(Lesson lesson) {
 		unallocatedLessons.remove(lesson);
-		lessonsToAllocate.add(lesson);
+		schedulingSet.add(lesson);
 	}
 
 	/**
@@ -89,7 +100,7 @@ public class Schedule {
 	 * @return Returns whether the scheduling set is empty.
 	 */
 	public boolean schedulingSetIsEmpty() {
-		return lessonsToAllocate.isEmpty();
+		return schedulingSet.isEmpty();
 	}
 	
 	/**
@@ -97,7 +108,15 @@ public class Schedule {
 	 * @return ArrayList of lessons in the scheduling set.
 	 */
 	public ArrayList<Lesson> getSchedulingSet() {
-		return lessonsToAllocate;
+		return schedulingSet;
+	}
+	
+	/**
+	 * Returns the set of unallocatable
+	 * @return ArrayList of unallocatable lessons.
+	 */
+	public ArrayList<Lesson> getUnallocatableLessons() {
+		return unallocatableLessons;
 	}
 	
 	/**
@@ -123,7 +142,7 @@ public class Schedule {
 	 * @param hour Hour to allocate the lesson to.
 	 */
 	public void scheduleSingleHourLesson(SingleHourLesson lesson, Classroom classroom, LessonHour hour) {
-		lessonsToAllocate.remove(lesson);
+		schedulingSet.remove(lesson);
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(hour);
 		allocatedLessons.add(lesson);
@@ -137,10 +156,15 @@ public class Schedule {
 	 * @param secondHour Second hour to allocate the lesson to.
 	 */
 	public void scheduleDoubleHourLesson(DoubleHourLesson lesson, Classroom classroom, LessonHour firstHour, LessonHour secondHour) {
-		lessonsToAllocate.remove(lesson);
+		schedulingSet.remove(lesson);
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(firstHour, secondHour);
 		allocatedLessons.add(lesson);
+	}
+
+	public void markUnallocatableLessons() {
+		unallocatableLessons.addAll(schedulingSet);
+		schedulingSet.clear();
 	}
 	
 }

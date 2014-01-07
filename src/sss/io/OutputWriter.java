@@ -96,8 +96,6 @@ public class OutputWriter {
 	}
 
 	protected static String writeLesson(Lesson lesson) {
-		System.out.println(lesson.getSubject().getName());
-		System.out.println(lesson.getTeacher().getName());
 		String result = lesson.getWeekday().name() + ", " +
 					lesson.getHour().getStartTime().getHours() + ":" + lesson.getHour().getStartTime().getMinutes() + "-" + 
 					lesson.getHour().getEndTime().getHours() + ":" + lesson.getHour().getEndTime().getMinutes() + ", " +
