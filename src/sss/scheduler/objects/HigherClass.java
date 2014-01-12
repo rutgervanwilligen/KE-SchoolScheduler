@@ -1,6 +1,11 @@
 package sss.scheduler.objects;
 
+import sss.scheduler.properties.Level;
+
 public class HigherClass extends ClassInSchool {
+
+	public static final int LOWER_BOUND = 4;
+	public static final int HIGHER_BOUND = 6;
 
 	/**
 	 * Create new higher class in school.

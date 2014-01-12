@@ -1,5 +1,7 @@
 package sss.scheduler.objects;
 
+import sss.scheduler.properties.Level;
+
 public class LowerClass extends ClassInSchool {
 
 	/**

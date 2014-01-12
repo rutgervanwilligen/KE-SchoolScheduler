@@ -1,6 +1,7 @@
 package sss.io;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -30,12 +31,15 @@ public abstract class InputReader {
 			in.close();
 								
 		} catch (FileNotFoundException e) {
-			System.out.println("Error: input file not found!");
+			System.out.println("Error: input " + filePath + "file not found!");
+			System.exit(1);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 			System.exit(1);
 		}
 	}
 	
-	abstract void readLine(String line);
+	abstract void readLine(String line) throws IOException;
 
 	public static TreeMap<String, Teacher> readTeachersInfo(String filePath, 
 			ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects) {

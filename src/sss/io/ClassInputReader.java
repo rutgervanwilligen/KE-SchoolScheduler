@@ -1,5 +1,6 @@
 package sss.io;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -7,9 +8,9 @@ import java.util.TreeMap;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.HigherClass;
 import sss.scheduler.objects.LessonHour;
-import sss.scheduler.objects.Level;
 import sss.scheduler.objects.LowerClass;
 import sss.scheduler.objects.Teacher;
+import sss.scheduler.properties.Level;
 
 public class ClassInputReader extends InputReader {
 	
@@ -22,7 +23,7 @@ public class ClassInputReader extends InputReader {
 		ClassInputReader.teachers = teachers;
 	}
 	
-	protected void readLine(String line) {
+	protected void readLine(String line) throws IOException {
 		Scanner lineScanner;
 		Level level;
 		
@@ -37,16 +38,20 @@ public class ClassInputReader extends InputReader {
 		
 		String mentorString = lineScanner.next();
 		Teacher mentor = teachers.get(mentorString);
+		if (mentor == null)
+			throw(new IOException("Mentor " + mentorString + " for class " + name + " cannot be found in teachers."));
 					
 		lineScanner.close();
 		
 		if (levelString.equals("H")) {
 			level = Level.HAVO;
-		} else {
+		} else if (levelString.equals("V")) {
 			level = Level.VWO;
+		} else {
+			throw(new IOException("Read unexpected level for " + name + "in ClassInputReader."));
 		}
 		
-		if (year <= 3) {
+		if (year < HigherClass.LOWER_BOUND) {
 			classes.put(name, new LowerClass(name, level, year, letter, mentor, size, hours.size()));
 		} else {
 			classes.put(name, new HigherClass(name, level, year, letter, mentor, size, hours.size()));

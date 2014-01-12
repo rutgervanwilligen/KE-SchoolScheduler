@@ -2,6 +2,8 @@ package sss.scheduler.objects;
 
 import java.util.ArrayList;
 
+import sss.scheduler.properties.Weekday;
+
 public abstract class Lesson implements Comparable<Lesson> {
 
 	protected Classroom classroom;
@@ -16,7 +18,85 @@ public abstract class Lesson implements Comparable<Lesson> {
 	
 	private boolean allowedInGeneralRoom;
 	private boolean needsComputerRoom;
+
+	/*
+	 * Setters
+	 */
+	public void setClassroom(Classroom classroom) {
+		this.classroom = classroom;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+
+	public void setSubject(Subject subject) {
+		this.subject = subject;
+	}
+	
+	public void setStudents(ArrayList<Student> students) {
+		this.students = students;
+	}
+
+	public void setHour(LessonHour hour) {
+		this.firstHour = hour;
+	}
+
+	public void setSecondHour(LessonHour hour) {
+		this.secondHour = hour;
+	}
+	
+	/**
+	 * Allocate a ClassInSchool to the lesson object. Note that when calling this method,
+	 * the student list of the lesson is cleared and instantiated to the students in this ClassInSchool object.
+	 * @param classroom Classroom to be allocated
+	 */
+	public void setClassInSchool(ClassInSchool classInSchool) {
+		this.classInSchool = classInSchool;
 		
+		students.clear();
+		for (Student s : classInSchool.getStudents()) {
+			students.add(s);
+		}	
+	}
+
+
+	/*
+	 * Getters
+	 */
+	public Classroom getClassroom() {
+		return classroom;
+	}
+	
+	public Subject getSubject() {
+		return subject;
+	}
+	
+	public Teacher getTeacher() {
+		return teacher;
+	}
+	
+	public ClassInSchool getClassInSchool() {
+		return classInSchool;
+	}
+	
+	public ArrayList<Student> getStudents() {
+		return students;
+	}
+	
+	public Weekday getWeekday() {
+		return firstHour.getWeekday();
+	}
+	
+	public LessonHour getHour() {
+		return firstHour;
+	}
+	
+	public LessonHour getSecondHour() {
+		return secondHour;
+	}
+
+
 	/**
 	 * Creates lesson object with weekday and hour, without other contents
 	 * @param hour Hour of the lesson
@@ -174,44 +254,6 @@ public abstract class Lesson implements Comparable<Lesson> {
 	 */
 	public boolean isAllocatedTo(LessonHour firstHour) {
 		return (firstHour.equals(this.firstHour));
-	}		
-	
-	/**
-	 * Allocate a classroom to the lesson object.
-	 * @param classroom Classroom to be allocated
-	 */
-	public void setClassroom(Classroom classroom) {
-		this.classroom = classroom;
-	}
-	
-	/**
-	 * Allocate a teacher to the lesson object.
-	 * @param teacher Teacher to be allocated
-	 */
-	public void setTeacher(Teacher teacher) {
-		this.teacher = teacher;
-	}
-	
-	/**
-	 * Allocate a subject to the lesson object.
-	 * @param subject Subject to be allocated
-	 */
-	public void setSubject(Subject subject) {
-		this.subject = subject;
-	}
-	
-	/**
-	 * Allocate a ClassInSchool to the lesson object. Note that when calling this method,
-	 * the student list of the lesson is cleared and instantiated to the students in this ClassInSchool object.
-	 * @param classroom Classroom to be allocated
-	 */
-	public void setClassInSchool(ClassInSchool classInSchool) {
-		this.classInSchool = classInSchool;
-		
-		students.clear();
-		for (Student s : classInSchool.getStudents()) {
-			students.add(s);
-		}	
 	}
 	
 	/**
@@ -225,14 +267,6 @@ public abstract class Lesson implements Comparable<Lesson> {
 	}
 	
 	/**
-	 * Set the students to the lesson object. All previously allocated students are removed.
-	 * @param classroom Classroom to be allocated
-	 */
-	public void setStudents(ArrayList<Student> students) {
-		this.students = students;
-	}
-	
-	/**
 	 * Add an ArrayList of Students to the students allocated in this Lesson.
 	 * @param list ArrayList<Student> to be added
 	 */
@@ -241,106 +275,32 @@ public abstract class Lesson implements Comparable<Lesson> {
 			addStudent(s);
 		}
 	}
-	
-	/**
-	 * Get the classroom of the lesson object.
-	 * @return Allocated classroom
-	 */
-	public Classroom getClassroom() {
-		return classroom;
-	}
-	
-	/**
-	 * Get the subject of the lesson object.
-	 * @return Allocated subject
-	 */
-	public Subject getSubject() {
-		return subject;
-	}
-	
-	/**
-	 * Get the teacher of the lesson object.
-	 * @return Allocated teacher
-	 */
-	public Teacher getTeacher() {
-		return teacher;
-	}
-	
-	/**
-	 * Get the ClassInSchool of the lesson object.
-	 * @return Allocated ClassInSchool
-	 */
-	public ClassInSchool getClassInSchool() {
-		return classInSchool;
-	}
-	
-	/**
-	 * Get the list of students of the lesson object.
-	 * @return Allocated students
-	 */
-	public ArrayList<Student> getStudents() {
-		return students;
-	}
-	
-	/**
-	 * Get the weekday of the lesson object.
-	 * @return Allocated weekday
-	 */
-	public Weekday getWeekday() {
-		return firstHour.getWeekday();
-	}
-	
-	/**
-	 * Get the first hour of the lesson object.
-	 * @return Allocated first hour
-	 */
-	public LessonHour getHour() {
-		return firstHour;
-	}
-	
-	/**
-	 * Get the second hour of the lesson object.
-	 * @return Allocated second hour
-	 */
-	public LessonHour getSecondHour() {
-		return secondHour;
-	}
-
-	/**
-	 * Set the first lesson hour.
-	 * @param hour LessonHour to set
-	 */
-	public void setHour(LessonHour hour) {
-		this.firstHour = hour;
-	}
-
-	/**
-	 * Set the second lesson hour.
-	 * @param hour LessonHour to set
-	 */
-	public void setSecondHour(LessonHour hour) {
-		this.secondHour = hour;
-	}
 
 	@Override
 	public int compareTo(Lesson o) {
 		return getHour().compareTo(o.getHour());
 	}
 
+	/**
+	 * Unallocates the given lesson hour and returns the old value.
+	 * @param hourNumber int
+	 * @return LessonHour
+	 */
 	public LessonHour unallocateTimeslot(int hourNumber) {
 		LessonHour hour;
 		switch (hourNumber) {
 		case 1:
 			hour = firstHour;
 			firstHour = null;
-			return hour;
+			break;
 		case 2:
 			hour = secondHour;
 			secondHour = null;
-			return hour;
+			break;
 		default:
-			return null;
+			hour = null;
 		}
+		return hour;
 	}
 
 }

@@ -49,13 +49,11 @@ public class Main {
 	private static void startScheduler() {
 		scheduler = new Scheduler(hours, subjects, teachers, 
 				classrooms, classes, subjectsClasses, teachersClasses);
-		
-		System.out.println("Starting schedule creation");
 		scheduler.createSchedule();
 	}
 
 	/**
-	 * Ask what output to write and print it?
+	 * Prints the created schedule per classroom, class and teacher.
 	 */
 	private static void writeOutput() {
 		OutputWriter.writeClassroomSchedulesToFile(scheduler.getSchedule(), classrooms);

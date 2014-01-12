@@ -7,8 +7,8 @@ import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.Teacher;
 import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Classroom;
-import sss.scheduler.objects.Availability;
 import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.properties.Availability;
 
 /**
  * Rule base used to allocate a lesson object to a classroom and time slot.

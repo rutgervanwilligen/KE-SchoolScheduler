@@ -1,16 +1,39 @@
 package sss.scheduler.objects;
 import java.util.ArrayList;
 
-public class Teacher {
+import sss.scheduler.Resource;
+import sss.scheduler.properties.Availability;
+
+public class Teacher extends Resource {
 
 	protected String name;
 	protected String code;
 	protected int weeklyTeachingHours;
 	protected String grade;
 	protected ArrayList<Subject> subjects;
-	protected Availability[] availabilities;
 	protected Availability[] scheduledHours;
-		
+
+	/*
+	 * Getters 
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	
+	/**
+	 * Constructor
+	 * @param name
+	 * @param code
+	 * @param weeklyTeachingHours
+	 * @param subjects
+	 * @param grade
+	 * @param availabilities
+	 */
 	public Teacher (String name, String code, int weeklyTeachingHours, ArrayList<Subject> subjects, 
 			String grade, Availability[] availabilities) {
 		this.name = name;
@@ -34,56 +57,6 @@ public class Teacher {
 	}
 	
 	/**
-	 * Returns the teacher's (unique) code.
-	 * @return Teacher's unique code.
-	 */
-	public String getCode() {
-		return code;
-	}
-	
-	/**
-	 * Returns the availabilities index corresponding to a given lesson hour
-	 * @param lessonHour The lesson hour object to check
-	 * @return The index of the availabilities array corresponding to the lesson hour
-	 */
-	private int getLessonHourIndex(LessonHour lessonHour) {
-		int nHoursPerDay = availabilities.length / 5;
-		int hour = lessonHour.getHour();
-		switch (lessonHour.getWeekday()) {
-		case MONDAY:
-			return (hour - 1);
-		case TUESDAY:
-			return (nHoursPerDay * 1 + hour - 1);
-		case WEDNESDAY:
-			return (nHoursPerDay * 2 + hour - 1);
-		case THURSDAY:
-			return (nHoursPerDay * 3 + hour - 1);
-		case FRIDAY:
-			return (nHoursPerDay * 4 + hour - 1);
-		default:
-			System.out.println("Invalid input while getting lesson hour index");
-			System.exit(1);
-			return -1;
-		}
-	}
-	
-	/**
-	 * Makes the classroom unavailable for a given lesson hour
-	 * @param lessonHour The lesson hour to set.
-	 */
-	public void setToUnavailable(LessonHour lessonHour) {
-		scheduledHours[getLessonHourIndex(lessonHour)] = Availability.UNAVAILABLE;
-	}
-	
-	/**
-	 * Makes the classroom available for a given lesson hour
-	 * @param lessonHour The lesson hour to set.
-	 */
-	public void setToAvailable(LessonHour lessonHour) {
-		scheduledHours[getLessonHourIndex(lessonHour)] = Availability.AVAILABLE;
-	}
-	
-	/**
 	 * Checks whether the teacher is suited for a lesson
 	 * @param lesson The lesson to check for
 	 */
@@ -98,6 +71,15 @@ public class Teacher {
 	 */
 	public Availability getAvailability(LessonHour lessonHour) {
 		return availabilities[getLessonHourIndex(lessonHour)];
+	}
+	
+	/**
+	 * Returns whether the teacher is scheduled on a given lesson hour.
+	 * @param lessonHour The lesson hour to check.
+	 * @return Boolean value indicating whether the classroom is available.
+	 */
+	public boolean isScheduled(LessonHour lessonHour) {
+		return scheduledHours[getLessonHourIndex(lessonHour)] != Availability.AVAILABLE;
 	}
 	
 	/**
@@ -117,9 +99,5 @@ public class Teacher {
 		if (t == null) return false;
 		if (!(t instanceof Teacher)) return false;
 		return ( ((Teacher)t).getCode().equals(this.getCode()));
-	}
-
-	public String getName() {
-		return name;
 	}
 }

@@ -35,10 +35,10 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  classToAllocate.isAvailable(hour);
   	  classToAllocate.isAvailable(nextHour);
   	  teacher.isSuitedFor(lessonToAllocate);
-  	  teacher.getAvailability(hour) == Availability.AVAILABLE;
-  	  teacher.getAvailability(nextHour) == Availability.AVAILABLE;
-      teacher.getScheduledValue(hour) == Availability.AVAILABLE;
-      teacher.getScheduledValue(nextHour) == Availability.AVAILABLE;
+  	  teacher.isAvailable(hour);
+  	  teacher.isAvailable(nextHour);
+      !teacher.isScheduled(hour);
+      !teacher.isScheduled(nextHour);
     actions
 //      System.out.println("allocationRule1 fired");
   	  schedule.scheduleDoubleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour, nextHour);
@@ -65,8 +65,8 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  classroom.isAvailable(hour);
   	  classroom.isSuitedFor(lessonToAllocate);
   	  classToAllocate.isAvailable(hour);
-  	  teacher.getAvailability(hour) == Availability.AVAILABLE;
-      teacher.getScheduledValue(hour) == Availability.AVAILABLE;
+  	  teacher.isAvailable(hour);
+      !teacher.isScheduled(hour);
     actions
 //      System.out.println("allocationRule2 fired");
   	  schedule.scheduleSingleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
@@ -98,8 +98,8 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  !classroom.isSuitedFor(lessonToAllocate);
   	  classroom.isSuitedForGeneralUse();
   	  classToAllocate.isAvailable(hour);
-  	  teacher.getAvailability(hour) == Availability.AVAILABLE;
-      teacher.getScheduledValue(hour) == Availability.AVAILABLE;
+  	  teacher.isAvailable(hour);
+      !teacher.isScheduled(hour);
     actions
 //      System.out.println("allocationRule3 fired");
   	  schedule.scheduleSingleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);

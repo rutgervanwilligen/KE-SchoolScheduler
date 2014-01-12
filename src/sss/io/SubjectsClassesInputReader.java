@@ -1,5 +1,6 @@
 package sss.io;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -7,8 +8,8 @@ import java.util.TreeMap;
 
 import sss.scheduler.SubjectClassAllocation;
 import sss.scheduler.objects.ClassInSchool;
-import sss.scheduler.objects.Level;
 import sss.scheduler.objects.Subject;
+import sss.scheduler.properties.Level;
 
 public class SubjectsClassesInputReader extends InputReader {
 
@@ -21,7 +22,7 @@ public class SubjectsClassesInputReader extends InputReader {
 		SubjectsClassesInputReader.classes = classes;
 	}
 	
-	protected void readLine(String line) {
+	protected void readLine(String line) throws IOException {
 		Scanner lineScanner = new Scanner(line);
 		lineScanner.useDelimiter(";");
 		
@@ -35,7 +36,7 @@ public class SubjectsClassesInputReader extends InputReader {
 		lineScanner.close();
 	}
 	
-	protected void parseUnit(String unit, String subjectString) {
+	protected void parseUnit(String unit, String subjectString) throws IOException {
 		Scanner unitScanner = new Scanner(unit);
 		unitScanner.useDelimiter("\\|");
 		
@@ -55,7 +56,7 @@ public class SubjectsClassesInputReader extends InputReader {
 	}
 	
 	
-	public ArrayList<ClassInSchool> getClassesFromString(String classString) {
+	public ArrayList<ClassInSchool> getClassesFromString(String classString) throws IOException {
 		ArrayList<ClassInSchool> result = new ArrayList<ClassInSchool>();
 		
 		char levelChar = classString.charAt(0);
@@ -66,6 +67,8 @@ public class SubjectsClassesInputReader extends InputReader {
 			level = Level.HAVO;
 		} else if (levelChar == 'V') {
 			level = Level.VWO;
+		} else {
+			throw(new IOException("Level found in " + classString + " could not be parsed."));
 		}
 		
 		for (Entry<String, ClassInSchool> classEntry : classes.entrySet()) {

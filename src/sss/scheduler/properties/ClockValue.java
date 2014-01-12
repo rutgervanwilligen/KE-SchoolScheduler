@@ -1,14 +1,13 @@
-package sss.scheduler.objects;
+package sss.scheduler.properties;
 public class ClockValue implements Comparable<ClockValue>{
 	
-	private final int hours;
-	private final int minutes;
+	protected final int hours;
+	protected final int minutes;
 	
-	public ClockValue(int hours, int minutes) {
-		this.hours = hours;
-		this.minutes = minutes;
-	}
-	
+
+	/*
+	 * Getters
+	 */
 	public int getHours () {
 		return hours;
 	}
@@ -17,6 +16,21 @@ public class ClockValue implements Comparable<ClockValue>{
 		return minutes;
 	}
 	
+	/**
+	 * Constructor
+	 * @param hours
+	 * @param minutes
+	 */
+	public ClockValue(int hours, int minutes) {
+		this.hours = hours;
+		this.minutes = minutes;
+	}
+	
+	/**
+	 * Get the time difference in minutes between this clock value and cv.
+	 * @param cv ClockValue
+	 * @return int Number of minutes
+	 */
 	public int getTimeDiffMinutes(ClockValue cv) {
 		int thisValueInMinutes = hours * 60 + minutes;
 		int thatValueInMinutes = cv.getHours() * 60 + cv.getMinutes();

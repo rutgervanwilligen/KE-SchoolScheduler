@@ -57,6 +57,5 @@ public class TeachersClassesInputReader extends InputReader {
 		System.out.println("Done with teachers-classes allocations");
 		return teachersClasses;
 	}
-	
-	
+
 }

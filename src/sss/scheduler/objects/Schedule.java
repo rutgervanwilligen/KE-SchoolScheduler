@@ -6,11 +6,35 @@ import sss.scheduler.objects.Lesson;
 
 public class Schedule {
 	
-	private ArrayList<Lesson> unallocatedLessons;
-	private ArrayList<Lesson> schedulingSet;
-	private ArrayList<Lesson> allocatedLessons;
-	private ArrayList<Lesson> unallocatableLessons;
+	protected ArrayList<Lesson> unallocatedLessons;
+	protected ArrayList<Lesson> schedulingSet;
+	protected ArrayList<Lesson> allocatedLessons;
+	protected ArrayList<Lesson> unallocatableLessons;
+	
 
+	/*
+	 * Getters
+	 */
+	public ArrayList<Lesson> getSchedulingSet() {
+		return schedulingSet;
+	}
+	
+	public ArrayList<Lesson> getUnallocatableLessons() {
+		return unallocatableLessons;
+	}
+	
+	public ArrayList<Lesson> getUnallocatedLessons() {
+		return unallocatedLessons;
+	}
+	
+	public ArrayList<Lesson> getAllocatedLessons() {
+		return allocatedLessons;
+	}
+
+	
+	/**
+	 * Constructor
+	 */
 	public Schedule () {
 		allocatedLessons = new ArrayList<Lesson>();
 		unallocatedLessons = new ArrayList<Lesson>();
@@ -104,38 +128,6 @@ public class Schedule {
 	}
 	
 	/**
-	 * Returns the lessons in the scheduling set.
-	 * @return ArrayList of lessons in the scheduling set.
-	 */
-	public ArrayList<Lesson> getSchedulingSet() {
-		return schedulingSet;
-	}
-	
-	/**
-	 * Returns the set of unallocatable
-	 * @return ArrayList of unallocatable lessons.
-	 */
-	public ArrayList<Lesson> getUnallocatableLessons() {
-		return unallocatableLessons;
-	}
-	
-	/**
-	 * Returns the unallocated lessons in the schedule.
-	 * @return ArrayList of unallocated lessons.
-	 */
-	public ArrayList<Lesson> getUnallocatedLessons() {
-		return unallocatedLessons;
-	}
-	
-	/**
-	 * Returns the allocated lessons in the schedule.
-	 * @return ArrayList of allocated lessons.
-	 */
-	public ArrayList<Lesson> getAllocatedLessons() {
-		return allocatedLessons;
-	}
-	
-	/**
 	 * Allocate a SingleHourLesson present in the scheduling set to a classroom and hour.
 	 * @param lesson Single hour lesson object to allocate.
 	 * @param classroom Classroom object to allocate the lesson to.
@@ -143,6 +135,7 @@ public class Schedule {
 	 */
 	public void scheduleSingleHourLesson(SingleHourLesson lesson, Classroom classroom, ClassInSchool classInSchool, Teacher teacher, LessonHour hour) {
 	  	schedulingSet.remove(lesson);
+	  	
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(hour);
 	  	classroom.setToUnavailable(hour);
@@ -179,6 +172,7 @@ public class Schedule {
 	 */
 	public void scheduleDoubleHourLesson(DoubleHourLesson lesson, Classroom classroom, ClassInSchool classInSchool, Teacher teacher, LessonHour firstHour, LessonHour secondHour) {
 		schedulingSet.remove(lesson);
+		
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(firstHour, secondHour);
 		classroom.setToUnavailable(firstHour);
@@ -191,6 +185,9 @@ public class Schedule {
 		allocatedLessons.add(lesson);
 	}
 
+	/**
+	 * Moves all lessons that are still in the schedulingset to unallocatableLessons.
+	 */
 	public void markUnallocatableLessons() {
 		unallocatableLessons.addAll(schedulingSet);
 		schedulingSet.clear();
@@ -206,7 +203,8 @@ public class Schedule {
 		Classroom classroom = lesson.removeClassroom();
 		Teacher teacher = lesson.getTeacher();
 		ClassInSchool classInSchool = lesson.getClassInSchool();
-		for (int i = 1; i < 2; i++) {
+		
+		for (int i = 1; i <= 2; i++) {
 			LessonHour hour = lesson.unallocateTimeslot(i);
 		  	classroom.setToAvailable(hour);
 		  	classInSchool.setToAvailable(hour);

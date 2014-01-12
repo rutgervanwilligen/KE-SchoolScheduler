@@ -34,6 +34,25 @@ public class Scheduler {
 	protected LessonSwapKB lessonSwapKB;
 	protected ScheduleEvaluationKB scheduleEvaluationKB;
 	
+
+	/*
+	 * Getters
+	 */
+	public Schedule getSchedule() {
+		return schedule;
+	}
+	
+	
+	/**
+	 * Constructor
+	 * @param hours
+	 * @param subjects
+	 * @param teachers
+	 * @param classrooms
+	 * @param classes
+	 * @param subjectsClasses
+	 * @param teachersClasses
+	 */
 	public Scheduler(ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects, 
 			TreeMap<String, Teacher> teachers, TreeMap<String, Classroom> classrooms, 
 			TreeMap<String, ClassInSchool> classes, SubjectClassAllocation subjectsClasses, 
@@ -52,6 +71,7 @@ public class Scheduler {
 	 * Main scheduling loop as found in the knowledge model.
 	 */
 	public void createSchedule() {
+		System.out.println("Starting schedule creation");
 		addAllLessonsToSchedule();
 		
 		createLessonSelectionKB();
@@ -73,6 +93,7 @@ public class Scheduler {
 //		evaluateSchedule();
 		
 	}
+	
 	
 	protected void createScheduleEvaluationKB() {
 		scheduleEvaluationKB = new ScheduleEvaluationKB(); //TODO Conflict set?
@@ -204,10 +225,6 @@ public class Scheduler {
 			System.out.println("Input not sane: misread nHours");
 			System.exit(1);
 		}
-	}
-	
-	public Schedule getSchedule() {
-		return schedule;
 	}
 
 }

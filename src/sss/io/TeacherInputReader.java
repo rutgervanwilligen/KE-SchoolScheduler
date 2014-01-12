@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-import sss.scheduler.objects.Availability;
 import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Teacher;
+import sss.scheduler.properties.Availability;
 
 public class TeacherInputReader extends InputReader {
 	
@@ -88,16 +88,15 @@ public class TeacherInputReader extends InputReader {
 	
 	private Availability[] parseUnit(Availability[] result, String unit, Availability availability) {
 		Scanner scanner = new Scanner(unit);
-				
-		if (unit.contains("-")) { // Unit contains more than 1 availability
-			scanner.useDelimiter("-");
-			int first = scanner.nextInt() - 1;
-			int last = scanner.nextInt() - 1;
-			for (int i=first; i<=last; i++) {
-				result[i] = availability;
-			}
-		} else { // Unit consists of one single availability
-			result[scanner.nextInt() - 1] = availability;
+		scanner.useDelimiter("-");
+
+		int first = scanner.nextInt() - 1;
+		int last = first;
+		if (scanner.hasNext()) // Unit contains more than 1 availability
+			last = scanner.nextInt() - 1;
+		
+		for (int i=first; i<=last; i++) {
+			result[i] = availability;
 		}
 		
 		return result;

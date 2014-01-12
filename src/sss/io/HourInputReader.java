@@ -1,17 +1,18 @@
 package sss.io;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import sss.scheduler.objects.ClockValue;
 import sss.scheduler.objects.LessonHour;
-import sss.scheduler.objects.Weekday;
+import sss.scheduler.properties.ClockValue;
+import sss.scheduler.properties.Weekday;
 
 public class HourInputReader extends InputReader {
 	
 	protected static ArrayList<LessonHour> hours;
 	
-	protected void readLine(String line) {
+	protected void readLine(String line) throws IOException {
 		Scanner beginTimeScanner, endTimeScanner, lineScanner;
 		
 		lineScanner = new Scanner(line);
@@ -41,7 +42,7 @@ public class HourInputReader extends InputReader {
 	}
 	
 	public void getDaysAndAddHours(String days, int number, int beginTimeHours, int beginTimeMinutes,
-			int endTimeHours, int endTimeMinutes) {
+			int endTimeHours, int endTimeMinutes) throws IOException {
 		
 		Scanner daysScanner = new Scanner(days);
 		daysScanner.useDelimiter("\\|");
@@ -52,7 +53,7 @@ public class HourInputReader extends InputReader {
 		}
 	}
 	
-	public Weekday getWeekday(String day) {
+	public Weekday getWeekday(String day) throws IOException {
 		if (day.equals("MA")) {
 			return Weekday.MONDAY;
 		} else if (day.equals("DI")) {
@@ -64,9 +65,7 @@ public class HourInputReader extends InputReader {
 		} else if (day.equals("VR")) {
 			return Weekday.FRIDAY;
 		} else {
-			System.out.println("Weekday in hours input file not sane!");
-			System.exit(1);
-			return null;
+			throw(new IOException("Weekday " + day + " could not be parsed."));
 		}
 	}
 	

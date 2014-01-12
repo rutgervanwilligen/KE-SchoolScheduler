@@ -1,5 +1,8 @@
 package sss.scheduler.objects;
 
+import sss.scheduler.properties.ClockValue;
+import sss.scheduler.properties.Weekday;
+
 public class LessonHour implements Comparable<LessonHour> {
 	
 	private final int number;
@@ -7,26 +10,12 @@ public class LessonHour implements Comparable<LessonHour> {
 	private final ClockValue startTime;
 	private final ClockValue endTime;
 	private LessonHour nextHour;
-	
-	public LessonHour(Weekday weekday, int number, int startTimeHour, int startTimeMinutes, 
-			int endTimeHour, int endTimeMinutes) {
-		this.weekday = weekday;
-		this.number = number;
-		startTime = new ClockValue(startTimeHour, startTimeMinutes);
-		endTime = new ClockValue(endTimeHour, endTimeMinutes);
-		nextHour = null;
-	}
-	
-	public boolean hasNextHour() {
-		return (nextHour != null);
-	}
-	
+
+	/*
+	 * Getters
+	 */
 	public LessonHour getNextHour() {
 		return nextHour;
-	}
-	
-	public void addNextHour(LessonHour nextHour) {
-		this.nextHour = nextHour;
 	}
 	
 	public int getHour() {
@@ -43,6 +32,41 @@ public class LessonHour implements Comparable<LessonHour> {
 	
 	public ClockValue getEndTime () {
 		return endTime;
+	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param weekday
+	 * @param number
+	 * @param startTimeHour
+	 * @param startTimeMinutes
+	 * @param endTimeHour
+	 * @param endTimeMinutes
+	 */
+	public LessonHour(Weekday weekday, int number, int startTimeHour, int startTimeMinutes, 
+			int endTimeHour, int endTimeMinutes) {
+		this.weekday = weekday;
+		this.number = number;
+		startTime = new ClockValue(startTimeHour, startTimeMinutes);
+		endTime = new ClockValue(endTimeHour, endTimeMinutes);
+		nextHour = null;
+	}
+	
+	/**
+	 * Checks if there is a lesson hour directly after this lesson hour.
+	 * @return boolean
+	 */
+	public boolean hasNextHour() {
+		return (nextHour != null);
+	}
+	
+	/**
+	 * Set the next lesson hour for this lesson hour.
+	 * @param nextHour
+	 */
+	public void addNextHour(LessonHour nextHour) {
+		this.nextHour = nextHour;
 	}
 
 	@Override

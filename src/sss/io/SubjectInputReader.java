@@ -1,5 +1,6 @@
 package sss.io;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -9,7 +10,7 @@ public class SubjectInputReader extends InputReader {
 	
 	protected static TreeMap<String, Subject> subjects;
 
-	protected void readLine(String line) {
+	protected void readLine(String line) throws IOException {
 		Scanner lineScanner;
 		boolean homework;
 		
@@ -22,8 +23,10 @@ public class SubjectInputReader extends InputReader {
 		
 		if (homeworkString == 0) {
 			homework = false;
-		} else {
+		} else if (homeworkString == 1) {
 			homework = true;
+		} else {
+			throw(new IOException("Subject " + name + " has unexpected homework property. (" + homeworkString + ")"));
 		}
 		
 		lineScanner.close();
