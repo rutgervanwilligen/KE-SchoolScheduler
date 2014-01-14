@@ -31,7 +31,9 @@ public class ClassInputReader extends InputReader {
 		lineScanner.useDelimiter(";");
 		
 		String name = lineScanner.next();
-		String levelString = lineScanner.next();
+		
+		char levelChar = lineScanner.next().charAt(0);
+		
 		int year = Integer.valueOf(lineScanner.next());
 		char letter = lineScanner.next().charAt(0);
 		int size = Integer.valueOf(lineScanner.next());
@@ -43,11 +45,11 @@ public class ClassInputReader extends InputReader {
 					
 		lineScanner.close();
 		
-		if (levelString.equals('H')) {
+		if (levelChar == 'H') {
 			level = Level.HAVO;
-		} else if (levelString.equals('A')) {
+		} else if (levelChar == 'A') {
 			level = Level.ATHENEUM;
-		} else if (levelString.equals('G')) {
+		} else if (levelChar == 'G') {
 			level = Level.GYMNASIUM;
 		} else {
 			throw(new IOException("Read unexpected level for " + name + "in ClassInputReader."));
