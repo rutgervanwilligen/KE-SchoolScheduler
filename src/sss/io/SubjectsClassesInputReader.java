@@ -65,8 +65,10 @@ public class SubjectsClassesInputReader extends InputReader {
 		
 		if (levelChar == 'H') {
 			level = Level.HAVO;
-		} else if (levelChar == 'V') {
-			level = Level.VWO;
+		} else if (levelChar == 'A') {
+			level = Level.ATHENEUM;
+		} else if (levelChar == 'G') {
+			level = Level.GYMNASIUM;
 		} else {
 			throw(new IOException("Level found in " + classString + " could not be parsed."));
 		}

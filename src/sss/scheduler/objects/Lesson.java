@@ -302,5 +302,13 @@ public abstract class Lesson implements Comparable<Lesson> {
 		}
 		return hour;
 	}
+	
+	public boolean needsSpecialClassroom() {
+		for (int i = 0; i < Subject.SPECIAL_CLASSROOM_COURSES.length; i++) {
+			if (subject.getCode().equals(Subject.SPECIAL_CLASSROOM_COURSES[i]))
+				return true;
+		}
+		return false;
+	}
 
 }

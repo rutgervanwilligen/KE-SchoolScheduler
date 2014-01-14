@@ -7,8 +7,8 @@ import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.Teacher;
 import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Classroom;
-import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.properties.Availability;
+import sss.scheduler.objects.ClassInSchool;
 
 /**
  * Rule base used to allocate a lesson object to a classroom and time slot.
@@ -241,49 +241,49 @@ import sss.scheduler.properties.Availability;
     /**
      * Condition 9 of rule allocationRule1.<p>
      * The original expression was:<br>
-     * <code>teacher.getAvailability(hour) == Availability.AVAILABLE</code>
+     * <code>teacher.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule1_cond_9() {
-        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).getAvailability(sss_scheduler_objects_LessonHour_1) == Availability.AVAILABLE);
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
      * Condition 10 of rule allocationRule1.<p>
      * The original expression was:<br>
-     * <code>teacher.getAvailability(nextHour) == Availability.AVAILABLE</code>
+     * <code>teacher.isAvailable(nextHour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule1_cond_10() {
-        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).getAvailability((sss_scheduler_objects_LessonHour_1.getNextHour())) == Availability.AVAILABLE);
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isAvailable((sss_scheduler_objects_LessonHour_1.getNextHour())));
     }
 
     /**
      * Condition 11 of rule allocationRule1.<p>
      * The original expression was:<br>
-     * <code>teacher.getScheduledValue(hour) == Availability.AVAILABLE</code>
+     * <code>!teacher.isScheduled(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule1_cond_11() {
-        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).getScheduledValue(sss_scheduler_objects_LessonHour_1) == Availability.AVAILABLE);
+        return (!(sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
      * Condition 12 of rule allocationRule1.<p>
      * The original expression was:<br>
-     * <code>teacher.getScheduledValue(nextHour) == Availability.AVAILABLE</code>
+     * <code>!teacher.isScheduled(nextHour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule1_cond_12() {
-        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).getScheduledValue((sss_scheduler_objects_LessonHour_1.getNextHour())) == Availability.AVAILABLE);
+        return (!(sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isScheduled((sss_scheduler_objects_LessonHour_1.getNextHour())));
     }
 
     /**
@@ -576,25 +576,25 @@ import sss.scheduler.properties.Availability;
     /**
      * Condition 6 of rule allocationRule2.<p>
      * The original expression was:<br>
-     * <code>teacher.getAvailability(hour) == Availability.AVAILABLE</code>
+     * <code>teacher.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule2_cond_6() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).getAvailability(sss_scheduler_objects_LessonHour_1) == Availability.AVAILABLE);
+        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
      * Condition 7 of rule allocationRule2.<p>
      * The original expression was:<br>
-     * <code>teacher.getScheduledValue(hour) == Availability.AVAILABLE</code>
+     * <code>!teacher.isScheduled(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule2_cond_7() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).getScheduledValue(sss_scheduler_objects_LessonHour_1) == Availability.AVAILABLE);
+        return (!(sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
@@ -841,109 +841,85 @@ import sss.scheduler.properties.Availability;
     /**
      * Condition 3 of rule allocationRule3.<p>
      * The original expression was:<br>
-     * <code>!subjectName.equals("LO")</code>
+     * <code>!lessonToAllocate.needsSpecialClassroom()</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule3_cond_3() {
-        return (!(sss_scheduler_objects_SingleHourLesson_1.getSubject().getCode()).equals("LO"));
+        return (!sss_scheduler_objects_SingleHourLesson_1.needsSpecialClassroom());
     }
 
     /**
      * Condition 4 of rule allocationRule3.<p>
-     * The original expression was:<br>
-     * <code>!subjectName.equals("HV")</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean allocationRule3_cond_4() {
-        return (!(sss_scheduler_objects_SingleHourLesson_1.getSubject().getCode()).equals("HV"));
-    }
-
-    /**
-     * Condition 5 of rule allocationRule3.<p>
-     * The original expression was:<br>
-     * <code>!subjectName.equals("IN")</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean allocationRule3_cond_5() {
-        return (!(sss_scheduler_objects_SingleHourLesson_1.getSubject().getCode()).equals("IN"));
-    }
-
-    /**
-     * Condition 6 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>classroom.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_6() {
+    private boolean allocationRule3_cond_4() {
         return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 7 of rule allocationRule3.<p>
+     * Condition 5 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>!classroom.isSuitedFor(lessonToAllocate)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_7() {
+    private boolean allocationRule3_cond_5() {
         return (!sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
     }
 
     /**
-     * Condition 8 of rule allocationRule3.<p>
+     * Condition 6 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>classroom.isSuitedForGeneralUse()</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_8() {
+    private boolean allocationRule3_cond_6() {
         return (sss_scheduler_objects_Classroom_1.isSuitedForGeneralUse());
     }
 
     /**
-     * Condition 9 of rule allocationRule3.<p>
+     * Condition 7 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>classToAllocate.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_9() {
+    private boolean allocationRule3_cond_7() {
         return ((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 10 of rule allocationRule3.<p>
+     * Condition 8 of rule allocationRule3.<p>
      * The original expression was:<br>
-     * <code>teacher.getAvailability(hour) == Availability.AVAILABLE</code>
+     * <code>teacher.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_10() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).getAvailability(sss_scheduler_objects_LessonHour_1) == Availability.AVAILABLE);
+    private boolean allocationRule3_cond_8() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 11 of rule allocationRule3.<p>
+     * Condition 9 of rule allocationRule3.<p>
      * The original expression was:<br>
-     * <code>teacher.getScheduledValue(hour) == Availability.AVAILABLE</code>
+     * <code>!teacher.isScheduled(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_11() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).getScheduledValue(sss_scheduler_objects_LessonHour_1) == Availability.AVAILABLE);
+    private boolean allocationRule3_cond_9() {
+        return (!(sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
@@ -965,8 +941,6 @@ import sss.scheduler.properties.Availability;
             case 7: return allocationRule3_cond_7();
             case 8: return allocationRule3_cond_8();
             case 9: return allocationRule3_cond_9();
-            case 10: return allocationRule3_cond_10();
-            case 11: return allocationRule3_cond_11();
             default: return false;
         }
     }
@@ -987,11 +961,9 @@ import sss.scheduler.properties.Availability;
                 if (!allocationRule3_cond_1()) return false;
                 if (!allocationRule3_cond_2()) return false;
                 if (!allocationRule3_cond_3()) return false;
-                if (!allocationRule3_cond_4()) return false;
-                if (!allocationRule3_cond_5()) return false;
                 return true;
             case 2:
-                if (!allocationRule3_cond_8()) return false;
+                if (!allocationRule3_cond_6()) return false;
                 return true;
             case 3:
                 return true;
@@ -1017,13 +989,13 @@ import sss.scheduler.properties.Availability;
                 if (!allocationRule3_cond_0()) return false;
                 return true;
             case 2:
-                if (!allocationRule3_cond_7()) return false;
+                if (!allocationRule3_cond_5()) return false;
                 return true;
             case 3:
-                if (!allocationRule3_cond_6()) return false;
+                if (!allocationRule3_cond_4()) return false;
+                if (!allocationRule3_cond_7()) return false;
+                if (!allocationRule3_cond_8()) return false;
                 if (!allocationRule3_cond_9()) return false;
-                if (!allocationRule3_cond_10()) return false;
-                if (!allocationRule3_cond_11()) return false;
                 return true;
             default: return false;
         }
@@ -1087,7 +1059,7 @@ import sss.scheduler.properties.Availability;
     private static final int[] File_numberOfConditions = {
         13,
         8,
-        12
+        10
     };
 
     /**
@@ -1310,7 +1282,7 @@ import sss.scheduler.properties.Availability;
 /**
  * Knowledge base created by JEOPS from file ClassroomTimeslotAllocationKB.rules
  *
- * @version Jan 7, 2014
+ * @version Jan 14, 2014
  */
 public class ClassroomTimeslotAllocationKB extends jeops.AbstractKnowledgeBase {
 

@@ -43,10 +43,12 @@ public class ClassInputReader extends InputReader {
 					
 		lineScanner.close();
 		
-		if (levelString.equals("H")) {
+		if (levelString.equals('H')) {
 			level = Level.HAVO;
-		} else if (levelString.equals("V")) {
-			level = Level.VWO;
+		} else if (levelString.equals('A')) {
+			level = Level.ATHENEUM;
+		} else if (levelString.equals('G')) {
+			level = Level.GYMNASIUM;
 		} else {
 			throw(new IOException("Read unexpected level for " + name + "in ClassInputReader."));
 		}

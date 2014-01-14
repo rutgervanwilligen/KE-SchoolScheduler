@@ -1,5 +1,5 @@
 package sss.scheduler.properties;
 
 public enum Level {
-	HAVO, VWO
+	HAVO, ATHENEUM, GYMNASIUM
 }

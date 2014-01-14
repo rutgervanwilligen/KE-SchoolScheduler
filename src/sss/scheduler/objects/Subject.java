@@ -1,12 +1,12 @@
 package sss.scheduler.objects;
 
 public class Subject implements Comparable<Subject> {
-
+	
+	public static final String[] SPECIAL_CLASSROOM_COURSES = { "LO", "HV", "TN", "IN" };
 
 	protected String name;
 	protected String code;
 	protected boolean homework;
-	
 	
 	/*
 	 * Getters

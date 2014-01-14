@@ -1,13 +1,22 @@
-klas;niveau;jaar;letter;grootte;mentor
-H1A;H;1;a;25;AB
-H1B;H;1;b;25;CV
-V1A;V;1;a;25;FH
-V1B;V;1;b;30;AT
-H2A;H;2;a;30;AW
-H2B;H;2;b;30;DF
-V2A;V;2;a;25;IU
-V2B;V;2;b;30;BH
-H3A;H;3;a;20;WE
-H3B;H;3;b;20;GB
-V3A;V;3;a;30;TR
-V3B;V;3;b;30;AN
+klas	niveau	jaar	letter	grootte	mentor
+1A	G	1	A	29	AB
+1B	G	1	B	27	CV
+1C	V	1	C	31	FH
+1D	V	1	D	29	AT
+1E	V	1	E	29	AW
+1F	H	1	F	31	DF
+1G	H	1	G	30	IU
+2A	G	2	A	29	BH
+2B	V	2	B	29	WE
+2C	V	2	C	30	GB
+2D	V	2	D	28	TR
+2E	H	2	E	26	AN
+2F	H	2	F	27	AB
+2G	H	2	G	28	CV
+V3A	G	3	A	30	FH
+V3B	V	3	B	28	AT
+V3C	V	3	C	28	AW
+V3D	V	3	D	25	DF
+H3A	H	3	A	24	IU
+H3B	H	3	B	28	BH
+H3C	H	3	C	24	WE
