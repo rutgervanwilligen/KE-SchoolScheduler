@@ -256,4 +256,28 @@ public class Schedule {
 		}
 	}
 	
+	public int lowestAvailabilityCount() {
+		int result = 45;
+		
+		for (Lesson lesson : unallocatableLessons) {
+			if (lesson.getAvailabilityCount() < result) {
+				result = lesson.getAvailabilityCount();
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean singleLowestAvailabilityCount() {
+		int lowestCount = lowestAvailabilityCount();
+		int nrOfLessons = 0;
+		
+		for (Lesson lesson : unallocatableLessons) {
+			if (lesson.getAvailabilityCount() == lowestCount)
+				nrOfLessons++;
+		}
+		
+		return (nrOfLessons == 1);
+	}
+	
 }

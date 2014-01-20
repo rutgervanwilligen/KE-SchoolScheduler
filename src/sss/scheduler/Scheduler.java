@@ -140,8 +140,10 @@ public class Scheduler {
 	protected void createLessonSelectionKB() {
 		lessonSelectionKB = new LessonSelectionKB(new PriorityConflictSet());
 
+		lessonSelectionKB.tell(this);
 		lessonSelectionKB.tell(schedule);
 		for (Lesson lesson : schedule.getUnallocatedLessons()) {
+			lesson.setAvailabilityCount(this.getAvailabilityCountForLesson(lesson));
 			lessonSelectionKB.tell(lesson);
 		}
 	}
@@ -225,6 +227,31 @@ public class Scheduler {
 			System.out.println("Input not sane: misread nHours");
 			System.exit(1);
 		}
+	}
+	
+	public int getAvailabilityCountForLesson(Lesson lesson) {
+		Resource resource = new Resource();
+		
+		Teacher teacher = lesson.getTeacher();
+		ClassInSchool classInSchool = lesson.getClassInSchool();
+		
+		resource.initializeAvailabilities(45);
+		for (int i = 0; i < 45; i++) {
+			if (! teacher.isAvailable(i) || ! classInSchool.isAvailable(i)) {
+				resource.setToUnavailable(i);
+				continue;
+			}
+			
+			for (Entry<String, Classroom> entry : classrooms.entrySet()) {
+				Classroom classroom = entry.getValue();
+				if (! classroom.isAvailable(i)) {
+					resource.setToUnavailable(i);
+					continue;
+				}
+			}
+		}
+		
+		return resource.getNumberOfAvailableHours();
 	}
 
 }

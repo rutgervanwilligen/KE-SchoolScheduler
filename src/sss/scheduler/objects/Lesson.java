@@ -18,6 +18,7 @@ public abstract class Lesson implements Comparable<Lesson> {
 	
 	private boolean allowedInGeneralRoom;
 	private boolean needsComputerRoom;
+	private int availabilityCount;
 
 	/*
 	 * Setters
@@ -309,6 +310,14 @@ public abstract class Lesson implements Comparable<Lesson> {
 				return true;
 		}
 		return false;
+	}
+
+	public void setAvailabilityCount(int availabilityCount) {
+		this.availabilityCount = availabilityCount;
+	}
+
+	public int getAvailabilityCount() {
+		return availabilityCount;
 	}
 
 }

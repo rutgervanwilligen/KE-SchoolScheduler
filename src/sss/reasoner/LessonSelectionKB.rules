@@ -9,52 +9,111 @@ import sss.scheduler.objects.Schedule;
 public ruleBase LessonSelectionKB {
 
   rule lessonSelection1 {
-  /* First, all LO lessons should be picked for allocating */
+  /* Select lesson with lowest availability count */
     declarations
       Lesson lesson;
       Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
     conditions
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
-      lesson.getSubject().getCode().equals("LO");
+      schedule.singleLowestAvailabilityCount();
+      
       !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
     actions
 //      System.out.println("lessonSelection1 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
   }
-  
+
   rule lessonSelection2 {
-  /* If the LO lessons are allocated, the HV lessons are up next */
-    declarations
-      Lesson lesson;
-      Schedule schedule;
-    conditions
-      schedule.schedulingSetIsEmpty();
-      schedule.containsUnallocatedLesson(lesson);
-      lesson.getSubject().getCode().equals("HV");
-      !lesson.isAllocatedToTimeslot();
-    actions
-//      System.out.println("lessonSelection2 fired");
-	  schedule.addToSchedulingSet(lesson);
-      modified(schedule);
-  }
-  
-  rule lessonSelection3 {
-  /* If the previous rules don't apply, pick a random lesson to allocate */
+  /* If multiple lessons have lowest count, select LO, HV or IN */
     declarations
       Lesson lesson;
       Schedule schedule;
     localdecl
-      String lessonName = lesson.getSubject().getName();
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
     conditions
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
+      !schedule.singleLowestAvailabilityCount();
+      
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+      lesson.getSubject().getCode().equals("LO");
     actions
-//      System.out.println("lessonSelection3 fired for " + lessonName);
-      schedule.addToSchedulingSet(lesson);
+//      System.out.println("lessonSelection2 fired");
+	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
+      retract(lesson);
+  }
+
+  rule lessonSelection3 {
+  /* If multiple lessons have lowest count, select LO, HV or IN */
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+      !schedule.singleLowestAvailabilityCount();
+      
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+      lesson.getSubject().getCode().equals("HV");
+    actions
+//      System.out.println("lessonSelection3 fired");
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+      retract(lesson);
+  }
+
+  rule lessonSelection4 {
+  /* If multiple lessons have lowest count, select LO, HV or IN */
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+      !schedule.singleLowestAvailabilityCount();
+      
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+      lesson.getSubject().getCode().equals("IN");
+    actions
+//      System.out.println("lessonSelection4 fired");
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+      retract(lesson);
+  }
+
+  rule lessonSelection5 {
+  /* If multiple lessons have lowest count and no special course is left, select any course. */
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+      !schedule.singleLowestAvailabilityCount();
+      
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+    actions
+//      System.out.println("lessonSelection5 fired");
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+      retract(lesson);
   }
 
 }

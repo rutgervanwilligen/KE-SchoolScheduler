@@ -29,11 +29,27 @@ public class Resource {
 	}
 	
 	/**
+	 * Makes the resource unavailable for a given lesson hour
+	 * @param timeslot The timeslot to set.
+	 */
+	public void setToUnavailable(int timeslot) {
+		availabilities[timeslot] = Availability.UNAVAILABLE;
+	}
+	
+	/**
 	 * Makes the resource available for a given lesson hour
 	 * @param lessonHour The lesson hour to set.
 	 */
 	public void setToAvailable(LessonHour lessonHour) {
 		availabilities[getLessonHourIndex(lessonHour)] = Availability.AVAILABLE;
+	}
+	
+	/**
+	 * Makes the resource available for a given lesson hour
+	 * @param timeslot The timeslot to set.
+	 */
+	public void setToAvailable(int timeslot) {
+		availabilities[timeslot] = Availability.AVAILABLE;
 	}
 	
 	/**
@@ -43,6 +59,30 @@ public class Resource {
 	 */
 	public boolean isAvailable(LessonHour lessonHour) {
 		return availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE;
+	}
+	
+	/**
+	 * Returns whether the resource is available on a given lesson hour.
+	 * @param int The timeslot to check.
+	 * @return Boolean value indicating whether the resource is available.
+	 */
+	public boolean isAvailable(int timeslot) {
+		return availabilities[timeslot] == Availability.AVAILABLE;
+	}
+	
+	/**
+	 * Counts the number of available timeslots.
+	 * @return int Number of available timeslots.
+	 */
+	public int getNumberOfAvailableHours() {
+		int result = 0;
+		
+		for (Availability availability : availabilities) {
+			if (availability.equals(Availability.AVAILABLE))
+				result++;
+		}
+		
+		return result;
 	}
 
 	
