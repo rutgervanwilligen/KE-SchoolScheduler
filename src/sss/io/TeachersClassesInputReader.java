@@ -30,24 +30,20 @@ public class TeachersClassesInputReader extends InputReader {
 		
 		String className = lineScanner.next();
 		
-		parseUnits(className, lineScanner.next());
+		while (lineScanner.hasNext()) {
+			String tupleString = lineScanner.next();
+			
+			if (tupleString.length() > 0) {
+				String[] tuple = lineScanner.next().split("-");
+				
+				String subjectCode = tuple[0];
+				String teacherCode = tuple[1];
+				
+				teachersClasses.allocateTeacher(teacherCode, subjectCode, className);
+			}
+		}
 		
 		lineScanner.close();
-	}
-	
-	public void parseUnits(String className, String units) {
-		Scanner unitScanner = new Scanner(units);
-		unitScanner.useDelimiter("\\|");
-		
-		while (unitScanner.hasNext()) {
-			Scanner tupleScanner = new Scanner(unitScanner.next());
-			tupleScanner.useDelimiter("-");
-			
-			String subjectCode = tupleScanner.next();
-			String teacherCode = tupleScanner.next();
-			
-			teachersClasses.allocateTeacher(teacherCode, subjectCode, className);
-		}
 	}
 	
 	public TeacherClassAllocation read(String filePath) {
