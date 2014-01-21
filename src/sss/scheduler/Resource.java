@@ -1,6 +1,9 @@
 package sss.scheduler;
 
+import sss.scheduler.objects.DoubleHourLesson;
+import sss.scheduler.objects.Lesson;
 import sss.scheduler.objects.LessonHour;
+import sss.scheduler.objects.SingleHourLesson;
 import sss.scheduler.properties.Availability;
 
 public class Resource {
@@ -57,16 +60,20 @@ public class Resource {
 	 * @param lessonHour The lesson hour to check.
 	 * @return Boolean value indicating whether the resource is available.
 	 */
-	public boolean isAvailable(LessonHour lessonHour, boolean isDoubleHour) {
-		if (isDoubleHour) {
+	public boolean isAvailable(LessonHour lessonHour, Lesson lesson) {
+		if (lesson instanceof DoubleHourLesson) {
 			return lessonHour.hasNextHour() &&
 					(availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
 					availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT) &&
 					(availabilities[getLessonHourIndex(lessonHour.getNextHour())] == Availability.AVAILABLE ||
 					availabilities[getLessonHourIndex(lessonHour.getNextHour())] == Availability.RATHER_NOT);
-		} else {
+		} else if (lesson instanceof SingleHourLesson) {
 			return availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
 				availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT;
+		} else {
+			System.out.println("Error while checking isAvailable: lesson input not sane");
+			System.exit(1);
+			return false;
 		}
 	}
 	

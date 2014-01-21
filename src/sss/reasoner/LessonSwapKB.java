@@ -163,49 +163,49 @@ import sss.scheduler.objects.Schedule;
     /**
      * Condition 2 of rule lessonSwap1.<p>
      * The original expression was:<br>
-     * <code>newTeacher.isAvailable(allocatedLessonHour, isDoubleHourNew)</code>
+     * <code>newTeacher.isAvailable(allocatedLessonHour, newLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap1_cond_2() {
-        return ((sss_scheduler_objects_Lesson_1.getTeacher()).isAvailable((sss_scheduler_objects_Lesson_2.getHour()), (sss_scheduler_objects_Lesson_1.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_1.getTeacher()).isAvailable((sss_scheduler_objects_Lesson_2.getHour()), sss_scheduler_objects_Lesson_1));
     }
 
     /**
      * Condition 3 of rule lessonSwap1.<p>
      * The original expression was:<br>
-     * <code>!newTeacher.isScheduled(allocatedLessonHour, isDoubleHourNew)</code>
+     * <code>!newTeacher.isScheduled(allocatedLessonHour, newLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap1_cond_3() {
-        return (!(sss_scheduler_objects_Lesson_1.getTeacher()).isScheduled((sss_scheduler_objects_Lesson_2.getHour()), (sss_scheduler_objects_Lesson_1.isDoubleHour())));
+        return (!(sss_scheduler_objects_Lesson_1.getTeacher()).isScheduled((sss_scheduler_objects_Lesson_2.getHour()), sss_scheduler_objects_Lesson_1));
     }
 
     /**
      * Condition 4 of rule lessonSwap1.<p>
      * The original expression was:<br>
-     * <code>newClass.isAvailable(allocatedLessonHour, isDoubleHourNew)</code>
+     * <code>newClass.isAvailable(allocatedLessonHour, newLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap1_cond_4() {
-        return ((sss_scheduler_objects_Lesson_1.getClassInSchool()).isAvailable((sss_scheduler_objects_Lesson_2.getHour()), (sss_scheduler_objects_Lesson_1.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_1.getClassInSchool()).isAvailable((sss_scheduler_objects_Lesson_2.getHour()), sss_scheduler_objects_Lesson_1));
     }
 
     /**
      * Condition 5 of rule lessonSwap1.<p>
      * The original expression was:<br>
-     * <code>newClassroom.isAvailable(allocatedLessonHour, isDoubleHourNew)</code>
+     * <code>newClassroom.isAvailable(allocatedLessonHour, newLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap1_cond_5() {
-        return (sss_scheduler_objects_Classroom_1.isAvailable((sss_scheduler_objects_Lesson_2.getHour()), (sss_scheduler_objects_Lesson_1.isDoubleHour())));
+        return (sss_scheduler_objects_Classroom_1.isAvailable((sss_scheduler_objects_Lesson_2.getHour()), sss_scheduler_objects_Lesson_1));
     }
 
     /**
@@ -223,49 +223,49 @@ import sss.scheduler.objects.Schedule;
     /**
      * Condition 7 of rule lessonSwap1.<p>
      * The original expression was:<br>
-     * <code>allocatedTeacher.isAvailable(newLessonHour, isDoubleHourAllocated)</code>
+     * <code>allocatedTeacher.isAvailable(newLessonHour, allocatedLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap1_cond_7() {
-        return ((sss_scheduler_objects_Lesson_2.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_2.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_2.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_2));
     }
 
     /**
      * Condition 8 of rule lessonSwap1.<p>
      * The original expression was:<br>
-     * <code>!allocatedTeacher.isScheduled(newLessonHour, isDoubleHourAllocated)</code>
+     * <code>!allocatedTeacher.isScheduled(newLessonHour, allocatedLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap1_cond_8() {
-        return (!(sss_scheduler_objects_Lesson_2.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_2.isDoubleHour())));
+        return (!(sss_scheduler_objects_Lesson_2.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_2));
     }
 
     /**
      * Condition 9 of rule lessonSwap1.<p>
      * The original expression was:<br>
-     * <code>allocatedClass.isAvailable(newLessonHour, isDoubleHourAllocated)</code>
+     * <code>allocatedClass.isAvailable(newLessonHour, allocatedLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap1_cond_9() {
-        return ((sss_scheduler_objects_Lesson_2.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_2.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_2.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_2));
     }
 
     /**
      * Condition 10 of rule lessonSwap1.<p>
      * The original expression was:<br>
-     * <code>allocatedClassroom.isAvailable(newLessonHour, isDoubleHourAllocated)</code>
+     * <code>allocatedClassroom.isAvailable(newLessonHour, allocatedLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap1_cond_10() {
-        return ((sss_scheduler_objects_Lesson_2.getClassroom()).isAvailable(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_2.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_2.getClassroom()).isAvailable(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_2));
     }
 
     /**
@@ -372,7 +372,7 @@ import sss.scheduler.objects.Schedule;
      */
     private void lessonSwap1() {
       sss_scheduler_objects_Lesson_1.setClassroom(sss_scheduler_objects_Classroom_1);
-      sss_scheduler_objects_Lesson_1.setHour(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_1.isDoubleHour())); // add boolean for next hour
+      sss_scheduler_objects_Lesson_1.setHour(sss_scheduler_objects_LessonHour_1);
       sss_scheduler_objects_Schedule_1.swapLessons(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Lesson_2);
       System.out.println("lessonSwap1 fired");
       modified(sss_scheduler_objects_Schedule_1);
@@ -551,49 +551,49 @@ import sss.scheduler.objects.Schedule;
     /**
      * Condition 3 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>newTeacher.isAvailable(allocatedLessonHour1, isDoubleHourNew)</code>
+     * <code>newTeacher.isAvailable(allocatedLessonHour1, newLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_3() {
-        return ((sss_scheduler_objects_Lesson_1.getTeacher()).isAvailable((sss_scheduler_objects_Lesson_2.getHour()), (sss_scheduler_objects_Lesson_1.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_1.getTeacher()).isAvailable((sss_scheduler_objects_Lesson_2.getHour()), sss_scheduler_objects_Lesson_1));
     }
 
     /**
      * Condition 4 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>!newTeacher.isScheduled(allocatedLessonHour1, isDoubleHourNew)</code>
+     * <code>!newTeacher.isScheduled(allocatedLessonHour1, newLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_4() {
-        return (!(sss_scheduler_objects_Lesson_1.getTeacher()).isScheduled((sss_scheduler_objects_Lesson_2.getHour()), (sss_scheduler_objects_Lesson_1.isDoubleHour())));
+        return (!(sss_scheduler_objects_Lesson_1.getTeacher()).isScheduled((sss_scheduler_objects_Lesson_2.getHour()), sss_scheduler_objects_Lesson_1));
     }
 
     /**
      * Condition 5 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>newClass.isAvailable(allocatedLessonHour1, isDoubleHourNew)</code>
+     * <code>newClass.isAvailable(allocatedLessonHour1, newLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_5() {
-        return ((sss_scheduler_objects_Lesson_1.getClassInSchool()).isAvailable((sss_scheduler_objects_Lesson_2.getHour()), (sss_scheduler_objects_Lesson_1.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_1.getClassInSchool()).isAvailable((sss_scheduler_objects_Lesson_2.getHour()), sss_scheduler_objects_Lesson_1));
     }
 
     /**
      * Condition 6 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>newClassroom.isAvailable(allocatedLessonHour1, isDoubleHourNew)</code>
+     * <code>newClassroom.isAvailable(allocatedLessonHour1, newLesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_6() {
-        return (sss_scheduler_objects_Classroom_1.isAvailable((sss_scheduler_objects_Lesson_2.getHour()), (sss_scheduler_objects_Lesson_1.isDoubleHour())));
+        return (sss_scheduler_objects_Classroom_1.isAvailable((sss_scheduler_objects_Lesson_2.getHour()), sss_scheduler_objects_Lesson_1));
     }
 
     /**
@@ -611,49 +611,49 @@ import sss.scheduler.objects.Schedule;
     /**
      * Condition 8 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>allocatedTeacher1.isAvailable(allocatedLessonHour2, isDoubleHourAllocated1)</code>
+     * <code>allocatedTeacher1.isAvailable(allocatedLessonHour2, allocatedLesson1)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_8() {
-        return ((sss_scheduler_objects_Lesson_2.getTeacher()).isAvailable((sss_scheduler_objects_Lesson_3.getHour()), (sss_scheduler_objects_Lesson_2.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_2.getTeacher()).isAvailable((sss_scheduler_objects_Lesson_3.getHour()), sss_scheduler_objects_Lesson_2));
     }
 
     /**
      * Condition 9 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>!allocatedTeacher1.isScheduled(allocatedLessonHour2, isDoubleHourAllocated1)</code>
+     * <code>!allocatedTeacher1.isScheduled(allocatedLessonHour2, allocatedLesson1)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_9() {
-        return (!(sss_scheduler_objects_Lesson_2.getTeacher()).isScheduled((sss_scheduler_objects_Lesson_3.getHour()), (sss_scheduler_objects_Lesson_2.isDoubleHour())));
+        return (!(sss_scheduler_objects_Lesson_2.getTeacher()).isScheduled((sss_scheduler_objects_Lesson_3.getHour()), sss_scheduler_objects_Lesson_2));
     }
 
     /**
      * Condition 10 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>allocatedClass1.isAvailable(allocatedLessonHour2, isDoubleHourAllocated1)</code>
+     * <code>allocatedClass1.isAvailable(allocatedLessonHour2, allocatedLesson1)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_10() {
-        return ((sss_scheduler_objects_Lesson_2.getClassInSchool()).isAvailable((sss_scheduler_objects_Lesson_3.getHour()), (sss_scheduler_objects_Lesson_2.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_2.getClassInSchool()).isAvailable((sss_scheduler_objects_Lesson_3.getHour()), sss_scheduler_objects_Lesson_2));
     }
 
     /**
      * Condition 11 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>allocatedClassroom1.isAvailable(allocatedLessonHour2, isDoubleHourAllocated1)</code>
+     * <code>allocatedClassroom1.isAvailable(allocatedLessonHour2, allocatedLesson1)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_11() {
-        return ((sss_scheduler_objects_Lesson_2.getClassroom()).isAvailable((sss_scheduler_objects_Lesson_3.getHour()), (sss_scheduler_objects_Lesson_2.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_2.getClassroom()).isAvailable((sss_scheduler_objects_Lesson_3.getHour()), sss_scheduler_objects_Lesson_2));
     }
 
     /**
@@ -671,49 +671,49 @@ import sss.scheduler.objects.Schedule;
     /**
      * Condition 13 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>allocatedTeacher2.isAvailable(newLessonHour, isDoubleHourAllocated2)</code>
+     * <code>allocatedTeacher2.isAvailable(newLessonHour, allocatedLesson2)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_13() {
-        return ((sss_scheduler_objects_Lesson_3.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_3.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_3.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_3));
     }
 
     /**
      * Condition 14 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>!allocatedTeacher2.isScheduled(newLessonHour, isDoubleHourAllocated2)</code>
+     * <code>!allocatedTeacher2.isScheduled(newLessonHour, allocatedLesson2)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_14() {
-        return (!(sss_scheduler_objects_Lesson_3.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_3.isDoubleHour())));
+        return (!(sss_scheduler_objects_Lesson_3.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_3));
     }
 
     /**
      * Condition 15 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>allocatedClass2.isAvailable(newLessonHour, isDoubleHourAllocated2)</code>
+     * <code>allocatedClass2.isAvailable(newLessonHour, allocatedLesson2)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_15() {
-        return ((sss_scheduler_objects_Lesson_3.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_3.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_3.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_3));
     }
 
     /**
      * Condition 16 of rule lessonSwap2.<p>
      * The original expression was:<br>
-     * <code>allocatedClassroom2.isAvailable(newLessonHour, isDoubleHourAllocated2)</code>
+     * <code>allocatedClassroom2.isAvailable(newLessonHour, allocatedLesson2)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean lessonSwap2_cond_16() {
-        return ((sss_scheduler_objects_Lesson_3.getClassroom()).isAvailable(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_3.isDoubleHour())));
+        return ((sss_scheduler_objects_Lesson_3.getClassroom()).isAvailable(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_3));
     }
 
     /**
@@ -836,7 +836,7 @@ import sss.scheduler.objects.Schedule;
      */
     private void lessonSwap2() {
       sss_scheduler_objects_Lesson_1.setClassroom(sss_scheduler_objects_Classroom_1);
-      sss_scheduler_objects_Lesson_1.setHour(sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_1.isDoubleHour()));
+      sss_scheduler_objects_Lesson_1.setHour(sss_scheduler_objects_LessonHour_1);
       sss_scheduler_objects_Schedule_1.swapLessons(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Lesson_2);
       sss_scheduler_objects_Schedule_1.swapLessons(sss_scheduler_objects_Lesson_2, sss_scheduler_objects_Lesson_3);
       System.out.println("lessonSwap1 fired");

@@ -163,6 +163,22 @@ public class Schedule {
 	  	schedulingSet.add(lesson);
 	}
 	
+	public void scheduleLesson(Lesson lesson, Classroom classroom, ClassInSchool classInSchool, Teacher teacher, LessonHour firstHour) {
+		if (lesson instanceof SingleHourLesson) {
+			scheduleSingleHourLesson( (SingleHourLesson) lesson, classroom, classInSchool, teacher, firstHour);
+		} else if (lesson instanceof DoubleHourLesson) {
+			if (firstHour.hasNextHour()) {
+				scheduleDoubleHourLesson( (DoubleHourLesson) lesson, classroom, classInSchool, teacher, firstHour, firstHour.getNextHour());
+			} else {
+				System.out.println("ScheduleLesson error: trying to schedule double hour lesson but hour has no next hour");
+				System.exit(1);
+			}
+		} else {
+			System.out.println("ScheduleLesson error: Input lesson not sane");
+			System.exit(1);
+		}
+	}
+	
 	/**
 	 * Allocate a DoubleHourLesson present in the scheduling set to a classroom and hour.
 	 * @param lesson Double hour lesson object to allocate.
@@ -336,6 +352,10 @@ public class Schedule {
 			}
 		}
 		return result;
+	}
+	
+	public boolean noClassesWithoutHomeworkOnWeekday(ClassInSchool classInSchool, LessonHour hour) {
+		return numberOfClassesWithoutHomeworkOnWeekday(classInSchool, hour) == 0;
 	}
 	
 }

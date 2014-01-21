@@ -41,17 +41,26 @@ public abstract class Lesson implements Comparable<Lesson> {
 
 	public void setHour(LessonHour hour) {
 		this.firstHour = hour;
+		
+		if (this instanceof DoubleHourLesson) {
+			if (hour.hasNextHour()) {
+				this.secondHour = hour.getNextHour();
+			} else {
+				System.out.println("SetHour error: hour has no next hour");
+				System.exit(1);
+			}
+		}
 	}
 
-	public void setHour(LessonHour hour, boolean hasNextHour) {
-		this.firstHour = hour;
-		if (hasNextHour && hour.hasNextHour())
-			setSecondHour(hour.getNextHour());
-	}
-
-	public void setSecondHour(LessonHour hour) {
-		this.secondHour = hour;
-	}
+//	public void setHour(LessonHour hour, boolean hasNextHour) {
+//		this.firstHour = hour;
+//		if (hasNextHour && hour.hasNextHour())
+//			setSecondHour(hour.getNextHour());
+//	}
+//
+//	public void setSecondHour(LessonHour hour) {
+//		this.secondHour = hour;
+//	}
 	
 	/**
 	 * Allocate a ClassInSchool to the lesson object. Note that when calling this method,

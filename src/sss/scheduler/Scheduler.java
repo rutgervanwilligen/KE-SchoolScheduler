@@ -18,7 +18,6 @@ import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.SingleHourLesson;
 import sss.scheduler.objects.Subject;
 import sss.scheduler.objects.Teacher;
-import sss.scheduler.properties.Availability;
 
 public class Scheduler {
 	
@@ -276,50 +275,22 @@ public class Scheduler {
 
 		Teacher teacher = lesson.getTeacher();
 		ClassInSchool classInSchool = lesson.getClassInSchool();
-		
-		if (lesson instanceof DoubleHourLesson) {
-			
-			for (int i = 0; i < hours.size(); i++) {
-				
-				LessonHour hour = hours.get(i);
-				if (hour.getNextHour() == null) {
-					continue;
-				} else {
-					LessonHour nextHour = hour.getNextHour();
-					if (!teacher.isAvailable(hour, true) || !classInSchool.isAvailable(hour, true)) {
-						continue;
-					}
 					
-					for (Entry<String, Classroom> entry : classrooms.entrySet()) {
-						Classroom classroom = entry.getValue();
-						if (classroom.isAvailable(hour, true) && classroom.isSuitedFor(lesson)) {
-							availabilityCount ++;
-						}
-					}
-				}
+		for (int i = 0; i < hours.size(); i++) {
+			
+			LessonHour hour = hours.get(i);
+			
+			if (!teacher.isAvailable(hour, lesson) || !classInSchool.isAvailable(hour, lesson)) {
+				continue;
 			}
 			
-			
-		} else if (lesson instanceof SingleHourLesson) {
-			for (int i = 0; i < 45; i++) {
-
-				LessonHour hour = hours.get(i);
-				if (! teacher.isAvailable(hour, false) || ! classInSchool.isAvailable(hour, false)) {
-					continue;
-				}
-				
-				for (Entry<String, Classroom> entry : classrooms.entrySet()) {
-					Classroom classroom = entry.getValue();
-					if (classroom.isAvailable(i) && classroom.isSuitedFor(lesson)) {
-						availabilityCount ++;
-					}
+			for (Entry<String, Classroom> entry : classrooms.entrySet()) {
+				Classroom classroom = entry.getValue();
+				if (classroom.isAvailable(hour, lesson) && classroom.isSuitedFor(lesson)) {
+					availabilityCount ++;
 				}
 			}
-		} else {
-			System.out.println("GetAvailabilityCount: input lesson not sane");
-			System.exit(1);
 		}
-		
 		return availabilityCount;
 	}
 }
