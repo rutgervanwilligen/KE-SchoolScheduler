@@ -61,6 +61,9 @@ public class Teacher extends Resource {
 	 * @param lesson The lesson to check for
 	 */
 	public boolean isSuitedFor(Lesson lesson) {
+		if (lesson.getSubject().getCode().equals("SL")) {
+			return true;
+		}
 		return subjects.contains(lesson.getSubject());
 	}
 	

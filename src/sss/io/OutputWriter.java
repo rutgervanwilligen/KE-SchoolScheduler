@@ -99,6 +99,7 @@ public class OutputWriter {
 		String result = lesson.getWeekday().name() + ", " +
 					lesson.getHour().getStartTime().getHours() + ":" + lesson.getHour().getStartTime().getMinutes() + "-" + 
 					lesson.getHour().getEndTime().getHours() + ":" + lesson.getHour().getEndTime().getMinutes() + ", " +
+					lesson.getClassInSchool().getName() + ", " +
 					lesson.getSubject().getName() + ", " +
 					lesson.getTeacher().getName() + ", " +
 					lesson.getClassroom().getRoomNumber() + "\n";
@@ -106,6 +107,7 @@ public class OutputWriter {
 			result += lesson.getWeekday().name() + ", " +
 					lesson.getHour().getNextHour().getStartTime().getHours() + ":" + lesson.getHour().getNextHour().getStartTime().getMinutes() + "-" + 
 					lesson.getHour().getNextHour().getEndTime().getHours() + ":" + lesson.getHour().getNextHour().getEndTime().getMinutes() + ", " +
+					lesson.getClassInSchool().getName() + ", " +
 					lesson.getSubject().getName() + ", " +
 					lesson.getTeacher().getName() + ", " +
 					lesson.getClassroom().getRoomNumber() + "\n";

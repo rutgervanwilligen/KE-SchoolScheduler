@@ -85,8 +85,15 @@ public class HourInputReader extends InputReader {
 			ClockValue endTime = hour.getEndTime();
 			
 			for (LessonHour nextHour : hours) {
-				if (nextHour.getWeekday().equals(weekday) && nextHour.getStartTime().equals(endTime)) {
+				if (nextHour.getWeekday().equals(weekday) && nextHour.getHour() == (hour.getHour() + 1)) {
 					hour.addNextHour(nextHour);
+					
+					if (endTime.equals(nextHour.getStartTime())) {
+						hour.setPreferredForDoubleHour(true);
+					} else {
+						hour.setPreferredForDoubleHour(false);
+					}
+					
 				}
 			}
 		}

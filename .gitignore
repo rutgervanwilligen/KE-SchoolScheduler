@@ -4,3 +4,4 @@ bin/
 output/
 src/sss/scheduler/objects/*.class
 src/sss/reasoner/*.class
+src/sss/scheduler/*.class

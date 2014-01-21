@@ -1,0 +1,30 @@
+naam;code;vakken;graad;wekelijkse-uren;uren-beschikbaar;uren-onbeschikbaar;uren-liever-niet
+A. Brouwer;AB;NL;1;32;1-45;none;none
+B. Oekenlegger;BO;NL;2;32;1-27;28-45;none
+F. Romanum;FR;LA|GR;2;32;28-45;1-9;10-27
+D. Florius;DF;LA|GR;1;32;1-27;28-36;37-45
+C. de Vries;CV;EN;2;32;19-45;10-18;1-9
+H.I. British;HB;EN;1;32;1-5|10-14|19-23|28-32|37-41;6-9|15-18|24-27|33-36|42-45;none
+P. Île-de-France;PI;FA;1;32;1-27;28-45;none
+T. du Château;TC;FA;1;32;1-27|37-45;28-36;none
+R. Carrell;RC;DU;2;32;1-15|28-36;16-27|37-45;none
+A. Merkel;AM;DU;2;32;1-45;none;none
+V. Roegah;VR;GS;1;32;19-36;1-9;10-18|37-45
+H. Lang-Gelêe;HL;GS;2;32;19-45;1-18;none
+R. Otvak;RO;AK;1;32;10-27|37-45;1-9|28-36;none
+B. Halekor;BH;AK;2;32;1-9|19-27|37-45;10-18;28-36
+M. Eetlat;ME;WI;1;32;10-36;1-9|37-45;none
+X. Ietniet;XI;WI;1;32;1-23|28-36;24-27;37-45
+H. Ford;HF;TN;2;32;28-45;1-18;19-27
+B. Ladgroen;BL;BI;1;32;1-27;28-45;none
+T. Rustenburg;TR;BI;2;32;4-9|13-18|22-27;1-3|10-12|19-21|28-36;37-45
+H. Elium;HE;NS;2;32;1-9|28-45;10-27;none
+R. Eactie;RE;NS;2;32;10-45;1-9;none
+R. Groenink;RG;EC;2;32;10-36;1-9|37-45;none
+C. Omputernerd;CO;IN;1;32;1-45;none;none
+P. Picasso;PP;TE;2;32;1-18|28-45;19-27;none
+J. Hutter;JH;HV;2;32;10-27;1-9;28-45
+F. Lapdrol;FL;MU;1;32;28-36;1-27;37-45
+F. van Harmelen;FH;LO;1;32;1-27;28-45;none
+A. ten Teije;AT;LO;1;32;19-45;1-9;10-18
+I. Uytdehaage;IU;GD;2;32;1-18;19-36;37-45

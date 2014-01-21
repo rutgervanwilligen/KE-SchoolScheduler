@@ -58,8 +58,8 @@ public class Resource {
 	 * @return Boolean value indicating whether the resource is available.
 	 */
 	public boolean isAvailable(LessonHour lessonHour) {
-		System.out.println("isAvailable" + (availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
-				availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT));
+//		System.out.println("isAvailable " + (availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
+//				availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT));
 		return availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
 				availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT;
 	}

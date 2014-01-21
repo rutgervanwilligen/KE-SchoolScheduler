@@ -257,7 +257,7 @@ public class Schedule {
 	}
 	
 	public int lowestAvailabilityCount() {
-		int result = 45;
+		int result = Integer.MAX_VALUE;
 		
 		for (Lesson lesson : unallocatedLessons) {
 			if (lesson.getAvailabilityCount() < result) {
@@ -282,4 +282,25 @@ public class Schedule {
 		return (nrOfLessons == 1);
 	}
 	
+	/**
+	 * Returns whether a teacher already has given lessons in a classroom on a certain day, given an hour.
+	 * @param teacher Teacher to check
+	 * @param classroom Classroom to check
+	 * @param hour The LessonHour object to check
+	 * @returns Truth value indicating if the teacher is scheduled in the Classroom on the day of the LessonHour object
+	 */
+	public boolean teacherAlreadyScheduledInClassroomOnWeekday(Teacher teacher, Classroom classroom, LessonHour hourToCheck) {
+		for (Lesson lesson : allocatedLessons) {
+			if (!(lesson.getHour().getWeekday() == hourToCheck.getWeekday())) {
+				continue;
+			}
+			if (!(lesson.getTeacher().equals(teacher))) {
+				continue;
+			}
+			if (lesson.getClassroom().equals(classroom)) {
+				return true;
+			}
+		}
+		return false;
+	}	
 }

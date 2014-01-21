@@ -15,6 +15,7 @@ import sss.scheduler.objects.ClassInSchool;
  */
   class Jeops_RuleBase_ClassroomTimeslotAllocationKB extends jeops.AbstractRuleBase {
 
+/* Allocation rule for double hour, teacher has already been in the classroom that day */
   
     /**
      * Identifiers of rule allocationRule1
@@ -169,37 +170,37 @@ import sss.scheduler.objects.ClassInSchool;
     /**
      * Condition 3 of rule allocationRule1.<p>
      * The original expression was:<br>
-     * <code>classroom.isSuitedFor(lessonToAllocate)</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean allocationRule1_cond_3() {
-        return (sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_DoubleHourLesson_1));
-    }
-
-    /**
-     * Condition 4 of rule allocationRule1.<p>
-     * The original expression was:<br>
      * <code>classroom.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule1_cond_4() {
+    private boolean allocationRule1_cond_3() {
         return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 5 of rule allocationRule1.<p>
+     * Condition 4 of rule allocationRule1.<p>
      * The original expression was:<br>
      * <code>classroom.isAvailable(nextHour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule1_cond_5() {
+    private boolean allocationRule1_cond_4() {
         return (sss_scheduler_objects_Classroom_1.isAvailable((sss_scheduler_objects_LessonHour_1.getNextHour())));
+    }
+
+    /**
+     * Condition 5 of rule allocationRule1.<p>
+     * The original expression was:<br>
+     * <code>schedule.teacherAlreadyScheduledInClassroomOnWeekday(teacher, classroom, hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule1_cond_5() {
+        return (sss_scheduler_objects_Schedule_1.teacherAlreadyScheduledInClassroomOnWeekday((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()), sss_scheduler_objects_Classroom_1, sss_scheduler_objects_LessonHour_1));
     }
 
     /**
@@ -355,9 +356,9 @@ import sss.scheduler.objects.ClassInSchool;
                 if (!allocationRule1_cond_0()) return false;
                 return true;
             case 2:
-                if (!allocationRule1_cond_3()) return false;
                 return true;
             case 3:
+                if (!allocationRule1_cond_3()) return false;
                 if (!allocationRule1_cond_4()) return false;
                 if (!allocationRule1_cond_5()) return false;
                 if (!allocationRule1_cond_6()) return false;
@@ -375,7 +376,7 @@ import sss.scheduler.objects.ClassInSchool;
      * Executes the action part of the rule allocationRule1
      */
     private void allocationRule1() {
-//      System.out.println("allocationRule1 fired");
+      System.out.println("allocationRule1 fired");
   	  sss_scheduler_objects_Schedule_1.scheduleDoubleHourLesson(sss_scheduler_objects_DoubleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_DoubleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_LessonHour_1.getNextHour()));
   	  modified(sss_scheduler_objects_Schedule_1);
   	  modified(sss_scheduler_objects_Classroom_1);
@@ -386,6 +387,7 @@ import sss.scheduler.objects.ClassInSchool;
 
 
 
+/* Allocation rule for double hour, classroom is suited specially for this lesson */
   
     /**
      * Identifiers of rule allocationRule2
@@ -417,7 +419,7 @@ import sss.scheduler.objects.ClassInSchool;
     private String getDeclaredClassName_allocationRule2(int index) {
         switch (index) {
             case 0: return "sss.scheduler.objects.Schedule";
-            case 1: return "sss.scheduler.objects.SingleHourLesson";
+            case 1: return "sss.scheduler.objects.DoubleHourLesson";
             case 2: return "sss.scheduler.objects.Classroom";
             case 3: return "sss.scheduler.objects.LessonHour";
             default: return null;
@@ -433,7 +435,7 @@ import sss.scheduler.objects.ClassInSchool;
     private Class getDeclaredClass_allocationRule2(int index) {
         switch (index) {
             case 0: return sss.scheduler.objects.Schedule.class;
-            case 1: return sss.scheduler.objects.SingleHourLesson.class;
+            case 1: return sss.scheduler.objects.DoubleHourLesson.class;
             case 2: return sss.scheduler.objects.Classroom.class;
             case 3: return sss.scheduler.objects.LessonHour.class;
             default: return null;
@@ -449,7 +451,7 @@ import sss.scheduler.objects.ClassInSchool;
     private void setObject_allocationRule2(int index, Object value) {
         switch (index) {
             case 0: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
-            case 1: this.sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) value; break;
+            case 1: this.sss_scheduler_objects_DoubleHourLesson_1 = (sss.scheduler.objects.DoubleHourLesson) value; break;
             case 2: this.sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) value; break;
             case 3: this.sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) value; break;
         }
@@ -464,7 +466,7 @@ import sss.scheduler.objects.ClassInSchool;
     private Object getObject_allocationRule2(int index) {
         switch (index) {
             case 0: return sss_scheduler_objects_Schedule_1;
-            case 1: return sss_scheduler_objects_SingleHourLesson_1;
+            case 1: return sss_scheduler_objects_DoubleHourLesson_1;
             case 2: return sss_scheduler_objects_Classroom_1;
             case 3: return sss_scheduler_objects_LessonHour_1;
             default: return null;
@@ -481,7 +483,7 @@ import sss.scheduler.objects.ClassInSchool;
     private Object[] getObjects_allocationRule2() {
         return new Object[] {
                             sss_scheduler_objects_Schedule_1,
-                            sss_scheduler_objects_SingleHourLesson_1,
+                            sss_scheduler_objects_DoubleHourLesson_1,
                             sss_scheduler_objects_Classroom_1,
                             sss_scheduler_objects_LessonHour_1
                             };
@@ -496,7 +498,7 @@ import sss.scheduler.objects.ClassInSchool;
      */
     private void setObjects_allocationRule2(Object[] objects) {
         sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[0];
-        sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) objects[1];
+        sss_scheduler_objects_DoubleHourLesson_1 = (sss.scheduler.objects.DoubleHourLesson) objects[1];
         sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) objects[2];
         sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) objects[3];
     }
@@ -510,7 +512,7 @@ import sss.scheduler.objects.ClassInSchool;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule2_cond_0() {
-        return (sss_scheduler_objects_Schedule_1.containsLessonInSchedulingSet(sss_scheduler_objects_SingleHourLesson_1));
+        return (sss_scheduler_objects_Schedule_1.containsLessonInSchedulingSet(sss_scheduler_objects_DoubleHourLesson_1));
     }
 
     /**
@@ -522,79 +524,139 @@ import sss.scheduler.objects.ClassInSchool;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule2_cond_1() {
-        return (!sss_scheduler_objects_SingleHourLesson_1.isAllocatedToTimeslot());
+        return (!sss_scheduler_objects_DoubleHourLesson_1.isAllocatedToTimeslot());
     }
 
     /**
      * Condition 2 of rule allocationRule2.<p>
+     * The original expression was:<br>
+     * <code>hour.hasNextHour()</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule2_cond_2() {
+        return (sss_scheduler_objects_LessonHour_1.hasNextHour());
+    }
+
+    /**
+     * Condition 3 of rule allocationRule2.<p>
      * The original expression was:<br>
      * <code>teacher.isSuitedFor(lessonToAllocate)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule2_cond_2() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+    private boolean allocationRule2_cond_3() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isSuitedFor(sss_scheduler_objects_DoubleHourLesson_1));
     }
 
     /**
-     * Condition 3 of rule allocationRule2.<p>
+     * Condition 4 of rule allocationRule2.<p>
      * The original expression was:<br>
      * <code>classroom.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule2_cond_3() {
+    private boolean allocationRule2_cond_4() {
         return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 4 of rule allocationRule2.<p>
+     * Condition 5 of rule allocationRule2.<p>
+     * The original expression was:<br>
+     * <code>classroom.isAvailable(nextHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule2_cond_5() {
+        return (sss_scheduler_objects_Classroom_1.isAvailable((sss_scheduler_objects_LessonHour_1.getNextHour())));
+    }
+
+    /**
+     * Condition 6 of rule allocationRule2.<p>
      * The original expression was:<br>
      * <code>classroom.isSuitedFor(lessonToAllocate)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule2_cond_4() {
-        return (sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+    private boolean allocationRule2_cond_6() {
+        return (sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_DoubleHourLesson_1));
     }
 
     /**
-     * Condition 5 of rule allocationRule2.<p>
+     * Condition 7 of rule allocationRule2.<p>
      * The original expression was:<br>
      * <code>classToAllocate.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule2_cond_5() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    private boolean allocationRule2_cond_7() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 6 of rule allocationRule2.<p>
+     * Condition 8 of rule allocationRule2.<p>
+     * The original expression was:<br>
+     * <code>classToAllocate.isAvailable(nextHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule2_cond_8() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()).isAvailable((sss_scheduler_objects_LessonHour_1.getNextHour())));
+    }
+
+    /**
+     * Condition 9 of rule allocationRule2.<p>
      * The original expression was:<br>
      * <code>teacher.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule2_cond_6() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    private boolean allocationRule2_cond_9() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 7 of rule allocationRule2.<p>
+     * Condition 10 of rule allocationRule2.<p>
+     * The original expression was:<br>
+     * <code>teacher.isAvailable(nextHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule2_cond_10() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isAvailable((sss_scheduler_objects_LessonHour_1.getNextHour())));
+    }
+
+    /**
+     * Condition 11 of rule allocationRule2.<p>
      * The original expression was:<br>
      * <code>!teacher.isScheduled(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule2_cond_7() {
-        return (!(sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
+    private boolean allocationRule2_cond_11() {
+        return (!(sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 12 of rule allocationRule2.<p>
+     * The original expression was:<br>
+     * <code>!teacher.isScheduled(nextHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule2_cond_12() {
+        return (!(sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isScheduled((sss_scheduler_objects_LessonHour_1.getNextHour())));
     }
 
     /**
@@ -614,6 +676,11 @@ import sss.scheduler.objects.ClassInSchool;
             case 5: return allocationRule2_cond_5();
             case 6: return allocationRule2_cond_6();
             case 7: return allocationRule2_cond_7();
+            case 8: return allocationRule2_cond_8();
+            case 9: return allocationRule2_cond_9();
+            case 10: return allocationRule2_cond_10();
+            case 11: return allocationRule2_cond_11();
+            case 12: return allocationRule2_cond_12();
             default: return false;
         }
     }
@@ -632,11 +699,12 @@ import sss.scheduler.objects.ClassInSchool;
                 return true;
             case 1:
                 if (!allocationRule2_cond_1()) return false;
-                if (!allocationRule2_cond_2()) return false;
+                if (!allocationRule2_cond_3()) return false;
                 return true;
             case 2:
                 return true;
             case 3:
+                if (!allocationRule2_cond_2()) return false;
                 return true;
             default: return false;
         }
@@ -660,13 +728,17 @@ import sss.scheduler.objects.ClassInSchool;
                 if (!allocationRule2_cond_0()) return false;
                 return true;
             case 2:
-                if (!allocationRule2_cond_4()) return false;
+                if (!allocationRule2_cond_6()) return false;
                 return true;
             case 3:
-                if (!allocationRule2_cond_3()) return false;
+                if (!allocationRule2_cond_4()) return false;
                 if (!allocationRule2_cond_5()) return false;
-                if (!allocationRule2_cond_6()) return false;
                 if (!allocationRule2_cond_7()) return false;
+                if (!allocationRule2_cond_8()) return false;
+                if (!allocationRule2_cond_9()) return false;
+                if (!allocationRule2_cond_10()) return false;
+                if (!allocationRule2_cond_11()) return false;
+                if (!allocationRule2_cond_12()) return false;
                 return true;
             default: return false;
         }
@@ -676,17 +748,19 @@ import sss.scheduler.objects.ClassInSchool;
      * Executes the action part of the rule allocationRule2
      */
     private void allocationRule2() {
-//      System.out.println("allocationRule2 fired");
-  	  sss_scheduler_objects_Schedule_1.scheduleSingleHourLesson(sss_scheduler_objects_SingleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_SingleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1);
+      System.out.println("allocationRule2 fired");
+  	  sss_scheduler_objects_Schedule_1.scheduleDoubleHourLesson(sss_scheduler_objects_DoubleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_DoubleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_LessonHour_1.getNextHour()));
   	  modified(sss_scheduler_objects_Schedule_1);
   	  modified(sss_scheduler_objects_Classroom_1);
-  	  modified((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()));
-  	  modified((sss_scheduler_objects_SingleHourLesson_1.getTeacher()));
-  	  retract(sss_scheduler_objects_SingleHourLesson_1);
+  	  modified((sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()));
+  	  modified((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()));
+  	  retract(sss_scheduler_objects_DoubleHourLesson_1);
       }
 
 
-  
+
+
+/* Allocation rule for double hour, when teacher hasn't been in a room before */
   
     /**
      * Identifiers of rule allocationRule3
@@ -718,7 +792,7 @@ import sss.scheduler.objects.ClassInSchool;
     private String getDeclaredClassName_allocationRule3(int index) {
         switch (index) {
             case 0: return "sss.scheduler.objects.Schedule";
-            case 1: return "sss.scheduler.objects.SingleHourLesson";
+            case 1: return "sss.scheduler.objects.DoubleHourLesson";
             case 2: return "sss.scheduler.objects.Classroom";
             case 3: return "sss.scheduler.objects.LessonHour";
             default: return null;
@@ -734,7 +808,7 @@ import sss.scheduler.objects.ClassInSchool;
     private Class getDeclaredClass_allocationRule3(int index) {
         switch (index) {
             case 0: return sss.scheduler.objects.Schedule.class;
-            case 1: return sss.scheduler.objects.SingleHourLesson.class;
+            case 1: return sss.scheduler.objects.DoubleHourLesson.class;
             case 2: return sss.scheduler.objects.Classroom.class;
             case 3: return sss.scheduler.objects.LessonHour.class;
             default: return null;
@@ -750,7 +824,7 @@ import sss.scheduler.objects.ClassInSchool;
     private void setObject_allocationRule3(int index, Object value) {
         switch (index) {
             case 0: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
-            case 1: this.sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) value; break;
+            case 1: this.sss_scheduler_objects_DoubleHourLesson_1 = (sss.scheduler.objects.DoubleHourLesson) value; break;
             case 2: this.sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) value; break;
             case 3: this.sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) value; break;
         }
@@ -765,7 +839,7 @@ import sss.scheduler.objects.ClassInSchool;
     private Object getObject_allocationRule3(int index) {
         switch (index) {
             case 0: return sss_scheduler_objects_Schedule_1;
-            case 1: return sss_scheduler_objects_SingleHourLesson_1;
+            case 1: return sss_scheduler_objects_DoubleHourLesson_1;
             case 2: return sss_scheduler_objects_Classroom_1;
             case 3: return sss_scheduler_objects_LessonHour_1;
             default: return null;
@@ -782,7 +856,7 @@ import sss.scheduler.objects.ClassInSchool;
     private Object[] getObjects_allocationRule3() {
         return new Object[] {
                             sss_scheduler_objects_Schedule_1,
-                            sss_scheduler_objects_SingleHourLesson_1,
+                            sss_scheduler_objects_DoubleHourLesson_1,
                             sss_scheduler_objects_Classroom_1,
                             sss_scheduler_objects_LessonHour_1
                             };
@@ -797,7 +871,7 @@ import sss.scheduler.objects.ClassInSchool;
      */
     private void setObjects_allocationRule3(Object[] objects) {
         sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[0];
-        sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) objects[1];
+        sss_scheduler_objects_DoubleHourLesson_1 = (sss.scheduler.objects.DoubleHourLesson) objects[1];
         sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) objects[2];
         sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) objects[3];
     }
@@ -811,7 +885,7 @@ import sss.scheduler.objects.ClassInSchool;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule3_cond_0() {
-        return (sss_scheduler_objects_Schedule_1.containsLessonInSchedulingSet(sss_scheduler_objects_SingleHourLesson_1));
+        return (sss_scheduler_objects_Schedule_1.containsLessonInSchedulingSet(sss_scheduler_objects_DoubleHourLesson_1));
     }
 
     /**
@@ -823,103 +897,163 @@ import sss.scheduler.objects.ClassInSchool;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule3_cond_1() {
-        return (!sss_scheduler_objects_SingleHourLesson_1.isAllocatedToTimeslot());
+        return (!sss_scheduler_objects_DoubleHourLesson_1.isAllocatedToTimeslot());
     }
 
     /**
      * Condition 2 of rule allocationRule3.<p>
      * The original expression was:<br>
-     * <code>teacher.isSuitedFor(lessonToAllocate)</code>
+     * <code>hour.hasNextHour()</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean allocationRule3_cond_2() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+        return (sss_scheduler_objects_LessonHour_1.hasNextHour());
     }
 
     /**
      * Condition 3 of rule allocationRule3.<p>
-     * The original expression was:<br>
-     * <code>!lessonToAllocate.needsSpecialClassroom()</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean allocationRule3_cond_3() {
-        return (!sss_scheduler_objects_SingleHourLesson_1.needsSpecialClassroom());
-    }
-
-    /**
-     * Condition 4 of rule allocationRule3.<p>
-     * The original expression was:<br>
-     * <code>classroom.isAvailable(hour)</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean allocationRule3_cond_4() {
-        return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1));
-    }
-
-    /**
-     * Condition 5 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>!classroom.isSuitedFor(lessonToAllocate)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_5() {
-        return (!sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+    private boolean allocationRule3_cond_3() {
+        return (!sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_DoubleHourLesson_1));
     }
 
     /**
-     * Condition 6 of rule allocationRule3.<p>
+     * Condition 4 of rule allocationRule3.<p>
+     * The original expression was:<br>
+     * <code>!lessonToAllocate.needsSpecialClassroom()</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule3_cond_4() {
+        return (!sss_scheduler_objects_DoubleHourLesson_1.needsSpecialClassroom());
+    }
+
+    /**
+     * Condition 5 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>classroom.isSuitedForGeneralUse()</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_6() {
+    private boolean allocationRule3_cond_5() {
         return (sss_scheduler_objects_Classroom_1.isSuitedForGeneralUse());
     }
 
     /**
+     * Condition 6 of rule allocationRule3.<p>
+     * The original expression was:<br>
+     * <code>classroom.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule3_cond_6() {
+        return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
      * Condition 7 of rule allocationRule3.<p>
+     * The original expression was:<br>
+     * <code>classroom.isAvailable(nextHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule3_cond_7() {
+        return (sss_scheduler_objects_Classroom_1.isAvailable((sss_scheduler_objects_LessonHour_1.getNextHour())));
+    }
+
+    /**
+     * Condition 8 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>classToAllocate.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_7() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    private boolean allocationRule3_cond_8() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 8 of rule allocationRule3.<p>
+     * Condition 9 of rule allocationRule3.<p>
+     * The original expression was:<br>
+     * <code>classToAllocate.isAvailable(nextHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule3_cond_9() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()).isAvailable((sss_scheduler_objects_LessonHour_1.getNextHour())));
+    }
+
+    /**
+     * Condition 10 of rule allocationRule3.<p>
+     * The original expression was:<br>
+     * <code>teacher.isSuitedFor(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule3_cond_10() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isSuitedFor(sss_scheduler_objects_DoubleHourLesson_1));
+    }
+
+    /**
+     * Condition 11 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>teacher.isAvailable(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_8() {
-        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    private boolean allocationRule3_cond_11() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 9 of rule allocationRule3.<p>
+     * Condition 12 of rule allocationRule3.<p>
+     * The original expression was:<br>
+     * <code>teacher.isAvailable(nextHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule3_cond_12() {
+        return ((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isAvailable((sss_scheduler_objects_LessonHour_1.getNextHour())));
+    }
+
+    /**
+     * Condition 13 of rule allocationRule3.<p>
      * The original expression was:<br>
      * <code>!teacher.isScheduled(hour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean allocationRule3_cond_9() {
-        return (!(sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
+    private boolean allocationRule3_cond_13() {
+        return (!(sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 14 of rule allocationRule3.<p>
+     * The original expression was:<br>
+     * <code>!teacher.isScheduled(nextHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule3_cond_14() {
+        return (!(sss_scheduler_objects_DoubleHourLesson_1.getTeacher()).isScheduled((sss_scheduler_objects_LessonHour_1.getNextHour())));
     }
 
     /**
@@ -941,6 +1075,11 @@ import sss.scheduler.objects.ClassInSchool;
             case 7: return allocationRule3_cond_7();
             case 8: return allocationRule3_cond_8();
             case 9: return allocationRule3_cond_9();
+            case 10: return allocationRule3_cond_10();
+            case 11: return allocationRule3_cond_11();
+            case 12: return allocationRule3_cond_12();
+            case 13: return allocationRule3_cond_13();
+            case 14: return allocationRule3_cond_14();
             default: return false;
         }
     }
@@ -959,13 +1098,14 @@ import sss.scheduler.objects.ClassInSchool;
                 return true;
             case 1:
                 if (!allocationRule3_cond_1()) return false;
-                if (!allocationRule3_cond_2()) return false;
-                if (!allocationRule3_cond_3()) return false;
+                if (!allocationRule3_cond_4()) return false;
+                if (!allocationRule3_cond_10()) return false;
                 return true;
             case 2:
-                if (!allocationRule3_cond_6()) return false;
+                if (!allocationRule3_cond_5()) return false;
                 return true;
             case 3:
+                if (!allocationRule3_cond_2()) return false;
                 return true;
             default: return false;
         }
@@ -989,13 +1129,17 @@ import sss.scheduler.objects.ClassInSchool;
                 if (!allocationRule3_cond_0()) return false;
                 return true;
             case 2:
-                if (!allocationRule3_cond_5()) return false;
+                if (!allocationRule3_cond_3()) return false;
                 return true;
             case 3:
-                if (!allocationRule3_cond_4()) return false;
+                if (!allocationRule3_cond_6()) return false;
                 if (!allocationRule3_cond_7()) return false;
                 if (!allocationRule3_cond_8()) return false;
                 if (!allocationRule3_cond_9()) return false;
+                if (!allocationRule3_cond_11()) return false;
+                if (!allocationRule3_cond_12()) return false;
+                if (!allocationRule3_cond_13()) return false;
+                if (!allocationRule3_cond_14()) return false;
                 return true;
             default: return false;
         }
@@ -1005,7 +1149,941 @@ import sss.scheduler.objects.ClassInSchool;
      * Executes the action part of the rule allocationRule3
      */
     private void allocationRule3() {
-//      System.out.println("allocationRule3 fired");
+      System.out.println("allocationRule3 fired");
+  	  sss_scheduler_objects_Schedule_1.scheduleDoubleHourLesson(sss_scheduler_objects_DoubleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_DoubleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_LessonHour_1.getNextHour()));
+  	  modified(sss_scheduler_objects_Schedule_1);
+  	  modified(sss_scheduler_objects_Classroom_1);
+  	  modified((sss_scheduler_objects_DoubleHourLesson_1.getClassInSchool()));
+  	  modified((sss_scheduler_objects_DoubleHourLesson_1.getTeacher()));
+  	  retract(sss_scheduler_objects_DoubleHourLesson_1);
+      }
+
+
+
+/* Allocation rule for single hour, teacher has visited the classroom on the same day already */
+  
+    /**
+     * Identifiers of rule allocationRule4
+     */
+    private String[] identifiers_allocationRule4 = {
+        "schedule",
+        "lessonToAllocate",
+        "classroom",
+        "hour"
+    };
+
+    /**
+     * Returns the identifiers declared in rule allocationRule4
+     *
+     * @return the identifiers declared in rule allocationRule4
+     */
+    private String[] getDeclaredIdentifiers_allocationRule4() {
+         return identifiers_allocationRule4;
+    }
+
+    /**
+     * Returns the name of the class of one declared object for
+     * rule allocationRule4.
+     *
+     * @param index the index of the declaration
+     * @return the name of the class of the declared objects for
+     *          this rule.
+     */
+    private String getDeclaredClassName_allocationRule4(int index) {
+        switch (index) {
+            case 0: return "sss.scheduler.objects.Schedule";
+            case 1: return "sss.scheduler.objects.SingleHourLesson";
+            case 2: return "sss.scheduler.objects.Classroom";
+            case 3: return "sss.scheduler.objects.LessonHour";
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns the class of one declared object for rule allocationRule4.
+     *
+     * @param index the index of the declaration
+     * @return the class of the declared objects for this rule.
+     */
+    private Class getDeclaredClass_allocationRule4(int index) {
+        switch (index) {
+            case 0: return sss.scheduler.objects.Schedule.class;
+            case 1: return sss.scheduler.objects.SingleHourLesson.class;
+            case 2: return sss.scheduler.objects.Classroom.class;
+            case 3: return sss.scheduler.objects.LessonHour.class;
+            default: return null;
+        }
+    }
+
+    /**
+     * Sets an object declared in the rule allocationRule4.
+     *
+     * @param index the index of the declared object
+     * @param value the value of the object being set.
+     */
+    private void setObject_allocationRule4(int index, Object value) {
+        switch (index) {
+            case 0: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
+            case 1: this.sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) value; break;
+            case 2: this.sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) value; break;
+            case 3: this.sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) value; break;
+        }
+    }
+
+    /**
+     * Returns an object declared in the rule allocationRule4.
+     *
+     * @param index the index of the declared object
+     * @return the value of the corresponding object.
+     */
+    private Object getObject_allocationRule4(int index) {
+        switch (index) {
+            case 0: return sss_scheduler_objects_Schedule_1;
+            case 1: return sss_scheduler_objects_SingleHourLesson_1;
+            case 2: return sss_scheduler_objects_Classroom_1;
+            case 3: return sss_scheduler_objects_LessonHour_1;
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns all variables bound to the declarations 
+     * of rule allocationRule4
+     *
+     * @return an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private Object[] getObjects_allocationRule4() {
+        return new Object[] {
+                            sss_scheduler_objects_Schedule_1,
+                            sss_scheduler_objects_SingleHourLesson_1,
+                            sss_scheduler_objects_Classroom_1,
+                            sss_scheduler_objects_LessonHour_1
+                            };
+    }
+
+    /**
+     * Defines all variables bound to the declarations 
+     * of rule allocationRule4
+     *
+     * @param objects an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private void setObjects_allocationRule4(Object[] objects) {
+        sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[0];
+        sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) objects[1];
+        sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) objects[2];
+        sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) objects[3];
+    }
+
+    /**
+     * Condition 0 of rule allocationRule4.<p>
+     * The original expression was:<br>
+     * <code>schedule.containsLessonInSchedulingSet(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond_0() {
+        return (sss_scheduler_objects_Schedule_1.containsLessonInSchedulingSet(sss_scheduler_objects_SingleHourLesson_1));
+    }
+
+    /**
+     * Condition 1 of rule allocationRule4.<p>
+     * The original expression was:<br>
+     * <code>!lessonToAllocate.isAllocatedToTimeslot()</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond_1() {
+        return (!sss_scheduler_objects_SingleHourLesson_1.isAllocatedToTimeslot());
+    }
+
+    /**
+     * Condition 2 of rule allocationRule4.<p>
+     * The original expression was:<br>
+     * <code>teacher.isSuitedFor(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond_2() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+    }
+
+    /**
+     * Condition 3 of rule allocationRule4.<p>
+     * The original expression was:<br>
+     * <code>classroom.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond_3() {
+        return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 4 of rule allocationRule4.<p>
+     * The original expression was:<br>
+     * <code>schedule.teacherAlreadyScheduledInClassroomOnWeekday(teacher, classroom, hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond_4() {
+        return (sss_scheduler_objects_Schedule_1.teacherAlreadyScheduledInClassroomOnWeekday((sss_scheduler_objects_SingleHourLesson_1.getTeacher()), sss_scheduler_objects_Classroom_1, sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 5 of rule allocationRule4.<p>
+     * The original expression was:<br>
+     * <code>classToAllocate.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond_5() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 6 of rule allocationRule4.<p>
+     * The original expression was:<br>
+     * <code>teacher.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond_6() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 7 of rule allocationRule4.<p>
+     * The original expression was:<br>
+     * <code>!teacher.isScheduled(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond_7() {
+        return (!(sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Checks whether some conditions of rule allocationRule4 is satisfied.
+     *
+     * @param index the index of the condition to be checked.
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule4_cond(int index) {
+        switch (index) {
+            case 0: return allocationRule4_cond_0();
+            case 1: return allocationRule4_cond_1();
+            case 2: return allocationRule4_cond_2();
+            case 3: return allocationRule4_cond_3();
+            case 4: return allocationRule4_cond_4();
+            case 5: return allocationRule4_cond_5();
+            case 6: return allocationRule4_cond_6();
+            case 7: return allocationRule4_cond_7();
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all conditions of rule allocationRule4 that depend only on
+     * the given object are satisfied.
+     *
+     * @param declIndex the index of the declaration to be checked
+     * @return <code>true</code> if all corresponding conditions for
+     *          this rule are satisfied; <code>false</code> otherwise.
+     */
+    private boolean checkConditionsOnlyOf_allocationRule4(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            case 1:
+                if (!allocationRule4_cond_1()) return false;
+                if (!allocationRule4_cond_2()) return false;
+                return true;
+            case 2:
+                return true;
+            case 3:
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all the conditions of a rule which
+     * reference some declared element of the declarations are
+     * true.
+     *
+     * @param declIndex the index of the declared element.
+     * @return <code>true</code> if the conditions that reference
+     *          up to the given declaration are true;
+     *          <code>false</code> otherwise.
+     */
+    private boolean checkCondForDeclaration_allocationRule4(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            case 1:
+                if (!allocationRule4_cond_0()) return false;
+                return true;
+            case 2:
+                return true;
+            case 3:
+                if (!allocationRule4_cond_3()) return false;
+                if (!allocationRule4_cond_4()) return false;
+                if (!allocationRule4_cond_5()) return false;
+                if (!allocationRule4_cond_6()) return false;
+                if (!allocationRule4_cond_7()) return false;
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Executes the action part of the rule allocationRule4
+     */
+    private void allocationRule4() {
+      System.out.println("allocationRule4 fired");
+  	  sss_scheduler_objects_Schedule_1.scheduleSingleHourLesson(sss_scheduler_objects_SingleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_SingleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1);
+  	  modified(sss_scheduler_objects_Schedule_1);
+  	  modified(sss_scheduler_objects_Classroom_1);
+  	  modified((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()));
+  	  modified((sss_scheduler_objects_SingleHourLesson_1.getTeacher()));
+  	  retract(sss_scheduler_objects_SingleHourLesson_1);
+      }
+
+
+
+/* Allocation rule for single hour, classroom is suited specially for this lesson */
+  
+    /**
+     * Identifiers of rule allocationRule5
+     */
+    private String[] identifiers_allocationRule5 = {
+        "schedule",
+        "lessonToAllocate",
+        "classroom",
+        "hour"
+    };
+
+    /**
+     * Returns the identifiers declared in rule allocationRule5
+     *
+     * @return the identifiers declared in rule allocationRule5
+     */
+    private String[] getDeclaredIdentifiers_allocationRule5() {
+         return identifiers_allocationRule5;
+    }
+
+    /**
+     * Returns the name of the class of one declared object for
+     * rule allocationRule5.
+     *
+     * @param index the index of the declaration
+     * @return the name of the class of the declared objects for
+     *          this rule.
+     */
+    private String getDeclaredClassName_allocationRule5(int index) {
+        switch (index) {
+            case 0: return "sss.scheduler.objects.Schedule";
+            case 1: return "sss.scheduler.objects.SingleHourLesson";
+            case 2: return "sss.scheduler.objects.Classroom";
+            case 3: return "sss.scheduler.objects.LessonHour";
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns the class of one declared object for rule allocationRule5.
+     *
+     * @param index the index of the declaration
+     * @return the class of the declared objects for this rule.
+     */
+    private Class getDeclaredClass_allocationRule5(int index) {
+        switch (index) {
+            case 0: return sss.scheduler.objects.Schedule.class;
+            case 1: return sss.scheduler.objects.SingleHourLesson.class;
+            case 2: return sss.scheduler.objects.Classroom.class;
+            case 3: return sss.scheduler.objects.LessonHour.class;
+            default: return null;
+        }
+    }
+
+    /**
+     * Sets an object declared in the rule allocationRule5.
+     *
+     * @param index the index of the declared object
+     * @param value the value of the object being set.
+     */
+    private void setObject_allocationRule5(int index, Object value) {
+        switch (index) {
+            case 0: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
+            case 1: this.sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) value; break;
+            case 2: this.sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) value; break;
+            case 3: this.sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) value; break;
+        }
+    }
+
+    /**
+     * Returns an object declared in the rule allocationRule5.
+     *
+     * @param index the index of the declared object
+     * @return the value of the corresponding object.
+     */
+    private Object getObject_allocationRule5(int index) {
+        switch (index) {
+            case 0: return sss_scheduler_objects_Schedule_1;
+            case 1: return sss_scheduler_objects_SingleHourLesson_1;
+            case 2: return sss_scheduler_objects_Classroom_1;
+            case 3: return sss_scheduler_objects_LessonHour_1;
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns all variables bound to the declarations 
+     * of rule allocationRule5
+     *
+     * @return an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private Object[] getObjects_allocationRule5() {
+        return new Object[] {
+                            sss_scheduler_objects_Schedule_1,
+                            sss_scheduler_objects_SingleHourLesson_1,
+                            sss_scheduler_objects_Classroom_1,
+                            sss_scheduler_objects_LessonHour_1
+                            };
+    }
+
+    /**
+     * Defines all variables bound to the declarations 
+     * of rule allocationRule5
+     *
+     * @param objects an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private void setObjects_allocationRule5(Object[] objects) {
+        sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[0];
+        sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) objects[1];
+        sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) objects[2];
+        sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) objects[3];
+    }
+
+    /**
+     * Condition 0 of rule allocationRule5.<p>
+     * The original expression was:<br>
+     * <code>schedule.containsLessonInSchedulingSet(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond_0() {
+        return (sss_scheduler_objects_Schedule_1.containsLessonInSchedulingSet(sss_scheduler_objects_SingleHourLesson_1));
+    }
+
+    /**
+     * Condition 1 of rule allocationRule5.<p>
+     * The original expression was:<br>
+     * <code>!lessonToAllocate.isAllocatedToTimeslot()</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond_1() {
+        return (!sss_scheduler_objects_SingleHourLesson_1.isAllocatedToTimeslot());
+    }
+
+    /**
+     * Condition 2 of rule allocationRule5.<p>
+     * The original expression was:<br>
+     * <code>teacher.isSuitedFor(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond_2() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+    }
+
+    /**
+     * Condition 3 of rule allocationRule5.<p>
+     * The original expression was:<br>
+     * <code>classroom.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond_3() {
+        return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 4 of rule allocationRule5.<p>
+     * The original expression was:<br>
+     * <code>classroom.isSuitedFor(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond_4() {
+        return (sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+    }
+
+    /**
+     * Condition 5 of rule allocationRule5.<p>
+     * The original expression was:<br>
+     * <code>classToAllocate.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond_5() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 6 of rule allocationRule5.<p>
+     * The original expression was:<br>
+     * <code>teacher.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond_6() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 7 of rule allocationRule5.<p>
+     * The original expression was:<br>
+     * <code>!teacher.isScheduled(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond_7() {
+        return (!(sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Checks whether some conditions of rule allocationRule5 is satisfied.
+     *
+     * @param index the index of the condition to be checked.
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule5_cond(int index) {
+        switch (index) {
+            case 0: return allocationRule5_cond_0();
+            case 1: return allocationRule5_cond_1();
+            case 2: return allocationRule5_cond_2();
+            case 3: return allocationRule5_cond_3();
+            case 4: return allocationRule5_cond_4();
+            case 5: return allocationRule5_cond_5();
+            case 6: return allocationRule5_cond_6();
+            case 7: return allocationRule5_cond_7();
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all conditions of rule allocationRule5 that depend only on
+     * the given object are satisfied.
+     *
+     * @param declIndex the index of the declaration to be checked
+     * @return <code>true</code> if all corresponding conditions for
+     *          this rule are satisfied; <code>false</code> otherwise.
+     */
+    private boolean checkConditionsOnlyOf_allocationRule5(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            case 1:
+                if (!allocationRule5_cond_1()) return false;
+                if (!allocationRule5_cond_2()) return false;
+                return true;
+            case 2:
+                return true;
+            case 3:
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all the conditions of a rule which
+     * reference some declared element of the declarations are
+     * true.
+     *
+     * @param declIndex the index of the declared element.
+     * @return <code>true</code> if the conditions that reference
+     *          up to the given declaration are true;
+     *          <code>false</code> otherwise.
+     */
+    private boolean checkCondForDeclaration_allocationRule5(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            case 1:
+                if (!allocationRule5_cond_0()) return false;
+                return true;
+            case 2:
+                if (!allocationRule5_cond_4()) return false;
+                return true;
+            case 3:
+                if (!allocationRule5_cond_3()) return false;
+                if (!allocationRule5_cond_5()) return false;
+                if (!allocationRule5_cond_6()) return false;
+                if (!allocationRule5_cond_7()) return false;
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Executes the action part of the rule allocationRule5
+     */
+    private void allocationRule5() {
+      System.out.println("allocationRule5 fired");
+  	  sss_scheduler_objects_Schedule_1.scheduleSingleHourLesson(sss_scheduler_objects_SingleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_SingleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1);
+  	  modified(sss_scheduler_objects_Schedule_1);
+  	  modified(sss_scheduler_objects_Classroom_1);
+  	  modified((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()));
+  	  modified((sss_scheduler_objects_SingleHourLesson_1.getTeacher()));
+  	  retract(sss_scheduler_objects_SingleHourLesson_1);
+      }
+
+
+  
+/* Allocation rule for single hour, lesson can be given in general use classroom */
+  
+    /**
+     * Identifiers of rule allocationRule6
+     */
+    private String[] identifiers_allocationRule6 = {
+        "schedule",
+        "lessonToAllocate",
+        "classroom",
+        "hour"
+    };
+
+    /**
+     * Returns the identifiers declared in rule allocationRule6
+     *
+     * @return the identifiers declared in rule allocationRule6
+     */
+    private String[] getDeclaredIdentifiers_allocationRule6() {
+         return identifiers_allocationRule6;
+    }
+
+    /**
+     * Returns the name of the class of one declared object for
+     * rule allocationRule6.
+     *
+     * @param index the index of the declaration
+     * @return the name of the class of the declared objects for
+     *          this rule.
+     */
+    private String getDeclaredClassName_allocationRule6(int index) {
+        switch (index) {
+            case 0: return "sss.scheduler.objects.Schedule";
+            case 1: return "sss.scheduler.objects.SingleHourLesson";
+            case 2: return "sss.scheduler.objects.Classroom";
+            case 3: return "sss.scheduler.objects.LessonHour";
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns the class of one declared object for rule allocationRule6.
+     *
+     * @param index the index of the declaration
+     * @return the class of the declared objects for this rule.
+     */
+    private Class getDeclaredClass_allocationRule6(int index) {
+        switch (index) {
+            case 0: return sss.scheduler.objects.Schedule.class;
+            case 1: return sss.scheduler.objects.SingleHourLesson.class;
+            case 2: return sss.scheduler.objects.Classroom.class;
+            case 3: return sss.scheduler.objects.LessonHour.class;
+            default: return null;
+        }
+    }
+
+    /**
+     * Sets an object declared in the rule allocationRule6.
+     *
+     * @param index the index of the declared object
+     * @param value the value of the object being set.
+     */
+    private void setObject_allocationRule6(int index, Object value) {
+        switch (index) {
+            case 0: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
+            case 1: this.sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) value; break;
+            case 2: this.sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) value; break;
+            case 3: this.sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) value; break;
+        }
+    }
+
+    /**
+     * Returns an object declared in the rule allocationRule6.
+     *
+     * @param index the index of the declared object
+     * @return the value of the corresponding object.
+     */
+    private Object getObject_allocationRule6(int index) {
+        switch (index) {
+            case 0: return sss_scheduler_objects_Schedule_1;
+            case 1: return sss_scheduler_objects_SingleHourLesson_1;
+            case 2: return sss_scheduler_objects_Classroom_1;
+            case 3: return sss_scheduler_objects_LessonHour_1;
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns all variables bound to the declarations 
+     * of rule allocationRule6
+     *
+     * @return an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private Object[] getObjects_allocationRule6() {
+        return new Object[] {
+                            sss_scheduler_objects_Schedule_1,
+                            sss_scheduler_objects_SingleHourLesson_1,
+                            sss_scheduler_objects_Classroom_1,
+                            sss_scheduler_objects_LessonHour_1
+                            };
+    }
+
+    /**
+     * Defines all variables bound to the declarations 
+     * of rule allocationRule6
+     *
+     * @param objects an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private void setObjects_allocationRule6(Object[] objects) {
+        sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[0];
+        sss_scheduler_objects_SingleHourLesson_1 = (sss.scheduler.objects.SingleHourLesson) objects[1];
+        sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) objects[2];
+        sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) objects[3];
+    }
+
+    /**
+     * Condition 0 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>schedule.containsLessonInSchedulingSet(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_0() {
+        return (sss_scheduler_objects_Schedule_1.containsLessonInSchedulingSet(sss_scheduler_objects_SingleHourLesson_1));
+    }
+
+    /**
+     * Condition 1 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>!lessonToAllocate.isAllocatedToTimeslot()</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_1() {
+        return (!sss_scheduler_objects_SingleHourLesson_1.isAllocatedToTimeslot());
+    }
+
+    /**
+     * Condition 2 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>teacher.isSuitedFor(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_2() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+    }
+
+    /**
+     * Condition 3 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>!lessonToAllocate.needsSpecialClassroom()</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_3() {
+        return (!sss_scheduler_objects_SingleHourLesson_1.needsSpecialClassroom());
+    }
+
+    /**
+     * Condition 4 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>classroom.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_4() {
+        return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 5 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>!classroom.isSuitedFor(lessonToAllocate)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_5() {
+        return (!sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_SingleHourLesson_1));
+    }
+
+    /**
+     * Condition 6 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>classroom.isSuitedForGeneralUse()</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_6() {
+        return (sss_scheduler_objects_Classroom_1.isSuitedForGeneralUse());
+    }
+
+    /**
+     * Condition 7 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>classToAllocate.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_7() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 8 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>teacher.isAvailable(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_8() {
+        return ((sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 9 of rule allocationRule6.<p>
+     * The original expression was:<br>
+     * <code>!teacher.isScheduled(hour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond_9() {
+        return (!(sss_scheduler_objects_SingleHourLesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Checks whether some conditions of rule allocationRule6 is satisfied.
+     *
+     * @param index the index of the condition to be checked.
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean allocationRule6_cond(int index) {
+        switch (index) {
+            case 0: return allocationRule6_cond_0();
+            case 1: return allocationRule6_cond_1();
+            case 2: return allocationRule6_cond_2();
+            case 3: return allocationRule6_cond_3();
+            case 4: return allocationRule6_cond_4();
+            case 5: return allocationRule6_cond_5();
+            case 6: return allocationRule6_cond_6();
+            case 7: return allocationRule6_cond_7();
+            case 8: return allocationRule6_cond_8();
+            case 9: return allocationRule6_cond_9();
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all conditions of rule allocationRule6 that depend only on
+     * the given object are satisfied.
+     *
+     * @param declIndex the index of the declaration to be checked
+     * @return <code>true</code> if all corresponding conditions for
+     *          this rule are satisfied; <code>false</code> otherwise.
+     */
+    private boolean checkConditionsOnlyOf_allocationRule6(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            case 1:
+                if (!allocationRule6_cond_1()) return false;
+                if (!allocationRule6_cond_2()) return false;
+                if (!allocationRule6_cond_3()) return false;
+                return true;
+            case 2:
+                if (!allocationRule6_cond_6()) return false;
+                return true;
+            case 3:
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all the conditions of a rule which
+     * reference some declared element of the declarations are
+     * true.
+     *
+     * @param declIndex the index of the declared element.
+     * @return <code>true</code> if the conditions that reference
+     *          up to the given declaration are true;
+     *          <code>false</code> otherwise.
+     */
+    private boolean checkCondForDeclaration_allocationRule6(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            case 1:
+                if (!allocationRule6_cond_0()) return false;
+                return true;
+            case 2:
+                if (!allocationRule6_cond_5()) return false;
+                return true;
+            case 3:
+                if (!allocationRule6_cond_4()) return false;
+                if (!allocationRule6_cond_7()) return false;
+                if (!allocationRule6_cond_8()) return false;
+                if (!allocationRule6_cond_9()) return false;
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Executes the action part of the rule allocationRule6
+     */
+    private void allocationRule6() {
+      System.out.println("allocationRule6 fired");
   	  sss_scheduler_objects_Schedule_1.scheduleSingleHourLesson(sss_scheduler_objects_SingleHourLesson_1, sss_scheduler_objects_Classroom_1, (sss_scheduler_objects_SingleHourLesson_1.getClassInSchool()), (sss_scheduler_objects_SingleHourLesson_1.getTeacher()), sss_scheduler_objects_LessonHour_1);
   	  modified(sss_scheduler_objects_Schedule_1);
   	  modified(sss_scheduler_objects_Classroom_1);
@@ -1023,7 +2101,10 @@ import sss.scheduler.objects.ClassInSchool;
     private static final String[] File_ruleNames = {
         "allocationRule1",
         "allocationRule2",
-        "allocationRule3"
+        "allocationRule3",
+        "allocationRule4",
+        "allocationRule5",
+        "allocationRule6"
     };
 
     /**
@@ -1039,6 +2120,9 @@ import sss.scheduler.objects.ClassInSchool;
      * The number of declarations of the rules in this class file.
      */
     private static final int[] File_numberOfDeclarations = {
+        4,
+        4,
+        4,
         4,
         4,
         4
@@ -1058,6 +2142,9 @@ import sss.scheduler.objects.ClassInSchool;
      */
     private static final int[] File_numberOfConditions = {
         13,
+        13,
+        15,
+        8,
         8,
         10
     };
@@ -1084,6 +2171,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: return allocationRule1_cond(condIndex);
             case 1: return allocationRule2_cond(condIndex);
             case 2: return allocationRule3_cond(condIndex);
+            case 3: return allocationRule4_cond(condIndex);
+            case 4: return allocationRule5_cond(condIndex);
+            case 5: return allocationRule6_cond(condIndex);
             default: return false;
         }
     }
@@ -1103,6 +2193,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: return checkConditionsOnlyOf_allocationRule1(declIndex);
             case 1: return checkConditionsOnlyOf_allocationRule2(declIndex);
             case 2: return checkConditionsOnlyOf_allocationRule3(declIndex);
+            case 3: return checkConditionsOnlyOf_allocationRule4(declIndex);
+            case 4: return checkConditionsOnlyOf_allocationRule5(declIndex);
+            case 5: return checkConditionsOnlyOf_allocationRule6(declIndex);
             default: return false;
         }
     }
@@ -1123,6 +2216,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: return checkCondForDeclaration_allocationRule1(declIndex);
             case 1: return checkCondForDeclaration_allocationRule2(declIndex);
             case 2: return checkCondForDeclaration_allocationRule3(declIndex);
+            case 3: return checkCondForDeclaration_allocationRule4(declIndex);
+            case 4: return checkCondForDeclaration_allocationRule5(declIndex);
+            case 5: return checkCondForDeclaration_allocationRule6(declIndex);
             default: return false;
         }
     }
@@ -1139,6 +2235,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: return getDeclaredClassName_allocationRule1(declIndex);
             case 1: return getDeclaredClassName_allocationRule2(declIndex);
             case 2: return getDeclaredClassName_allocationRule3(declIndex);
+            case 3: return getDeclaredClassName_allocationRule4(declIndex);
+            case 4: return getDeclaredClassName_allocationRule5(declIndex);
+            case 5: return getDeclaredClassName_allocationRule6(declIndex);
             default: return null;
         }
     }
@@ -1155,6 +2254,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: return getDeclaredClass_allocationRule1(declIndex);
             case 1: return getDeclaredClass_allocationRule2(declIndex);
             case 2: return getDeclaredClass_allocationRule3(declIndex);
+            case 3: return getDeclaredClass_allocationRule4(declIndex);
+            case 4: return getDeclaredClass_allocationRule5(declIndex);
+            case 5: return getDeclaredClass_allocationRule6(declIndex);
             default: return null;
         }
     }
@@ -1169,6 +2271,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: allocationRule1(); break;
             case 1: allocationRule2(); break;
             case 2: allocationRule3(); break;
+            case 3: allocationRule4(); break;
+            case 4: allocationRule5(); break;
+            case 5: allocationRule6(); break;
         }
     }
 
@@ -1178,7 +2283,7 @@ import sss.scheduler.objects.ClassInSchool;
      * @return the number of rules.
      */
     public int getNumberOfRules() {
-        return 3;
+        return 6;
     }
 
     /**
@@ -1192,6 +2297,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: return getDeclaredIdentifiers_allocationRule1();
             case 1: return getDeclaredIdentifiers_allocationRule2();
             case 2: return getDeclaredIdentifiers_allocationRule3();
+            case 3: return getDeclaredIdentifiers_allocationRule4();
+            case 4: return getDeclaredIdentifiers_allocationRule5();
+            case 5: return getDeclaredIdentifiers_allocationRule6();
             default: return new String[0];
         }
     }
@@ -1208,6 +2316,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: setObject_allocationRule1(declIndex, value); break;
             case 1: setObject_allocationRule2(declIndex, value); break;
             case 2: setObject_allocationRule3(declIndex, value); break;
+            case 3: setObject_allocationRule4(declIndex, value); break;
+            case 4: setObject_allocationRule5(declIndex, value); break;
+            case 5: setObject_allocationRule6(declIndex, value); break;
         }
     }
 
@@ -1223,6 +2334,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: return getObject_allocationRule1(declIndex);
             case 1: return getObject_allocationRule2(declIndex);
             case 2: return getObject_allocationRule3(declIndex);
+            case 3: return getObject_allocationRule4(declIndex);
+            case 4: return getObject_allocationRule5(declIndex);
+            case 5: return getObject_allocationRule6(declIndex);
             default: return null;
         }
     }
@@ -1240,6 +2354,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: return getObjects_allocationRule1();
             case 1: return getObjects_allocationRule2();
             case 2: return getObjects_allocationRule3();
+            case 3: return getObjects_allocationRule4();
+            case 4: return getObjects_allocationRule5();
+            case 5: return getObjects_allocationRule6();
             default: return null;
         }
     }
@@ -1256,6 +2373,9 @@ import sss.scheduler.objects.ClassInSchool;
             case 0: setObjects_allocationRule1(objects); break;
             case 1: setObjects_allocationRule2(objects); break;
             case 2: setObjects_allocationRule3(objects); break;
+            case 3: setObjects_allocationRule4(objects); break;
+            case 4: setObjects_allocationRule5(objects); break;
+            case 5: setObjects_allocationRule6(objects); break;
         }
     }
 
@@ -1282,7 +2402,7 @@ import sss.scheduler.objects.ClassInSchool;
 /**
  * Knowledge base created by JEOPS from file ClassroomTimeslotAllocationKB.rules
  *
- * @version Jan 14, 2014
+ * @version Jan 21, 2014
  */
 public class ClassroomTimeslotAllocationKB extends jeops.AbstractKnowledgeBase {
 

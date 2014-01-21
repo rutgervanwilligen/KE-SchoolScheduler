@@ -3,7 +3,6 @@ package sss.scheduler.objects;
 import java.util.ArrayList;
 
 import sss.scheduler.Resource;
-import sss.scheduler.properties.Availability;
 import sss.scheduler.properties.Location;
 
 public class Classroom extends Resource {

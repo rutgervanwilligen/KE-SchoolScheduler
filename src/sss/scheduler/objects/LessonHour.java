@@ -10,6 +10,7 @@ public class LessonHour implements Comparable<LessonHour> {
 	private final ClockValue startTime;
 	private final ClockValue endTime;
 	private LessonHour nextHour;
+	private boolean preferredForDoubleHour;
 
 	/*
 	 * Getters
@@ -51,6 +52,7 @@ public class LessonHour implements Comparable<LessonHour> {
 		startTime = new ClockValue(startTimeHour, startTimeMinutes);
 		endTime = new ClockValue(endTimeHour, endTimeMinutes);
 		nextHour = null;
+		preferredForDoubleHour = false;
 	}
 	
 	/**
@@ -84,5 +86,14 @@ public class LessonHour implements Comparable<LessonHour> {
 				return 0;
 			}
 		}
+	}
+
+	public void setPreferredForDoubleHour(boolean b) {
+		this.preferredForDoubleHour = b;		
+	}
+	
+	
+	public boolean preferredForDoubleHour() {
+		return preferredForDoubleHour;
 	}
 }
