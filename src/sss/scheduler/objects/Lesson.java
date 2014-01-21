@@ -43,6 +43,12 @@ public abstract class Lesson implements Comparable<Lesson> {
 		this.firstHour = hour;
 	}
 
+	public void setHour(LessonHour hour, boolean hasNextHour) {
+		this.firstHour = hour;
+		if (hasNextHour && hour.hasNextHour())
+			setSecondHour(hour.getNextHour());
+	}
+
 	public void setSecondHour(LessonHour hour) {
 		this.secondHour = hour;
 	}

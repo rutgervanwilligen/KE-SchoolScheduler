@@ -172,6 +172,8 @@ public class Schedule {
 	 */
 	public void scheduleDoubleHourLesson(DoubleHourLesson lesson, Classroom classroom, ClassInSchool classInSchool, Teacher teacher, LessonHour firstHour, LessonHour secondHour) {
 		schedulingSet.remove(lesson);
+		unallocatableLessons.remove(lesson);
+		unallocatedLessons.remove(lesson);
 		
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(firstHour, secondHour);

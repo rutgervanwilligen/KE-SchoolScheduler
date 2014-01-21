@@ -57,11 +57,17 @@ public class Resource {
 	 * @param lessonHour The lesson hour to check.
 	 * @return Boolean value indicating whether the resource is available.
 	 */
-	public boolean isAvailable(LessonHour lessonHour) {
-//		System.out.println("isAvailable " + (availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
-//				availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT));
-		return availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
+	public boolean isAvailable(LessonHour lessonHour, boolean isDoubleHour) {
+		if (isDoubleHour) {
+			return lessonHour.hasNextHour() &&
+					(availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
+					availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT) &&
+					(availabilities[getLessonHourIndex(lessonHour.getNextHour())] == Availability.AVAILABLE ||
+					availabilities[getLessonHourIndex(lessonHour.getNextHour())] == Availability.RATHER_NOT);
+		} else {
+			return availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
 				availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT;
+		}
 	}
 	
 	/**

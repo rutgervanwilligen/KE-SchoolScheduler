@@ -30,16 +30,12 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  schedule.containsLessonInSchedulingSet(lessonToAllocate); // Eigenlijk overbodig
   	  !lessonToAllocate.isAllocatedToTimeslot(); // Eigenlijk overbodig
   	  hour.hasNextHour();
-  	  classroom.isAvailable(hour);
-  	  classroom.isAvailable(nextHour);
+  	  classroom.isAvailable(hour, true);
   	  schedule.teacherAlreadyScheduledInClassroomOnWeekday(teacher, classroom, hour);
-  	  classToAllocate.isAvailable(hour);
-  	  classToAllocate.isAvailable(nextHour);
+  	  classToAllocate.isAvailable(hour, true);
   	  teacher.isSuitedFor(lessonToAllocate);
-  	  teacher.isAvailable(hour);
-  	  teacher.isAvailable(nextHour);
-      !teacher.isScheduled(hour);
-      !teacher.isScheduled(nextHour);
+  	  teacher.isAvailable(hour, true);
+      !teacher.isScheduled(hour, true);
     actions
       System.out.println("allocationRule1 fired");
   	  schedule.scheduleDoubleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour, nextHour);
@@ -66,15 +62,11 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  !lessonToAllocate.isAllocatedToTimeslot(); // Eigenlijk overbodig
   	  hour.hasNextHour();
   	  teacher.isSuitedFor(lessonToAllocate);
-  	  classroom.isAvailable(hour);
-  	  classroom.isAvailable(nextHour);
+  	  classroom.isAvailable(hour, true);
   	  classroom.isSuitedFor(lessonToAllocate);
-  	  classToAllocate.isAvailable(hour);
-  	  classToAllocate.isAvailable(nextHour);
-  	  teacher.isAvailable(hour);
-  	  teacher.isAvailable(nextHour);
-      !teacher.isScheduled(hour);
-      !teacher.isScheduled(nextHour);
+  	  classToAllocate.isAvailable(hour, true);
+  	  teacher.isAvailable(hour, true);
+      !teacher.isScheduled(hour, true);
     actions
       System.out.println("allocationRule2 fired");
   	  schedule.scheduleDoubleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour, nextHour);
@@ -104,15 +96,11 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  !classroom.isSuitedFor(lessonToAllocate);
   	  !lessonToAllocate.needsSpecialClassroom();  
   	  classroom.isSuitedForGeneralUse();
-  	  classroom.isAvailable(hour);
-  	  classroom.isAvailable(nextHour);
-  	  classToAllocate.isAvailable(hour);
-  	  classToAllocate.isAvailable(nextHour);
+  	  classroom.isAvailable(hour, true);
+  	  classToAllocate.isAvailable(hour, true);
   	  teacher.isSuitedFor(lessonToAllocate);
-  	  teacher.isAvailable(hour);
-  	  teacher.isAvailable(nextHour);
-      !teacher.isScheduled(hour);
-      !teacher.isScheduled(nextHour);
+  	  teacher.isAvailable(hour, true);
+      !teacher.isScheduled(hour, true);
     actions
       System.out.println("allocationRule3 fired");
   	  schedule.scheduleDoubleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour, nextHour);
@@ -137,11 +125,11 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  schedule.containsLessonInSchedulingSet(lessonToAllocate); // Eigenlijk overbodig
   	  !lessonToAllocate.isAllocatedToTimeslot(); // Eigenlijk overbodig
   	  teacher.isSuitedFor(lessonToAllocate);
-  	  classroom.isAvailable(hour);
+  	  classroom.isAvailable(hour, false);
   	  schedule.teacherAlreadyScheduledInClassroomOnWeekday(teacher, classroom, hour);
-  	  classToAllocate.isAvailable(hour);
-  	  teacher.isAvailable(hour);
-      !teacher.isScheduled(hour);
+  	  classToAllocate.isAvailable(hour, false);
+  	  teacher.isAvailable(hour, false);
+      !teacher.isScheduled(hour, false);
     actions
       System.out.println("allocationRule4 fired");
   	  schedule.scheduleSingleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
@@ -166,11 +154,11 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  schedule.containsLessonInSchedulingSet(lessonToAllocate); // Eigenlijk overbodig
   	  !lessonToAllocate.isAllocatedToTimeslot(); // Eigenlijk overbodig
   	  teacher.isSuitedFor(lessonToAllocate);
-  	  classroom.isAvailable(hour);
+  	  classroom.isAvailable(hour, false);
   	  classroom.isSuitedFor(lessonToAllocate);
-  	  classToAllocate.isAvailable(hour);
-  	  teacher.isAvailable(hour);
-      !teacher.isScheduled(hour);
+  	  classToAllocate.isAvailable(hour, false);
+  	  teacher.isAvailable(hour, false);
+      !teacher.isScheduled(hour, false);
     actions
       System.out.println("allocationRule5 fired");
   	  schedule.scheduleSingleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
@@ -197,12 +185,12 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  !lessonToAllocate.isAllocatedToTimeslot(); // Eigenlijk overbodig
   	  teacher.isSuitedFor(lessonToAllocate); // Eigenlijk overbodig
   	  !lessonToAllocate.needsSpecialClassroom();
-  	  classroom.isAvailable(hour);
+  	  classroom.isAvailable(hour, false);
   	  !classroom.isSuitedFor(lessonToAllocate);
   	  classroom.isSuitedForGeneralUse();
-  	  classToAllocate.isAvailable(hour);
-  	  teacher.isAvailable(hour);
-      !teacher.isScheduled(hour);
+  	  classToAllocate.isAvailable(hour, false);
+  	  teacher.isAvailable(hour, false);
+      !teacher.isScheduled(hour, false);
     actions
       System.out.println("allocationRule6 fired");
   	  schedule.scheduleSingleHourLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);

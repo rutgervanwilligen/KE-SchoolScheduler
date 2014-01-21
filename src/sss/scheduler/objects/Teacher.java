@@ -81,7 +81,12 @@ public class Teacher extends Resource {
 	 * @param lessonHour The lesson hour to check.
 	 * @return Boolean value indicating whether the classroom is available.
 	 */
-	public boolean isScheduled(LessonHour lessonHour) {
+	public boolean isScheduled(LessonHour lessonHour, boolean isDoubleHour) {
+		if (isDoubleHour) {
+			return lessonHour.hasNextHour() &&
+					scheduledHours[getLessonHourIndex(lessonHour)] != Availability.AVAILABLE &&
+					scheduledHours[getLessonHourIndex(lessonHour.getNextHour())] != Availability.AVAILABLE;
+		}
 		return scheduledHours[getLessonHourIndex(lessonHour)] != Availability.AVAILABLE;
 	}
 	

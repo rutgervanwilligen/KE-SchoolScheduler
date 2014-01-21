@@ -89,33 +89,30 @@ public class Scheduler {
 			
 			if (schedule.getSchedulingSet().size() > 0) {
 				Main.writeOutput();
-				try {
-					for (Lesson lesson : schedule.getSchedulingSet()) {
-						System.out.println("unable to allocate lesson " + lesson.getSubject().getName() +
-								", " + lesson.getAvailabilityCount() + 
-								", " + lesson.getTeacher().getName() + 
-								", " + lesson.isDoubleHour() + 
-								", " + lesson.needsSpecialClassroom() + 
-								", " + lesson.getClassInSchool().getName() + 
-								" - " + lesson.getClassInSchool().getNumberOfAvailableHours()
-								);
-						System.out.println("Availabilities " + lesson.getTeacher().getName() + ":");
-						for (Availability a : lesson.getTeacher().availabilities) {
-							System.out.println(a);
-						}
-						System.out.println("Availabilities " + lesson.getClassInSchool().getName() + ":");
-						for (Availability a : lesson.getClassInSchool().availabilities) {
-							System.out.println(a);
-						}
-					}
-					
-					
-					
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					for (Lesson lesson : schedule.getSchedulingSet()) {
+//						System.out.println("unable to allocate lesson " + lesson.getSubject().getName() +
+//								", " + lesson.getAvailabilityCount() + 
+//								", " + lesson.getTeacher().getName() + 
+//								", " + lesson.isDoubleHour() + 
+//								", " + lesson.needsSpecialClassroom() + 
+//								", " + lesson.getClassInSchool().getName() + 
+//								" - " + lesson.getClassInSchool().getNumberOfAvailableHours()
+//								);
+//						System.out.println("Availabilities " + lesson.getTeacher().getName() + ":");
+//						for (Availability a : lesson.getTeacher().availabilities) {
+//							System.out.println(a);
+//						}
+//						System.out.println("Availabilities " + lesson.getClassInSchool().getName() + ":");
+//						for (Availability a : lesson.getClassInSchool().availabilities) {
+//							System.out.println(a);
+//						}
+//					}
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				// Still some lessons left in scheduling set --> unallocatable
 				schedule.markUnallocatableLessons();
 				allocateLessonsThroughSwap();
@@ -167,6 +164,16 @@ public class Scheduler {
 	
 	protected void createLessonSwapKB() {
 		lessonSwapKB = new LessonSwapKB(new PriorityConflictSet()); //TODO priority conflict set?
+		
+		// Add classrooms to KB
+		for (Entry<String, Classroom> entry : classrooms.entrySet()) {
+			lessonAllocationKB.tell(entry.getValue());
+		}
+		
+		// Add hours to KB
+		for (LessonHour hour : hours) {
+			lessonAllocationKB.tell(hour);
+		}
 	}
 	
 	protected void createLessonSelectionKB() {
@@ -279,15 +286,13 @@ public class Scheduler {
 					continue;
 				} else {
 					LessonHour nextHour = hour.getNextHour();
-					if (!teacher.isAvailable(hour) || !teacher.isAvailable(nextHour) ||
-							!classInSchool.isAvailable(hour) || !classInSchool.isAvailable(nextHour)) {
+					if (!teacher.isAvailable(hour, true) || !classInSchool.isAvailable(hour, true)) {
 						continue;
 					}
 					
 					for (Entry<String, Classroom> entry : classrooms.entrySet()) {
 						Classroom classroom = entry.getValue();
-						if (classroom.isAvailable(hour) && classroom.isAvailable(nextHour)
-								&& classroom.isSuitedFor(lesson)) {
+						if (classroom.isAvailable(hour, true) && classroom.isSuitedFor(lesson)) {
 							availabilityCount ++;
 						}
 					}
@@ -296,17 +301,16 @@ public class Scheduler {
 			
 			
 		} else if (lesson instanceof SingleHourLesson) {
-			
 			for (int i = 0; i < 45; i++) {
-//				if (teacher.getCode().equals("FH"))
-//					System.out.println(i + " " + teacher.isAvailable(i));
-				if (! teacher.isAvailable(i) || ! classInSchool.isAvailable(i)) {
+
+				LessonHour hour = hours.get(i);
+				if (! teacher.isAvailable(hour, false) || ! classInSchool.isAvailable(hour, false)) {
 					continue;
 				}
 				
 				for (Entry<String, Classroom> entry : classrooms.entrySet()) {
 					Classroom classroom = entry.getValue();
-					if (classroom.isAvailable(i)) {
+					if (classroom.isAvailable(i) && classroom.isSuitedFor(lesson)) {
 						availabilityCount ++;
 					}
 				}
