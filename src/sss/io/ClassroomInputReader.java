@@ -37,7 +37,7 @@ public class ClassroomInputReader extends InputReader {
 		
 		if (locationString.equals("HG")) {
 			location = Location.HG;
-		} else if (locationString.equals("HG")) {
+		} else if (locationString.equals("DEP")) {
 			location = Location.DEP;
 		} else {
 			throw(new IOException("Found unknown location " + locationString + " for classroom " + name + "."));

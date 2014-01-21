@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import jeops.conflict.PriorityConflictSet;
+import sss.Main;
 import sss.reasoner.ClassroomTimeslotAllocationKB;
 import sss.reasoner.LessonSelectionKB;
 import sss.reasoner.LessonSwapKB;
@@ -84,6 +85,21 @@ public class Scheduler {
 			allocateLessonToClassroomAndTimeslot();
 			
 			if (schedule.getSchedulingSet().size() > 0) {
+				Main.writeOutput();
+				try {
+					System.out.println("unable to allocate lesson " + schedule.getSchedulingSet().get(0).getSubject().getName() +
+							", " + schedule.getSchedulingSet().get(0).getAvailabilityCount() + 
+							", " + schedule.getSchedulingSet().get(0).getTeacher().getName() + 
+							", " + schedule.getSchedulingSet().get(0).isDoubleHour() + 
+							", " + schedule.getSchedulingSet().get(0).needsSpecialClassroom() + 
+							", " + schedule.getSchedulingSet().get(0).getClassInSchool().getName() + 
+							" - " + schedule.getSchedulingSet().get(0).getClassInSchool().getNumberOfAvailableHours()
+							);
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// Still some lessons left in scheduling set --> unallocatable
 				schedule.markUnallocatableLessons();
 				allocateLessonsThroughSwap();
@@ -166,6 +182,9 @@ public class Scheduler {
 	}
 	
 	public void selectLessonToSchedule() {
+		for (Lesson lesson : schedule.getUnallocatedLessons()) {
+			lesson.setAvailabilityCount(this.getAvailabilityCountForLesson(lesson));
+		}
 		lessonSelectionKB.retract(schedule);
 		lessonSelectionKB.tell(schedule);
 		lessonSelectionKB.run();
@@ -229,6 +248,7 @@ public class Scheduler {
 		}
 	}
 	
+	// TODO: extend this to timeslot/classroom combinations and only check for suitable classrooms
 	public int getAvailabilityCountForLesson(Lesson lesson) {
 		Resource resource = new Resource();
 		
@@ -237,6 +257,8 @@ public class Scheduler {
 		
 		resource.initializeAvailabilities(45);
 		for (int i = 0; i < 45; i++) {
+//			if (teacher.getCode().equals("FH"))
+//				System.out.println(i + " " + teacher.isAvailable(i));
 			if (! teacher.isAvailable(i) || ! classInSchool.isAvailable(i)) {
 				resource.setToUnavailable(i);
 				continue;

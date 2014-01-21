@@ -259,7 +259,7 @@ public class Schedule {
 	public int lowestAvailabilityCount() {
 		int result = 45;
 		
-		for (Lesson lesson : unallocatableLessons) {
+		for (Lesson lesson : unallocatedLessons) {
 			if (lesson.getAvailabilityCount() < result) {
 				result = lesson.getAvailabilityCount();
 			}
@@ -272,9 +272,11 @@ public class Schedule {
 		int lowestCount = lowestAvailabilityCount();
 		int nrOfLessons = 0;
 		
-		for (Lesson lesson : unallocatableLessons) {
-			if (lesson.getAvailabilityCount() == lowestCount)
+		for (Lesson lesson : unallocatedLessons) {
+			if (lesson.getAvailabilityCount() == lowestCount) {
+				
 				nrOfLessons++;
+			}
 		}
 		
 		return (nrOfLessons == 1);

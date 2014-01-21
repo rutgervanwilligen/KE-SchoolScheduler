@@ -34,7 +34,7 @@ public class TeachersClassesInputReader extends InputReader {
 			String tupleString = lineScanner.next();
 			
 			if (tupleString.length() > 0) {
-				String[] tuple = lineScanner.next().split("-");
+				String[] tuple = tupleString.split("-");
 				
 				String subjectCode = tuple[0];
 				String teacherCode = tuple[1];

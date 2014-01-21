@@ -55,7 +55,7 @@ public class Main {
 	/**
 	 * Prints the created schedule per classroom, class and teacher.
 	 */
-	private static void writeOutput() {
+	public static void writeOutput() {
 		OutputWriter.writeClassroomSchedulesToFile(scheduler.getSchedule(), classrooms);
 		OutputWriter.writeClassSchedulesToFile(scheduler.getSchedule(), classes);
 		OutputWriter.writeTeacherSchedulesToFile(scheduler.getSchedule(), teachers);
