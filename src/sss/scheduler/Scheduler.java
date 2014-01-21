@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import jeops.conflict.MRUConflictSet;
 import jeops.conflict.PriorityConflictSet;
 import sss.Main;
 import sss.reasoner.ClassroomTimeslotAllocationKB;
@@ -94,6 +95,8 @@ public class Scheduler {
 				allocateLessonsThroughSwap();
 			}
 		}
+		
+		evaluateSchedule();
 
 		System.out.println("\nTadadadaaaaaahh, results!\n");
 		System.out.println("Number of swap attempts: " + swapCounter);
@@ -110,14 +113,13 @@ public class Scheduler {
 			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());
 		}
 		System.out.println();
-		
-//		evaluateSchedule();
-		
+		System.out.println("The schedule has a rating of " + schedule.getRating() + ".");
+		System.out.println();
 	}
 	
 	
 	protected void createScheduleEvaluationKB() {
-		scheduleEvaluationKB = new ScheduleEvaluationKB(); //TODO Conflict set?
+		scheduleEvaluationKB = new ScheduleEvaluationKB(new MRUConflictSet()); //TODO Conflict set?
 	}
 	
 	protected void evaluateSchedule() {
@@ -134,6 +136,10 @@ public class Scheduler {
 		
 		for (Lesson lesson : schedule.getAllocatedLessons()) {
 			scheduleEvaluationKB.tell(lesson);
+		}
+
+		for (LessonHour hour : hours) {
+			scheduleEvaluationKB.tell(hour);
 		}
 		
 		scheduleEvaluationKB.run();

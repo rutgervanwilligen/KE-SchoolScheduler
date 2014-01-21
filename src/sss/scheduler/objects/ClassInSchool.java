@@ -8,6 +8,10 @@ import sss.scheduler.properties.Level;
 
 
 public abstract class ClassInSchool extends Resource implements Comparable<ClassInSchool> {
+
+	public final static String LESSON_TYPE_FREE = "vrij";
+	public final static String LESSON_TYPE_OCCUPIED = "bezet";
+	public final static String LESSON_TYPE_BETWEEN_HOUR = "tussenuur";
 	
 	//TODO Student list (eigenlijk niet belangrijk in onderbouw, though)
 
@@ -84,7 +88,7 @@ public abstract class ClassInSchool extends Resource implements Comparable<Class
 
 	public String getTypeOfHour(LessonHour lessonHour1) {
 		if (!this.isAvailable(lessonHour1))
-			return "BEZET";
+			return LESSON_TYPE_OCCUPIED;
 		
 		boolean hasHourBefore = false;
 		boolean hasHourAfter = false;
@@ -101,9 +105,18 @@ public abstract class ClassInSchool extends Resource implements Comparable<Class
 		}
 		
 		if (hasHourBefore && hasHourAfter)
-			return "TUSSENUUR";
+			return LESSON_TYPE_BETWEEN_HOUR;
 		
-		return "VRIJ";
+		return LESSON_TYPE_FREE;
+	}
+	
+	public int getNumberOfBetweenHours() {
+		int result = 0;
+		for (LessonHour lessonHour : Scheduler.hours) {
+			if (getTypeOfHour(lessonHour).equals(LESSON_TYPE_BETWEEN_HOUR))
+				result++;
+		}
+		return result;
 	}
 	
 }

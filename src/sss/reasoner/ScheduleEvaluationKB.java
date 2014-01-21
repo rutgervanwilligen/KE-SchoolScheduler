@@ -4,6 +4,7 @@ import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.Lesson;
 import sss.scheduler.objects.Teacher;
 import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.LessonHour;
 
 /**
  * Rule base used to evaluate a schedule.
@@ -16,8 +17,6 @@ import sss.scheduler.objects.ClassInSchool;
      */
     private String[] identifiers_evaluationRule1 = {
         "schedule",
-        "lesson",
-        "teacher",
         "classInSchool"
     };
 
@@ -41,9 +40,7 @@ import sss.scheduler.objects.ClassInSchool;
     private String getDeclaredClassName_evaluationRule1(int index) {
         switch (index) {
             case 0: return "sss.scheduler.objects.Schedule";
-            case 1: return "sss.scheduler.objects.Lesson";
-            case 2: return "sss.scheduler.objects.Teacher";
-            case 3: return "sss.scheduler.objects.ClassInSchool";
+            case 1: return "sss.scheduler.objects.ClassInSchool";
             default: return null;
         }
     }
@@ -57,9 +54,7 @@ import sss.scheduler.objects.ClassInSchool;
     private Class getDeclaredClass_evaluationRule1(int index) {
         switch (index) {
             case 0: return sss.scheduler.objects.Schedule.class;
-            case 1: return sss.scheduler.objects.Lesson.class;
-            case 2: return sss.scheduler.objects.Teacher.class;
-            case 3: return sss.scheduler.objects.ClassInSchool.class;
+            case 1: return sss.scheduler.objects.ClassInSchool.class;
             default: return null;
         }
     }
@@ -73,9 +68,7 @@ import sss.scheduler.objects.ClassInSchool;
     private void setObject_evaluationRule1(int index, Object value) {
         switch (index) {
             case 0: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
-            case 1: this.sss_scheduler_objects_Lesson_1 = (sss.scheduler.objects.Lesson) value; break;
-            case 2: this.sss_scheduler_objects_Teacher_1 = (sss.scheduler.objects.Teacher) value; break;
-            case 3: this.sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) value; break;
+            case 1: this.sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) value; break;
         }
     }
 
@@ -88,9 +81,7 @@ import sss.scheduler.objects.ClassInSchool;
     private Object getObject_evaluationRule1(int index) {
         switch (index) {
             case 0: return sss_scheduler_objects_Schedule_1;
-            case 1: return sss_scheduler_objects_Lesson_1;
-            case 2: return sss_scheduler_objects_Teacher_1;
-            case 3: return sss_scheduler_objects_ClassInSchool_1;
+            case 1: return sss_scheduler_objects_ClassInSchool_1;
             default: return null;
         }
     }
@@ -105,8 +96,6 @@ import sss.scheduler.objects.ClassInSchool;
     private Object[] getObjects_evaluationRule1() {
         return new Object[] {
                             sss_scheduler_objects_Schedule_1,
-                            sss_scheduler_objects_Lesson_1,
-                            sss_scheduler_objects_Teacher_1,
                             sss_scheduler_objects_ClassInSchool_1
                             };
     }
@@ -120,21 +109,19 @@ import sss.scheduler.objects.ClassInSchool;
      */
     private void setObjects_evaluationRule1(Object[] objects) {
         sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[0];
-        sss_scheduler_objects_Lesson_1 = (sss.scheduler.objects.Lesson) objects[1];
-        sss_scheduler_objects_Teacher_1 = (sss.scheduler.objects.Teacher) objects[2];
-        sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) objects[3];
+        sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) objects[1];
     }
 
     /**
      * Condition 0 of rule evaluationRule1.<p>
      * The original expression was:<br>
-     * <code>schedule.containsAllocatedLesson(lesson)</code>
+     * <code>nrOfBetweenHours > 0</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean evaluationRule1_cond_0() {
-        return (sss_scheduler_objects_Schedule_1.containsAllocatedLesson(sss_scheduler_objects_Lesson_1));
+        return ((sss_scheduler_objects_ClassInSchool_1.getNumberOfBetweenHours()) > 0);
     }
 
     /**
@@ -164,10 +151,7 @@ import sss.scheduler.objects.ClassInSchool;
             case 0:
                 return true;
             case 1:
-                return true;
-            case 2:
-                return true;
-            case 3:
+                if (!evaluationRule1_cond_0()) return false;
                 return true;
             default: return false;
         }
@@ -188,11 +172,6 @@ import sss.scheduler.objects.ClassInSchool;
             case 0:
                 return true;
             case 1:
-                if (!evaluationRule1_cond_0()) return false;
-                return true;
-            case 2:
-                return true;
-            case 3:
                 return true;
             default: return false;
         }
@@ -202,8 +181,360 @@ import sss.scheduler.objects.ClassInSchool;
      * Executes the action part of the rule evaluationRule1
      */
     private void evaluationRule1() {
-      System.out.println("evaluationRule1 fired");
-      modified(sss_scheduler_objects_Schedule_1);
+      sss_scheduler_objects_Schedule_1.addToRating((sss_scheduler_objects_ClassInSchool_1.getNumberOfBetweenHours()) * -1000);
+      System.out.println("evaluationRule1 fired for " + sss_scheduler_objects_ClassInSchool_1.getName() + " with " + ((sss_scheduler_objects_ClassInSchool_1.getNumberOfBetweenHours()) * 1000) + " penalty points.");
+      }
+
+
+
+  
+    /**
+     * Identifiers of rule evaluationRule2
+     */
+    private String[] identifiers_evaluationRule2 = {
+        "schedule",
+        "classInSchool",
+        "lessonHour"
+    };
+
+    /**
+     * Returns the identifiers declared in rule evaluationRule2
+     *
+     * @return the identifiers declared in rule evaluationRule2
+     */
+    private String[] getDeclaredIdentifiers_evaluationRule2() {
+         return identifiers_evaluationRule2;
+    }
+
+    /**
+     * Returns the name of the class of one declared object for
+     * rule evaluationRule2.
+     *
+     * @param index the index of the declaration
+     * @return the name of the class of the declared objects for
+     *          this rule.
+     */
+    private String getDeclaredClassName_evaluationRule2(int index) {
+        switch (index) {
+            case 0: return "sss.scheduler.objects.Schedule";
+            case 1: return "sss.scheduler.objects.ClassInSchool";
+            case 2: return "sss.scheduler.objects.LessonHour";
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns the class of one declared object for rule evaluationRule2.
+     *
+     * @param index the index of the declaration
+     * @return the class of the declared objects for this rule.
+     */
+    private Class getDeclaredClass_evaluationRule2(int index) {
+        switch (index) {
+            case 0: return sss.scheduler.objects.Schedule.class;
+            case 1: return sss.scheduler.objects.ClassInSchool.class;
+            case 2: return sss.scheduler.objects.LessonHour.class;
+            default: return null;
+        }
+    }
+
+    /**
+     * Sets an object declared in the rule evaluationRule2.
+     *
+     * @param index the index of the declared object
+     * @param value the value of the object being set.
+     */
+    private void setObject_evaluationRule2(int index, Object value) {
+        switch (index) {
+            case 0: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
+            case 1: this.sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) value; break;
+            case 2: this.sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) value; break;
+        }
+    }
+
+    /**
+     * Returns an object declared in the rule evaluationRule2.
+     *
+     * @param index the index of the declared object
+     * @return the value of the corresponding object.
+     */
+    private Object getObject_evaluationRule2(int index) {
+        switch (index) {
+            case 0: return sss_scheduler_objects_Schedule_1;
+            case 1: return sss_scheduler_objects_ClassInSchool_1;
+            case 2: return sss_scheduler_objects_LessonHour_1;
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns all variables bound to the declarations 
+     * of rule evaluationRule2
+     *
+     * @return an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private Object[] getObjects_evaluationRule2() {
+        return new Object[] {
+                            sss_scheduler_objects_Schedule_1,
+                            sss_scheduler_objects_ClassInSchool_1,
+                            sss_scheduler_objects_LessonHour_1
+                            };
+    }
+
+    /**
+     * Defines all variables bound to the declarations 
+     * of rule evaluationRule2
+     *
+     * @param objects an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private void setObjects_evaluationRule2(Object[] objects) {
+        sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[0];
+        sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) objects[1];
+        sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) objects[2];
+    }
+
+    /**
+     * Condition 0 of rule evaluationRule2.<p>
+     * The original expression was:<br>
+     * <code>!classInSchool.isAvailable(lessonHour)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean evaluationRule2_cond_0() {
+        return (!sss_scheduler_objects_ClassInSchool_1.isAvailable(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 1 of rule evaluationRule2.<p>
+     * The original expression was:<br>
+     * <code>lessonHour.getHour() == 9</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean evaluationRule2_cond_1() {
+        return (sss_scheduler_objects_LessonHour_1.getHour() == 9);
+    }
+
+    /**
+     * Checks whether some conditions of rule evaluationRule2 is satisfied.
+     *
+     * @param index the index of the condition to be checked.
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean evaluationRule2_cond(int index) {
+        switch (index) {
+            case 0: return evaluationRule2_cond_0();
+            case 1: return evaluationRule2_cond_1();
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all conditions of rule evaluationRule2 that depend only on
+     * the given object are satisfied.
+     *
+     * @param declIndex the index of the declaration to be checked
+     * @return <code>true</code> if all corresponding conditions for
+     *          this rule are satisfied; <code>false</code> otherwise.
+     */
+    private boolean checkConditionsOnlyOf_evaluationRule2(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            case 1:
+                return true;
+            case 2:
+                if (!evaluationRule2_cond_1()) return false;
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all the conditions of a rule which
+     * reference some declared element of the declarations are
+     * true.
+     *
+     * @param declIndex the index of the declared element.
+     * @return <code>true</code> if the conditions that reference
+     *          up to the given declaration are true;
+     *          <code>false</code> otherwise.
+     */
+    private boolean checkCondForDeclaration_evaluationRule2(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            case 1:
+                return true;
+            case 2:
+                if (!evaluationRule2_cond_0()) return false;
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Executes the action part of the rule evaluationRule2
+     */
+    private void evaluationRule2() {
+      sss_scheduler_objects_Schedule_1.addToRating(-29);
+      System.out.println("evaluationRule2 fired for " + sss_scheduler_objects_ClassInSchool_1.getName() + " on " + sss_scheduler_objects_LessonHour_1.getWeekday());
+      }
+
+
+  
+  
+    /**
+     * Identifiers of rule evaluationRule3
+     */
+    private String[] identifiers_evaluationRule3 = {
+        "classInSchool"
+    };
+
+    /**
+     * Returns the identifiers declared in rule evaluationRule3
+     *
+     * @return the identifiers declared in rule evaluationRule3
+     */
+    private String[] getDeclaredIdentifiers_evaluationRule3() {
+         return identifiers_evaluationRule3;
+    }
+
+    /**
+     * Returns the name of the class of one declared object for
+     * rule evaluationRule3.
+     *
+     * @param index the index of the declaration
+     * @return the name of the class of the declared objects for
+     *          this rule.
+     */
+    private String getDeclaredClassName_evaluationRule3(int index) {
+        switch (index) {
+            case 0: return "sss.scheduler.objects.ClassInSchool";
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns the class of one declared object for rule evaluationRule3.
+     *
+     * @param index the index of the declaration
+     * @return the class of the declared objects for this rule.
+     */
+    private Class getDeclaredClass_evaluationRule3(int index) {
+        switch (index) {
+            case 0: return sss.scheduler.objects.ClassInSchool.class;
+            default: return null;
+        }
+    }
+
+    /**
+     * Sets an object declared in the rule evaluationRule3.
+     *
+     * @param index the index of the declared object
+     * @param value the value of the object being set.
+     */
+    private void setObject_evaluationRule3(int index, Object value) {
+        switch (index) {
+            case 0: this.sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) value; break;
+        }
+    }
+
+    /**
+     * Returns an object declared in the rule evaluationRule3.
+     *
+     * @param index the index of the declared object
+     * @return the value of the corresponding object.
+     */
+    private Object getObject_evaluationRule3(int index) {
+        switch (index) {
+            case 0: return sss_scheduler_objects_ClassInSchool_1;
+            default: return null;
+        }
+    }
+
+    /**
+     * Returns all variables bound to the declarations 
+     * of rule evaluationRule3
+     *
+     * @return an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private Object[] getObjects_evaluationRule3() {
+        return new Object[] {
+                            sss_scheduler_objects_ClassInSchool_1
+                            };
+    }
+
+    /**
+     * Defines all variables bound to the declarations 
+     * of rule evaluationRule3
+     *
+     * @param objects an object array of the variables bound to the
+     *          declarations of this rule.
+     */
+    private void setObjects_evaluationRule3(Object[] objects) {
+        sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) objects[0];
+    }
+
+    /**
+     * Checks whether some conditions of rule evaluationRule3 is satisfied.
+     *
+     * @param index the index of the condition to be checked.
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean evaluationRule3_cond(int index) {
+        switch (index) {
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all conditions of rule evaluationRule3 that depend only on
+     * the given object are satisfied.
+     *
+     * @param declIndex the index of the declaration to be checked
+     * @return <code>true</code> if all corresponding conditions for
+     *          this rule are satisfied; <code>false</code> otherwise.
+     */
+    private boolean checkConditionsOnlyOf_evaluationRule3(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Checks whether all the conditions of a rule which
+     * reference some declared element of the declarations are
+     * true.
+     *
+     * @param declIndex the index of the declared element.
+     * @return <code>true</code> if the conditions that reference
+     *          up to the given declaration are true;
+     *          <code>false</code> otherwise.
+     */
+    private boolean checkCondForDeclaration_evaluationRule3(int declIndex) {
+        switch (declIndex) {
+            case 0:
+                return true;
+            default: return false;
+        }
+    }
+
+    /**
+     * Executes the action part of the rule evaluationRule3
+     */
+    private void evaluationRule3() {
+      System.out.println("evaluationRule3 fired for " + sss_scheduler_objects_ClassInSchool_1.getName());
+      retract(sss_scheduler_objects_ClassInSchool_1);
       }
 
 
@@ -212,7 +543,9 @@ import sss.scheduler.objects.ClassInSchool;
      * The names of the rules in this class file
      */
     private static final String[] File_ruleNames = {
-        "evaluationRule1"
+        "evaluationRule1",
+        "evaluationRule2",
+        "evaluationRule3"
     };
 
     /**
@@ -228,7 +561,9 @@ import sss.scheduler.objects.ClassInSchool;
      * The number of declarations of the rules in this class file.
      */
     private static final int[] File_numberOfDeclarations = {
-        4
+        2,
+        3,
+        1
     };
 
     /**
@@ -244,7 +579,9 @@ import sss.scheduler.objects.ClassInSchool;
      * The number of conditions of the rules in this class file.
      */
     private static final int[] File_numberOfConditions = {
-        1
+        1,
+        2,
+        0
     };
 
     /**
@@ -267,6 +604,8 @@ import sss.scheduler.objects.ClassInSchool;
     public boolean checkCondition(int ruleIndex, int condIndex) {
         switch (ruleIndex) {
             case 0: return evaluationRule1_cond(condIndex);
+            case 1: return evaluationRule2_cond(condIndex);
+            case 2: return evaluationRule3_cond(condIndex);
             default: return false;
         }
     }
@@ -284,6 +623,8 @@ import sss.scheduler.objects.ClassInSchool;
     public boolean checkConditionsOnlyOf(int ruleIndex, int declIndex) {
         switch (ruleIndex) {
             case 0: return checkConditionsOnlyOf_evaluationRule1(declIndex);
+            case 1: return checkConditionsOnlyOf_evaluationRule2(declIndex);
+            case 2: return checkConditionsOnlyOf_evaluationRule3(declIndex);
             default: return false;
         }
     }
@@ -302,6 +643,8 @@ import sss.scheduler.objects.ClassInSchool;
     public boolean checkCondForDeclaration(int ruleIndex, int declIndex) {
         switch (ruleIndex) {
             case 0: return checkCondForDeclaration_evaluationRule1(declIndex);
+            case 1: return checkCondForDeclaration_evaluationRule2(declIndex);
+            case 2: return checkCondForDeclaration_evaluationRule3(declIndex);
             default: return false;
         }
     }
@@ -316,6 +659,8 @@ import sss.scheduler.objects.ClassInSchool;
     public String getDeclaredClassName(int ruleIndex, int declIndex) {
         switch (ruleIndex) {
             case 0: return getDeclaredClassName_evaluationRule1(declIndex);
+            case 1: return getDeclaredClassName_evaluationRule2(declIndex);
+            case 2: return getDeclaredClassName_evaluationRule3(declIndex);
             default: return null;
         }
     }
@@ -330,6 +675,8 @@ import sss.scheduler.objects.ClassInSchool;
     public Class getDeclaredClass(int ruleIndex, int declIndex) {
         switch (ruleIndex) {
             case 0: return getDeclaredClass_evaluationRule1(declIndex);
+            case 1: return getDeclaredClass_evaluationRule2(declIndex);
+            case 2: return getDeclaredClass_evaluationRule3(declIndex);
             default: return null;
         }
     }
@@ -342,6 +689,8 @@ import sss.scheduler.objects.ClassInSchool;
     protected void internalFireRule(int ruleIndex) {
         switch (ruleIndex) {
             case 0: evaluationRule1(); break;
+            case 1: evaluationRule2(); break;
+            case 2: evaluationRule3(); break;
         }
     }
 
@@ -351,7 +700,7 @@ import sss.scheduler.objects.ClassInSchool;
      * @return the number of rules.
      */
     public int getNumberOfRules() {
-        return 1;
+        return 3;
     }
 
     /**
@@ -363,6 +712,8 @@ import sss.scheduler.objects.ClassInSchool;
     public String[] getDeclaredIdentifiers(int ruleIndex) {
         switch (ruleIndex) {
             case 0: return getDeclaredIdentifiers_evaluationRule1();
+            case 1: return getDeclaredIdentifiers_evaluationRule2();
+            case 2: return getDeclaredIdentifiers_evaluationRule3();
             default: return new String[0];
         }
     }
@@ -377,6 +728,8 @@ import sss.scheduler.objects.ClassInSchool;
     public void setObject(int ruleIndex, int declIndex, Object value) {
         switch (ruleIndex) {
             case 0: setObject_evaluationRule1(declIndex, value); break;
+            case 1: setObject_evaluationRule2(declIndex, value); break;
+            case 2: setObject_evaluationRule3(declIndex, value); break;
         }
     }
 
@@ -390,6 +743,8 @@ import sss.scheduler.objects.ClassInSchool;
     public Object getObject(int ruleIndex, int declIndex) {
         switch (ruleIndex) {
             case 0: return getObject_evaluationRule1(declIndex);
+            case 1: return getObject_evaluationRule2(declIndex);
+            case 2: return getObject_evaluationRule3(declIndex);
             default: return null;
         }
     }
@@ -405,6 +760,8 @@ import sss.scheduler.objects.ClassInSchool;
     public Object[] getObjects(int ruleIndex) {
         switch (ruleIndex) {
             case 0: return getObjects_evaluationRule1();
+            case 1: return getObjects_evaluationRule2();
+            case 2: return getObjects_evaluationRule3();
             default: return null;
         }
     }
@@ -419,6 +776,8 @@ import sss.scheduler.objects.ClassInSchool;
     public void setObjects(int ruleIndex, Object[] objects) {
         switch (ruleIndex) {
             case 0: setObjects_evaluationRule1(objects); break;
+            case 1: setObjects_evaluationRule2(objects); break;
+            case 2: setObjects_evaluationRule3(objects); break;
         }
     }
 
@@ -426,9 +785,8 @@ import sss.scheduler.objects.ClassInSchool;
      * The variables declared in the rules.
      */
     private sss.scheduler.objects.Schedule sss_scheduler_objects_Schedule_1;
-    private sss.scheduler.objects.Lesson sss_scheduler_objects_Lesson_1;
-    private sss.scheduler.objects.Teacher sss_scheduler_objects_Teacher_1;
     private sss.scheduler.objects.ClassInSchool sss_scheduler_objects_ClassInSchool_1;
+    private sss.scheduler.objects.LessonHour sss_scheduler_objects_LessonHour_1;
 
     /**
      * Class constructor.
@@ -443,7 +801,7 @@ import sss.scheduler.objects.ClassInSchool;
 /**
  * Knowledge base created by JEOPS from file ScheduleEvaluationKB.rules
  *
- * @version Jan 7, 2014
+ * @version Jan 21, 2014
  */
 public class ScheduleEvaluationKB extends jeops.AbstractKnowledgeBase {
 

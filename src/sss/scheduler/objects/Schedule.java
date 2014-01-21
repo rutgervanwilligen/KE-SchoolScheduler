@@ -11,6 +11,8 @@ public class Schedule {
 	protected ArrayList<Lesson> allocatedLessons;
 	protected ArrayList<Lesson> unallocatableLessons;
 	
+	private int rating;
+	
 
 	/*
 	 * Getters
@@ -31,7 +33,17 @@ public class Schedule {
 		return allocatedLessons;
 	}
 
+	public int getRating() {
+		return rating;
+	}
 	
+	/*
+	 * Setters
+	 */
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
 	/**
 	 * Constructor
 	 */
@@ -40,6 +52,8 @@ public class Schedule {
 		unallocatedLessons = new ArrayList<Lesson>();
 		schedulingSet = new ArrayList<Lesson>();
 		unallocatableLessons = new ArrayList<Lesson>();
+		
+		setRating(0);
 	}
 	
 	/**
@@ -359,5 +373,10 @@ public class Schedule {
 	public boolean noClassesWithoutHomeworkOnWeekday(ClassInSchool classInSchool, LessonHour hour) {
 		return numberOfClassesWithoutHomeworkOnWeekday(classInSchool, hour) == 0;
 	}
+	
+	public void addToRating(int addition) {
+		rating += addition;
+	}
+
 	
 }
