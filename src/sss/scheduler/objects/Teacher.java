@@ -68,15 +68,6 @@ public class Teacher extends Resource {
 	}
 	
 	/**
-	 * Returns the teacher's indicated availability on a given LessonHour.
-	 * @param lessonHour The lesson hour to check the teacher's availability of.
-	 * @return Teacher's availability on the given LessonHour.
-	 */
-	public Availability getAvailability(LessonHour lessonHour) {
-		return availabilities[getLessonHourIndex(lessonHour)];
-	}
-	
-	/**
 	 * Returns whether the teacher is scheduled on a given lesson hour.
 	 * @param lessonHour The lesson hour to check.
 	 * @return Boolean value indicating whether the classroom is available.

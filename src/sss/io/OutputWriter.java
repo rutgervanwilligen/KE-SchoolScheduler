@@ -8,10 +8,12 @@ import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import sss.scheduler.Scheduler;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.DoubleHourLesson;
 import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.Teacher;
 
@@ -28,12 +30,26 @@ public class OutputWriter {
 				Classroom classroom = entry.getValue();
 				String scheduleString = classroom.getRoomNumber() + "\n";
 				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
+
 				Collections.sort(lessons);
+				Collections.sort(Scheduler.hours);
 				
-				for (Lesson lesson : lessons) {
-					if (lesson.isAllocatedTo(classroom))
-						scheduleString += writeLesson(lesson);
+				lessonHourLoop: for (int i = 0; i < Scheduler.hours.size(); i++) {
+					LessonHour lessonHour = Scheduler.hours.get(i);
+					for (Lesson lesson : lessons) {
+						if (lesson.isAllocatedTo(classroom) && lesson.isAllocatedTo(lessonHour)) {
+							scheduleString += writeLesson(lesson);
+							if (lesson.isDoubleHour())
+								i++;
+							continue lessonHourLoop;
+						}
+					}
+					scheduleString += lessonHour.getWeekday().name() + ", " +
+							lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
+							lessonHour.getEndTime().getHours() + ":" + lessonHour.getEndTime().getMinutes() + ", " +
+							classroom.getAvailability(lessonHour) + "\n";
 				}
+				
 				scheduleString+= "\n";
 				writer.print(scheduleString);
 			}
@@ -53,12 +69,26 @@ public class OutputWriter {
 				ClassInSchool classInSchool = entry.getValue();
 				String scheduleString = classInSchool.getName() + "\n";
 				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
-				Collections.sort(lessons);
 				
-				for (Lesson lesson : lessons) {
-					if (lesson.isAllocatedTo(classInSchool))
-						scheduleString += writeLesson(lesson);
+				Collections.sort(lessons);
+				Collections.sort(Scheduler.hours);
+				
+				lessonHourLoop: for (int i = 0; i < Scheduler.hours.size(); i++) {
+					LessonHour lessonHour = Scheduler.hours.get(i);
+					for (Lesson lesson : lessons) {
+						if (lesson.isAllocatedTo(classInSchool) && lesson.isAllocatedTo(lessonHour)) {
+							scheduleString += writeLesson(lesson);
+							if (lesson.isDoubleHour())
+								i++;
+							continue lessonHourLoop;
+						}
+					}
+					scheduleString += lessonHour.getWeekday().name() + ", " +
+							lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
+							lessonHour.getEndTime().getHours() + ":" + lessonHour.getEndTime().getMinutes() + ", " +
+							classInSchool.getTypeOfHour(lessonHour) + "\n";
 				}
+				
 				scheduleString+= "\n";
 				writer.print(scheduleString);
 			}
@@ -76,14 +106,28 @@ public class OutputWriter {
 			writer = new PrintWriter("output/teacherSchedules.csv", "UTF-8");
 			for (Entry<String, Teacher> entry : teachers.entrySet()) {
 				Teacher teacher = entry.getValue();
-				String scheduleString = teacher.getCode() + "\n";
+				String scheduleString = teacher.getName() + " - " + teacher.getCode() + "\n";
 				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
-				Collections.sort(lessons);
 				
-				for (Lesson lesson : lessons) {
-					if (lesson.isAllocatedTo(teacher))
-						scheduleString += writeLesson(lesson);
+				Collections.sort(lessons);
+				Collections.sort(Scheduler.hours);
+				
+				lessonHourLoop: for (int i = 0; i < Scheduler.hours.size(); i++) {
+					LessonHour lessonHour = Scheduler.hours.get(i);
+					for (Lesson lesson : lessons) {
+						if (lesson.isAllocatedTo(teacher) && lesson.isAllocatedTo(lessonHour)) {
+							scheduleString += writeLesson(lesson);
+							if (lesson.isDoubleHour())
+								i++;
+							continue lessonHourLoop;
+						}
+					}
+					scheduleString += lessonHour.getWeekday().name() + ", " +
+							lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
+							lessonHour.getEndTime().getHours() + ":" + lessonHour.getEndTime().getMinutes() + ", " +
+							teacher.getAvailability(lessonHour) + "\n";
 				}
+				
 				scheduleString+= "\n";
 				writer.print(scheduleString);
 			}

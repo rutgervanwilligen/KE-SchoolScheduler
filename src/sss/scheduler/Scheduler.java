@@ -22,7 +22,7 @@ import sss.scheduler.objects.Teacher;
 public class Scheduler {
 	
 	protected Schedule schedule;
-	protected ArrayList<LessonHour> hours;
+	public static ArrayList<LessonHour> hours;
 	protected TreeMap<String, Subject> subjects;
 	protected TreeMap<String, Classroom> classrooms;
 	protected TreeMap<String, Teacher> teachers;
@@ -72,6 +72,8 @@ public class Scheduler {
 	 * Main scheduling loop as found in the knowledge model.
 	 */
 	public void createSchedule() {
+		int swapCounter = 0;
+		
 		System.out.println("Starting schedule creation");
 		addAllLessonsToSchedule();
 		
@@ -81,42 +83,33 @@ public class Scheduler {
 		createScheduleEvaluationKB();
 
 		while (schedule.containsUnallocatedLessons()) {
-			System.out.println("Selecting lesson");
 			selectLessonToSchedule();
-			System.out.println("Allocating lesson");
 			allocateLessonToClassroomAndTimeslot();
 			
-			if (schedule.getSchedulingSet().size() > 0) {
-				Main.writeOutput();
-//				try {
-//					for (Lesson lesson : schedule.getSchedulingSet()) {
-//						System.out.println("unable to allocate lesson " + lesson.getSubject().getName() +
-//								", " + lesson.getAvailabilityCount() + 
-//								", " + lesson.getTeacher().getName() + 
-//								", " + lesson.isDoubleHour() + 
-//								", " + lesson.needsSpecialClassroom() + 
-//								", " + lesson.getClassInSchool().getName() + 
-//								" - " + lesson.getClassInSchool().getNumberOfAvailableHours()
-//								);
-//						System.out.println("Availabilities " + lesson.getTeacher().getName() + ":");
-//						for (Availability a : lesson.getTeacher().availabilities) {
-//							System.out.println(a);
-//						}
-//						System.out.println("Availabilities " + lesson.getClassInSchool().getName() + ":");
-//						for (Availability a : lesson.getClassInSchool().availabilities) {
-//							System.out.println(a);
-//						}
-//					}
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-				// Still some lessons left in scheduling set --> unallocatable
+			while (schedule.getSchedulingSet().size() > 0) {
+				System.out.println("Swapping..");
+				swapCounter++;
+				
 				schedule.markUnallocatableLessons();
 				allocateLessonsThroughSwap();
 			}
 		}
+
+		System.out.println("\nTadadadaaaaaahh, results!\n");
+		System.out.println("Number of swap attempts: " + swapCounter);
+		System.out.println("Unallocatable lessons");
+		for (Lesson lesson : schedule.getUnallocatableLessons()) {
+			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());
+		}
+		System.out.println("Unallocated lessons");
+		for (Lesson lesson : schedule.getUnallocatedLessons()) {
+			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());
+		}
+		System.out.println("Scheduling set");
+		for (Lesson lesson : schedule.getSchedulingSet()) {
+			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());
+		}
+		System.out.println();
 		
 //		evaluateSchedule();
 		

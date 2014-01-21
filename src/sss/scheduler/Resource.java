@@ -79,12 +79,31 @@ public class Resource {
 	
 	/**
 	 * Returns whether the resource is available on a given lesson hour.
+	 * @param lessonHour The lesson hour to check.
+	 * @return Boolean value indicating whether the resource is available.
+	 */
+	public boolean isAvailable(LessonHour lessonHour) {
+		return availabilities[getLessonHourIndex(lessonHour)] == Availability.AVAILABLE ||
+				availabilities[getLessonHourIndex(lessonHour)] == Availability.RATHER_NOT;
+	}
+	
+	/**
+	 * Returns whether the resource is available on a given lesson hour.
 	 * @param int The timeslot to check.
 	 * @return Boolean value indicating whether the resource is available.
 	 */
 	public boolean isAvailable(int timeslot) {
 		return availabilities[timeslot] == Availability.AVAILABLE ||
 				availabilities[timeslot] == Availability.RATHER_NOT;
+	}
+	
+	/**
+	 * Returns the resource's indicated availability on a given LessonHour.
+	 * @param lessonHour The lesson hour to check the resources's availability of.
+	 * @return Resources's availability on the given LessonHour.
+	 */
+	public Availability getAvailability(LessonHour lessonHour) {
+		return availabilities[getLessonHourIndex(lessonHour)];
 	}
 	
 	/**

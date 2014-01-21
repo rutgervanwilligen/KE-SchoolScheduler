@@ -2,6 +2,7 @@ package sss.scheduler.objects;
 import java.util.ArrayList;
 
 import sss.scheduler.Resource;
+import sss.scheduler.Scheduler;
 import sss.scheduler.properties.Availability;
 import sss.scheduler.properties.Level;
 
@@ -79,6 +80,30 @@ public abstract class ClassInSchool extends Resource implements Comparable<Class
 	
 	public boolean equals(ClassInSchool c) {
 		return compareTo(c) == 0;
+	}
+
+	public String getTypeOfHour(LessonHour lessonHour1) {
+		if (!this.isAvailable(lessonHour1))
+			return "BEZET";
+		
+		boolean hasHourBefore = false;
+		boolean hasHourAfter = false;
+		
+		for (LessonHour lessonHour2 : Scheduler.hours) {
+			if (lessonHour1.getWeekday().equals(lessonHour2.getWeekday()) && !this.isAvailable(lessonHour2)) {
+				int comparison = lessonHour1.compareTo(lessonHour2);
+				if (comparison < 0) {
+					hasHourBefore = true;
+				} else if (comparison > 0) {
+					hasHourAfter = true;
+				}
+			}
+		}
+		
+		if (hasHourBefore && hasHourAfter)
+			return "TUSSENUUR";
+		
+		return "VRIJ";
 	}
 	
 }

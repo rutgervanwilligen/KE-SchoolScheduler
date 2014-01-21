@@ -135,6 +135,8 @@ public class Schedule {
 	 */
 	public void scheduleSingleHourLesson(SingleHourLesson lesson, Classroom classroom, ClassInSchool classInSchool, Teacher teacher, LessonHour hour) {
 	  	schedulingSet.remove(lesson);
+	  	unallocatableLessons.remove(lesson);
+	  	unallocatedLessons.remove(lesson);
 	  	
 		lesson.setClassroom(classroom);
 		lesson.allocateTimeslot(hour);
@@ -160,7 +162,7 @@ public class Schedule {
 	  	classInSchool.setToAvailable(hour);
 	  	teacher.setToAvailable(hour);
 	  	
-	  	schedulingSet.add(lesson);
+	  	unallocatedLessons.add(lesson);
 	}
 	
 	public void scheduleLesson(Lesson lesson, Classroom classroom, ClassInSchool classInSchool, Teacher teacher, LessonHour firstHour) {
@@ -229,7 +231,7 @@ public class Schedule {
 		  	teacher.setToAvailable(hour);	
 		}
 	  	
-	  	schedulingSet.add(lesson);
+	  	unallocatedLessons.add(lesson);
 	}
 	
 	/**
