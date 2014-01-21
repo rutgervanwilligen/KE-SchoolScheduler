@@ -258,6 +258,10 @@ public class Schedule {
 		}
 	}
 	
+	/**
+	 * Returns the lowest availability count.
+	 * @return Lowest availability count.
+	 */
 	public int lowestAvailabilityCount() {
 		int result = Integer.MAX_VALUE;
 		
@@ -269,7 +273,11 @@ public class Schedule {
 		
 		return result;
 	}
-	
+
+	/**
+	 * Returns whether there is exactly one unallocated lesson with the lowest availability count.
+	 * @return Truth value indicating if there is exactly one unallocated lesson with the lowest availability count.
+	 */
 	public boolean singleLowestAvailabilityCount() {
 		int lowestCount = lowestAvailabilityCount();
 		int nrOfLessons = 0;
@@ -289,7 +297,7 @@ public class Schedule {
 	 * @param teacher Teacher to check
 	 * @param classroom Classroom to check
 	 * @param hour The LessonHour object to check
-	 * @returns Truth value indicating if the teacher is scheduled in the Classroom on the day of the LessonHour object
+	 * @return Truth value indicating if the teacher is scheduled in the Classroom on the day of the LessonHour object
 	 */
 	public boolean teacherAlreadyScheduledInClassroomOnWeekday(Teacher teacher, Classroom classroom, LessonHour hourToCheck) {
 		for (Lesson lesson : allocatedLessons) {
@@ -304,5 +312,30 @@ public class Schedule {
 			}
 		}
 		return false;
-	}	
+	}
+	
+	public boolean subjectAlreadyAllocatedToClassOnWeekday(Subject subject, LessonHour hourToCheck, ClassInSchool classInSchool) {
+		for (Lesson lesson : allocatedLessons) {
+			if ((lesson.getSubject().equals(subject)) &&
+				(classInSchool.equals(lesson.getClassInSchool())) &&
+				(lesson.getHour().getWeekday() == hourToCheck.getWeekday())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public int numberOfClassesWithoutHomeworkOnWeekday(ClassInSchool classInSchool, LessonHour hour) {
+		int result = 0;
+		
+		for (Lesson lesson : allocatedLessons) {
+			if (lesson.getClassInSchool().equals(classInSchool) &&
+					lesson.getHour().getWeekday() == hour.getWeekday() &&
+					lesson.getSubject().requiresHomework()) {
+				result ++;
+			}
+		}
+		return result;
+	}
+	
 }
