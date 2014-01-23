@@ -23,7 +23,6 @@ public abstract class ClassInSchool extends Resource implements Comparable<Class
 	protected int size;
 	protected Teacher mentor;
 
-
 	/*
 	 * Getters
 	 */

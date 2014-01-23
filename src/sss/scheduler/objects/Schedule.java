@@ -3,6 +3,7 @@ package sss.scheduler.objects;
 import java.util.ArrayList;
 
 import sss.scheduler.objects.Lesson;
+import sss.scheduler.properties.Availability;
 
 public class Schedule {
 	
@@ -213,8 +214,8 @@ public class Schedule {
 		classroom.setToUnavailable(secondHour);
 		classInSchool.setToUnavailable(firstHour);
 		classInSchool.setToUnavailable(secondHour);
-		teacher.setToUnavailable(firstHour);
-		teacher.setToUnavailable(secondHour);
+		teacher.setScheduled(firstHour, Availability.UNAVAILABLE)
+				.setScheduled(secondHour, Availability.UNAVAILABLE);
 		
 		allocatedLessons.add(lesson);
 	}
@@ -242,7 +243,7 @@ public class Schedule {
 			LessonHour hour = lesson.unallocateTimeslot(i);
 		  	classroom.setToAvailable(hour);
 		  	classInSchool.setToAvailable(hour);
-		  	teacher.setToAvailable(hour);	
+			teacher.setScheduled(hour, Availability.AVAILABLE);
 		}
 	  	
 	  	unallocatedLessons.add(lesson);

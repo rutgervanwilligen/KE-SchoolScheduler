@@ -16,6 +16,7 @@ import sss.scheduler.objects.Lesson;
 import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.Teacher;
+import sss.scheduler.properties.Availability;
 
 public class OutputWriter {
 
@@ -44,10 +45,7 @@ public class OutputWriter {
 							continue lessonHourLoop;
 						}
 					}
-					scheduleString += lessonHour.getWeekday().name() + ", " +
-							lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
-							lessonHour.getEndTime().getHours() + ":" + lessonHour.getEndTime().getMinutes() + ", " +
-							classroom.getAvailability(lessonHour) + "\n";
+					scheduleString += writeOpenSlot(lessonHour, "" + classroom.getAvailability(lessonHour));
 				}
 				
 				scheduleString+= "\n";
@@ -83,10 +81,7 @@ public class OutputWriter {
 							continue lessonHourLoop;
 						}
 					}
-					scheduleString += lessonHour.getWeekday().name() + ", " +
-							lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
-							lessonHour.getEndTime().getHours() + ":" + lessonHour.getEndTime().getMinutes() + ", " +
-							classInSchool.getTypeOfHour(lessonHour) + "\n";
+					scheduleString += writeOpenSlot(lessonHour, classInSchool.getTypeOfHour(lessonHour));
 				}
 				
 				scheduleString+= "\n";
@@ -122,10 +117,7 @@ public class OutputWriter {
 							continue lessonHourLoop;
 						}
 					}
-					scheduleString += lessonHour.getWeekday().name() + ", " +
-							lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
-							lessonHour.getEndTime().getHours() + ":" + lessonHour.getEndTime().getMinutes() + ", " +
-							teacher.getAvailability(lessonHour) + "\n";
+					scheduleString += writeOpenSlot(lessonHour, "" + teacher.getAvailability(lessonHour));
 				}
 				
 				scheduleString+= "\n";
@@ -138,9 +130,18 @@ public class OutputWriter {
 			e.printStackTrace();
 		}
 	}
+	
+	protected static String writeOpenSlot(LessonHour lessonHour, String string) {
+		return lessonHour.getWeekday().name() + ", " +
+				lessonHour.getHour() + ", " +
+				lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
+				lessonHour.getEndTime().getHours() + ":" + lessonHour.getEndTime().getMinutes() + ", " +
+				string + "\n";
+	}
 
 	protected static String writeLesson(Lesson lesson) {
 		String result = lesson.getWeekday().name() + ", " +
+					lesson.getHour().getHour() + ", " +
 					lesson.getHour().getStartTime().getHours() + ":" + lesson.getHour().getStartTime().getMinutes() + "-" + 
 					lesson.getHour().getEndTime().getHours() + ":" + lesson.getHour().getEndTime().getMinutes() + ", " +
 					lesson.getClassInSchool().getName() + ", " +
@@ -149,6 +150,7 @@ public class OutputWriter {
 					lesson.getClassroom().getRoomNumber() + "\n";
 		if (lesson instanceof DoubleHourLesson) {
 			result += lesson.getWeekday().name() + ", " +
+					lesson.getHour().getHour() + ", " +
 					lesson.getHour().getNextHour().getStartTime().getHours() + ":" + lesson.getHour().getNextHour().getStartTime().getMinutes() + "-" + 
 					lesson.getHour().getNextHour().getEndTime().getHours() + ":" + lesson.getHour().getNextHour().getEndTime().getMinutes() + ", " +
 					lesson.getClassInSchool().getName() + ", " +

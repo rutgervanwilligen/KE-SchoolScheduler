@@ -5,13 +5,18 @@ import sss.scheduler.objects.Lesson;
 import sss.scheduler.objects.Teacher;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.LessonHour;
+import sss.scheduler.properties.Availability;
 
 /**
  * Rule base used to evaluate a schedule.
  */
 public ruleBase ScheduleEvaluationKB {
 
-  rule evaluationRule1 {
+	/**
+	 * Rules for ClassInSchool
+	 */
+
+  rule classEvaluationRule1 {
     declarations
       Schedule schedule;
       ClassInSchool classInSchool;
@@ -21,10 +26,10 @@ public ruleBase ScheduleEvaluationKB {
       nrOfBetweenHours > 0;
     actions
       schedule.addToRating(nrOfBetweenHours * -1000);
-      System.out.println("evaluationRule1 fired for " + classInSchool.getName() + " with " + (nrOfBetweenHours * 1000) + " penalty points.");
+      System.out.println("classEvaluationRule1 fired for " + classInSchool.getName() + " with " + (nrOfBetweenHours * 1000) + " penalty points.");
   }
 
-  rule evaluationRule2 {
+  rule classEvaluationRule2 {
     declarations
       Schedule schedule;
       ClassInSchool classInSchool;
@@ -34,15 +39,63 @@ public ruleBase ScheduleEvaluationKB {
 	  lessonHour.getHour() == 9;
     actions
       schedule.addToRating(-29);
-      System.out.println("evaluationRule2 fired for " + classInSchool.getName() + " on " + lessonHour.getWeekday());
+      System.out.println("classEvaluationRule2 fired for " + classInSchool.getName() + " on " + lessonHour.getWeekday());
   }
   
-  rule evaluationRule3 {
+  rule classEvaluationRule3 {
     declarations
       ClassInSchool classInSchool;
     conditions
     actions
-      System.out.println("evaluationRule3 fired for " + classInSchool.getName());
+      System.out.println("classEvaluationRule3 fired for " + classInSchool.getName());
       retract(classInSchool);
+  }
+  
+	/**
+	 * Rules for Teacher
+	 */
+	
+  // Teacher has been scheduled on an hour he would rather not be scheduled on. 
+  rule teacherEvaluationRule1 {
+    declarations
+	  Schedule schedule;
+      Teacher teacher;
+      LessonHour lessonHour;
+    conditions
+      teacher.getAvailability(lessonHour) == Availability.RATHER_NOT;
+      teacher.isScheduled(lessonHour);
+    actions
+      //System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " with " + teacher.getScheduledValue(lessonHour));
+      System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " on " + lessonHour.getWeekday() + " at " + lessonHour.getHour());
+      schedule.addToRating(-100);
+  }
+
+  // Teacher has to walk in between hours.
+  rule teacherEvaluationRule2 {
+    declarations
+      Schedule schedule;
+      Lesson lesson1, lesson2;
+      Teacher teacher;
+    localdecl
+      LessonHour lessonHour1 = lesson1.getHour();
+      LessonHour lessonHour2 = lesson2.getHour();
+    conditions
+      lessonHour1.hasNextHour();
+      lessonHour1.getNextHour().equals(lessonHour2);
+      lesson1.getTeacher().equals(teacher);
+      lesson2.getTeacher().equals(teacher);
+      !lesson1.getClassroom().equals(lesson2.getClassroom());
+    actions
+      System.out.println("teacherEvaluationRule2 fired for " + teacher.getName());
+      schedule.addToRating(-1000);
+  }
+	 
+  rule teacherEvaluationRule3 {
+    declarations
+      Teacher teacher;
+    conditions
+    actions
+      System.out.println("teacherEvaluationRule3 fired for " + teacher.getName());
+      retract(teacher);
   }
 }

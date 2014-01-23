@@ -66,10 +66,11 @@ public class Teacher extends Resource {
 		}
 		return subjects.contains(lesson.getSubject());
 	}
-	
+
 	/**
 	 * Returns whether the teacher is scheduled on a given lesson hour.
 	 * @param lessonHour The lesson hour to check.
+	 * @param lesson The lesson for which to check if is scheduled(only checks for single or double).
 	 * @return Boolean value indicating whether the classroom is available.
 	 */
 	public boolean isScheduled(LessonHour lessonHour, Lesson lesson) {
@@ -79,6 +80,25 @@ public class Teacher extends Resource {
 					scheduledHours[getLessonHourIndex(lessonHour.getNextHour())] != Availability.AVAILABLE;
 		}
 		return scheduledHours[getLessonHourIndex(lessonHour)] != Availability.AVAILABLE;
+	}
+	
+	/**
+	 * Returns whether the teacher is scheduled on a given lesson hour.
+	 * @param lessonHour The lesson hour to check.
+	 * @return Boolean value indicating whether the classroom is available.
+	 */
+	public boolean isScheduled(LessonHour lessonHour) {
+		return scheduledHours[getLessonHourIndex(lessonHour)] != Availability.AVAILABLE;
+	}
+	
+	/**
+	 * Returns whether the teacher is scheduled on a given lesson hour.
+	 * @param lessonHour The lesson hour to check.
+	 * @return Boolean value indicating whether the classroom is available.
+	 */
+	public Teacher setScheduled(LessonHour lessonHour, Availability availability) {
+		scheduledHours[getLessonHourIndex(lessonHour)] = availability;
+		return this;
 	}
 	
 	/**
