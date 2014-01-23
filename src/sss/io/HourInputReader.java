@@ -23,6 +23,18 @@ public class HourInputReader extends InputReader {
 		String beginTime = lineScanner.next();
 		String endTime = lineScanner.next();
 		
+		boolean preferred = true;
+		
+		int preferredInt = Integer.parseInt(lineScanner.next());
+		if (preferredInt == 1) {
+			preferred = true;
+		} else if (preferredInt == 0) {
+			preferred = false;
+		} else {
+			System.out.println("Preferred hour input not sane");
+			System.exit(1);
+		}
+		
 		beginTimeScanner = new Scanner(beginTime);
 		beginTimeScanner.useDelimiter(":");
 		int beginTimeHours = beginTimeScanner.nextInt();
@@ -32,8 +44,8 @@ public class HourInputReader extends InputReader {
 		endTimeScanner.useDelimiter(":");
 		int endTimeHours = endTimeScanner.nextInt();
 		int endTimeMinutes = endTimeScanner.nextInt();
-		
-		getDaysAndAddHours(lineScanner.next(), number, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes);
+				
+		getDaysAndAddHours(lineScanner.next(), number, preferred, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes);
 		
 		lineScanner.close();
 		beginTimeScanner.close();
@@ -41,7 +53,7 @@ public class HourInputReader extends InputReader {
 		
 	}
 	
-	public void getDaysAndAddHours(String days, int number, int beginTimeHours, int beginTimeMinutes,
+	public void getDaysAndAddHours(String days, int number, boolean preferred, int beginTimeHours, int beginTimeMinutes,
 			int endTimeHours, int endTimeMinutes) throws IOException {
 		
 		Scanner daysScanner = new Scanner(days);
@@ -49,7 +61,7 @@ public class HourInputReader extends InputReader {
 		
 		while (daysScanner.hasNext()) {
 			Weekday weekday = getWeekday(daysScanner.next());
-			hours.add(new LessonHour(weekday, number, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes));	
+			hours.add(new LessonHour(weekday, number, preferred, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes));	
 		}
 	}
 	
@@ -88,7 +100,7 @@ public class HourInputReader extends InputReader {
 				if (nextHour.getWeekday().equals(weekday) && nextHour.getHour() == (hour.getHour() + 1)) {
 					hour.addNextHour(nextHour);
 					
-					if (endTime.equals(nextHour.getStartTime())) {
+					if (endTime.equals(nextHour.getStartTime()) && nextHour.isPreferredToTeachOn()) {
 						hour.setPreferredForDoubleHour(true);
 					} else {
 						hour.setPreferredForDoubleHour(false);

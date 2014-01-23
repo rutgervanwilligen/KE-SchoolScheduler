@@ -11,6 +11,7 @@ public class LessonHour implements Comparable<LessonHour> {
 	private final ClockValue endTime;
 	private LessonHour nextHour;
 	private boolean preferredForDoubleHour;
+	private boolean preferredHour;
 
 	/*
 	 * Getters
@@ -45,7 +46,7 @@ public class LessonHour implements Comparable<LessonHour> {
 	 * @param endTimeHour
 	 * @param endTimeMinutes
 	 */
-	public LessonHour(Weekday weekday, int number, int startTimeHour, int startTimeMinutes, 
+	public LessonHour(Weekday weekday, int number, boolean preferredHour, int startTimeHour, int startTimeMinutes, 
 			int endTimeHour, int endTimeMinutes) {
 		this.weekday = weekday;
 		this.number = number;
@@ -53,10 +54,19 @@ public class LessonHour implements Comparable<LessonHour> {
 		endTime = new ClockValue(endTimeHour, endTimeMinutes);
 		nextHour = null;
 		preferredForDoubleHour = false;
+		this.preferredHour = preferredHour;
 	}
 	
 	/**
-	 * Checks if there is a lesson hour directly after this lesson hour.
+	 * Returns whether the lesson hour is preferred to teach on.
+	 * @return boolean
+	 */
+	public boolean isPreferredToTeachOn() {
+		return preferredHour;
+	}
+	
+	/**
+	 * Checks if there is a lesson hour directly after this lesson hour (ignores breaks)
 	 * @return boolean
 	 */
 	public boolean hasNextHour() {
