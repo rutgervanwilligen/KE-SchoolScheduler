@@ -266,10 +266,11 @@ public abstract class Lesson implements Comparable<Lesson> {
 	
 	/**
 	 * Returns whether the lesson is allocated for a specific weekday / hour combination.
-	 * @param firstHour First hour to test for.
+	 * @param lessonHour First hour to test for.
 	 */
-	public boolean isAllocatedTo(LessonHour firstHour) {
-		return (firstHour.equals(this.firstHour));
+	public boolean isAllocatedTo(LessonHour lessonHour) {
+		return (lessonHour.equals(this.firstHour) ||
+				(this.isDoubleHour() && lessonHour.equals(this.secondHour)));
 	}
 	
 	/**

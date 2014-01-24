@@ -1,4 +1,10 @@
 package sss.scheduler.properties;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import sss.scheduler.objects.LessonHour;
+
 public class ClockValue implements Comparable<ClockValue>{
 	
 	protected final int hours;
@@ -59,5 +65,18 @@ public class ClockValue implements Comparable<ClockValue>{
 	
 	public boolean equals(ClockValue cv) {
 		return (compareTo(cv) == 0);
+	}
+
+	public static ArrayList<ClockValue> getUniqueStartingClockValues(ArrayList<LessonHour> hours) {
+		ArrayList<ClockValue> clockValues = new ArrayList<ClockValue>();
+		
+		for (LessonHour lessonHour : hours) {
+			if (lessonHour.getWeekday() == Weekday.MONDAY) {
+				clockValues.add(lessonHour.getStartTime());
+			}
+		}
+		Collections.sort(clockValues);
+		
+		return clockValues;
 	}
 }

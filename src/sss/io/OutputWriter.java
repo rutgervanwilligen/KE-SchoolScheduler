@@ -17,6 +17,8 @@ import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.Teacher;
 import sss.scheduler.properties.Availability;
+import sss.scheduler.properties.ClockValue;
+import sss.scheduler.properties.Weekday;
 
 public class OutputWriter {
 
@@ -24,33 +26,54 @@ public class OutputWriter {
 	protected TreeMap<String, ClassInSchool> classes;
 	
 	public static void writeClassroomSchedulesToFile(Schedule schedule, TreeMap<String, Classroom> classrooms) {
-		PrintWriter writer;
 		try {
-			writer = new PrintWriter("output/classroomSchedules.csv", "UTF-8");
-			for (Entry<String, Classroom> entry : classrooms.entrySet()) {
-				Classroom classroom = entry.getValue();
-				String scheduleString = classroom.getRoomNumber() + "\n";
-				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
+			PrintWriter writer = new PrintWriter("output/classroomSchedules.csv", "UTF-8");
 
-				Collections.sort(lessons);
-				Collections.sort(Scheduler.hours);
+			Collections.sort(Scheduler.hours);
+
+			for (Entry<String, Classroom> entry : classrooms.entrySet()) {
+				ClockValue startingHour;
+				Weekday weekday;
+				Classroom classroom = entry.getValue();
+				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
+				ArrayList<ClockValue> clockValues = ClockValue.getUniqueStartingClockValues(Scheduler.hours);
+				String scheduleString = printHeader(classroom.getRoomNumber());
 				
-				lessonHourLoop: for (int i = 0; i < Scheduler.hours.size(); i++) {
-					LessonHour lessonHour = Scheduler.hours.get(i);
-					for (Lesson lesson : lessons) {
-						if (lesson.isAllocatedTo(classroom) && lesson.isAllocatedTo(lessonHour)) {
-							scheduleString += writeLesson(lesson);
-							if (lesson.isDoubleHour())
-								i++;
-							continue lessonHourLoop;
+				Collections.sort(lessons);
+				
+				for (ClockValue clockValue : clockValues) {
+					for (LessonHour lessonHour : Scheduler.hours) {
+						startingHour = lessonHour.getStartTime();
+						weekday = lessonHour.getWeekday();
+						
+						bla: if (startingHour.equals(clockValue)) {
+							if (!weekday.equals(Weekday.MONDAY)) {
+								for (Lesson lesson : lessons) {
+									if (lesson.isAllocatedTo(classroom) && lesson.isAllocatedTo(lessonHour)) {
+										scheduleString += writeSlot(lesson);
+										break bla;
+									}
+								}
+							} else {
+								scheduleString += writeStartRow(lessonHour);
+								
+								for (Lesson lesson : lessons) {
+									if (lesson.isAllocatedTo(classroom) && lesson.isAllocatedTo(lessonHour)) {
+										scheduleString += writeSlot(lesson);
+										break bla;
+									}
+								}
+							}
+							
+							scheduleString += writeOpenSlot(lessonHour, classroom.getAvailability(lessonHour) + "");
 						}
 					}
-					scheduleString += writeOpenSlot(lessonHour, "" + classroom.getAvailability(lessonHour));
 				}
 				
-				scheduleString+= "\n";
+				scheduleString+= "\n\n";
 				writer.print(scheduleString);
 			}
+			
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -60,33 +83,54 @@ public class OutputWriter {
 	}
 
 	public static void writeClassSchedulesToFile(Schedule schedule, TreeMap<String, ClassInSchool> classes) {
-		PrintWriter writer;
 		try {
-			writer = new PrintWriter("output/classSchedules.csv", "UTF-8");
+			PrintWriter writer = new PrintWriter("output/classSchedules.csv", "UTF-8");
+
+			Collections.sort(Scheduler.hours);
+
 			for (Entry<String, ClassInSchool> entry : classes.entrySet()) {
+				ClockValue startingHour;
+				Weekday weekday;
 				ClassInSchool classInSchool = entry.getValue();
-				String scheduleString = classInSchool.getName() + "\n";
 				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
+				ArrayList<ClockValue> clockValues = ClockValue.getUniqueStartingClockValues(Scheduler.hours);
+				String scheduleString = printHeader(classInSchool.getName());
 				
 				Collections.sort(lessons);
-				Collections.sort(Scheduler.hours);
 				
-				lessonHourLoop: for (int i = 0; i < Scheduler.hours.size(); i++) {
-					LessonHour lessonHour = Scheduler.hours.get(i);
-					for (Lesson lesson : lessons) {
-						if (lesson.isAllocatedTo(classInSchool) && lesson.isAllocatedTo(lessonHour)) {
-							scheduleString += writeLesson(lesson);
-							if (lesson.isDoubleHour())
-								i++;
-							continue lessonHourLoop;
+				for (ClockValue clockValue : clockValues) {
+					for (LessonHour lessonHour : Scheduler.hours) {
+						startingHour = lessonHour.getStartTime();
+						weekday = lessonHour.getWeekday();
+						
+						bla: if (startingHour.equals(clockValue)) {
+							if (!weekday.equals(Weekday.MONDAY)) {
+								for (Lesson lesson : lessons) {
+									if (lesson.isAllocatedTo(classInSchool) && lesson.isAllocatedTo(lessonHour)) {
+										scheduleString += writeSlot(lesson);
+										break bla;
+									}
+								}
+							} else {
+								scheduleString += writeStartRow(lessonHour);
+								
+								for (Lesson lesson : lessons) {
+									if (lesson.isAllocatedTo(classInSchool) && lesson.isAllocatedTo(lessonHour)) {
+										scheduleString += writeSlot(lesson);
+										break bla;
+									}
+								}
+							}
+							
+							scheduleString += writeOpenSlot(lessonHour, classInSchool.getTypeOfHour(lessonHour));
 						}
 					}
-					scheduleString += writeOpenSlot(lessonHour, classInSchool.getTypeOfHour(lessonHour));
 				}
 				
-				scheduleString+= "\n";
+				scheduleString+= "\n\n";
 				writer.print(scheduleString);
 			}
+			
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -99,30 +143,52 @@ public class OutputWriter {
 		PrintWriter writer;
 		try {
 			writer = new PrintWriter("output/teacherSchedules.csv", "UTF-8");
+
+			Collections.sort(Scheduler.hours);
+
 			for (Entry<String, Teacher> entry : teachers.entrySet()) {
+				ClockValue startingHour;
+				Weekday weekday;
 				Teacher teacher = entry.getValue();
-				String scheduleString = teacher.getName() + " - " + teacher.getCode() + "\n";
 				ArrayList<Lesson> lessons = schedule.getAllocatedLessons();
+				ArrayList<ClockValue> clockValues = ClockValue.getUniqueStartingClockValues(Scheduler.hours);
+				String scheduleString = printHeader(teacher.getName());
 				
 				Collections.sort(lessons);
-				Collections.sort(Scheduler.hours);
 				
-				lessonHourLoop: for (int i = 0; i < Scheduler.hours.size(); i++) {
-					LessonHour lessonHour = Scheduler.hours.get(i);
-					for (Lesson lesson : lessons) {
-						if (lesson.isAllocatedTo(teacher) && lesson.isAllocatedTo(lessonHour)) {
-							scheduleString += writeLesson(lesson);
-							if (lesson.isDoubleHour())
-								i++;
-							continue lessonHourLoop;
+				for (ClockValue clockValue : clockValues) {
+					for (LessonHour lessonHour : Scheduler.hours) {
+						startingHour = lessonHour.getStartTime();
+						weekday = lessonHour.getWeekday();
+						
+						bla: if (startingHour.equals(clockValue)) {
+							if (!weekday.equals(Weekday.MONDAY)) {
+								for (Lesson lesson : lessons) {
+									if (lesson.isAllocatedTo(teacher) && lesson.isAllocatedTo(lessonHour)) {
+										scheduleString += writeSlot(lesson);
+										break bla;
+									}
+								}
+							} else {
+								scheduleString += writeStartRow(lessonHour);
+								
+								for (Lesson lesson : lessons) {
+									if (lesson.isAllocatedTo(teacher) && lesson.isAllocatedTo(lessonHour)) {
+										scheduleString += writeSlot(lesson);
+										break bla;
+									}
+								}
+							}
+							
+							scheduleString += writeOpenSlot(lessonHour, teacher.getAvailability(lessonHour) + "");
 						}
 					}
-					scheduleString += writeOpenSlot(lessonHour, "" + teacher.getAvailability(lessonHour));
 				}
 				
-				scheduleString+= "\n";
+				scheduleString+= "\n\n";
 				writer.print(scheduleString);
 			}
+			
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -131,7 +197,7 @@ public class OutputWriter {
 		}
 	}
 	
-	protected static String writeOpenSlot(LessonHour lessonHour, String string) {
+	protected static String writeOpenLesson(LessonHour lessonHour, String string) {
 		return lessonHour.getWeekday().name() + ", " +
 				lessonHour.getHour() + ", " +
 				lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
@@ -159,5 +225,32 @@ public class OutputWriter {
 					lesson.getClassroom().getRoomNumber() + "\n";
 		}
 		return result;
+	}
+
+	protected static String writeStartRow(LessonHour lessonHour) {
+		return "\n" + lessonHour.getHour() + " - " +
+				lessonHour.getStartTime().getHours() + ":" + lessonHour.getStartTime().getMinutes() + "-" + 
+				lessonHour.getEndTime().getHours() + ":" + lessonHour.getEndTime().getMinutes() + ", ";
+	}
+
+	protected static String printHeader(String name) {
+		String headerString = name + ",";
+		for (Weekday weekday : Weekday.values()) {
+			headerString += weekday + ",";
+		}
+		return headerString;
+	}
+
+	protected static String writeSlot(Lesson lesson) {
+		String result = 
+					lesson.getClassInSchool().getName() + " - " +
+					lesson.getSubject().getName() + " - " +
+					lesson.getTeacher().getName() + " - " +
+					lesson.getClassroom().getRoomNumber() + ",";
+		return result;
+	}
+	
+	protected static String writeOpenSlot(LessonHour lessonHour, String string) {
+		return string + ",";
 	}
 }

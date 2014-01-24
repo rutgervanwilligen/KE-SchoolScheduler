@@ -9,9 +9,9 @@ import sss.scheduler.properties.Level;
 
 public abstract class ClassInSchool extends Resource implements Comparable<ClassInSchool> {
 
-	public final static String LESSON_TYPE_FREE = "vrij";
-	public final static String LESSON_TYPE_OCCUPIED = "bezet";
-	public final static String LESSON_TYPE_BETWEEN_HOUR = "tussenuur";
+	public final static String LESSON_TYPE_FREE = "Vrij";
+	public final static String LESSON_TYPE_OCCUPIED = "Bezet";
+	public final static String LESSON_TYPE_BETWEEN_HOUR = "Tussenuur";
 	
 	//TODO Student list (eigenlijk niet belangrijk in onderbouw, though)
 
