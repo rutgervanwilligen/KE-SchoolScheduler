@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 import jeops.conflict.MRUConflictSet;
 import jeops.conflict.PriorityConflictSet;
-import sss.Main;
 import sss.reasoner.ClassroomTimeslotAllocationKB;
 import sss.reasoner.LessonSelectionKB;
 import sss.reasoner.LessonSwapKB;
@@ -60,7 +59,7 @@ public class Scheduler {
 			TreeMap<String, ClassInSchool> classes, SubjectClassAllocation subjectsClasses, 
 			TeacherClassAllocation teachersClasses) {
 		schedule = new Schedule();
-		this.hours = hours;
+		Scheduler.hours = hours;
 		this.subjects = subjects;
 		this.teachers = teachers;
 		this.classrooms = classrooms;

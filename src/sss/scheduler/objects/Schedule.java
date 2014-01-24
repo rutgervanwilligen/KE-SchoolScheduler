@@ -334,13 +334,26 @@ public class Schedule {
 	 */
 	public boolean teacherAlreadyScheduledInClassroomOnWeekday(Teacher teacher, Classroom classroom, LessonHour hourToCheck) {
 		for (Lesson lesson : allocatedLessons) {
-			if (!(lesson.getHour().getWeekday() == hourToCheck.getWeekday())) {
-				continue;
-			}
-			if (!(lesson.getTeacher().equals(teacher))) {
+			if (!(lesson.getTeacher().equals(teacher)) ||
+				!(lesson.getHour().getWeekday() == hourToCheck.getWeekday())) {
 				continue;
 			}
 			if (lesson.getClassroom().equals(classroom)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean teacherAlreadyScheduledInClassroomRightBeforeOrAfter(Teacher teacher, Classroom classroom, LessonHour hourToCheck) {
+		for (Lesson lesson : allocatedLessons) {
+			if (!(lesson.getTeacher().equals(teacher)) ||
+				!(lesson.getHour().getWeekday() == hourToCheck.getWeekday()) ||
+				!(lesson.getClassroom().equals(classroom))) {
+				continue;
+			}
+			
+			if (Math.abs(lesson.getHour().getHour() - hourToCheck.getHour()) == 1) {
 				return true;
 			}
 		}
@@ -379,5 +392,17 @@ public class Schedule {
 		rating += addition;
 	}
 
+	public boolean isPreferredAt(Lesson lesson, LessonHour firstHour) {
+		if (lesson instanceof SingleHourLesson) {
+			return firstHour.isPreferredToTeachOn();
+		} else if (lesson instanceof DoubleHourLesson) {
+			return firstHour.preferredForDoubleHour();
+		} else {
+			System.out.println("isPreferredAt error: input lesson ot sane");
+			System.exit(1);
+			return false;
+		}
+	}
+	
 	
 }
