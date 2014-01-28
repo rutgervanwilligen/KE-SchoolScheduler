@@ -46,26 +46,9 @@ public class Scheduler {
 	
 	/**
 	 * Constructor
-	 * @param hours
-	 * @param subjects
-	 * @param teachers
-	 * @param classrooms
-	 * @param classes
-	 * @param subjectsClasses
-	 * @param teachersClasses
 	 */
-	public Scheduler(ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects, 
-			TreeMap<String, Teacher> teachers, TreeMap<String, Classroom> classrooms, 
-			TreeMap<String, ClassInSchool> classes, SubjectClassAllocation subjectsClasses, 
-			TeacherClassAllocation teachersClasses) {
+	public Scheduler() {
 		schedule = new Schedule();
-		Scheduler.hours = hours;
-		this.subjects = subjects;
-		this.teachers = teachers;
-		this.classrooms = classrooms;
-		this.classes = classes;
-		this.subjectsClasses = subjectsClasses;
-		this.teachersClasses = teachersClasses;
 	}
 	
 	/**
@@ -290,5 +273,28 @@ public class Scheduler {
 			}
 		}
 		return availabilityCount;
+	}
+
+	/**
+	 * Set all input data.
+	 * @param hours
+	 * @param subjects
+	 * @param teachers
+	 * @param classrooms
+	 * @param classes
+	 * @param subjectsClasses
+	 * @param teachersClasses
+	 */
+	public void setData(ArrayList<LessonHour> hours, TreeMap<String, Subject> subjects, 
+			TreeMap<String, Teacher> teachers, TreeMap<String, Classroom> classrooms, 
+			TreeMap<String, ClassInSchool> classes, SubjectClassAllocation subjectsClasses, 
+			TeacherClassAllocation teachersClasses) {
+		Scheduler.hours = hours;
+		this.subjects = subjects;
+		this.teachers = teachers;
+		this.classrooms = classrooms;
+		this.classes = classes;
+		this.subjectsClasses = subjectsClasses;
+		this.teachersClasses = teachersClasses;
 	}
 }

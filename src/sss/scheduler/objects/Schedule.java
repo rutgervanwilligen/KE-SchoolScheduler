@@ -1,11 +1,13 @@
 package sss.scheduler.objects;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import sss.scheduler.objects.Lesson;
 import sss.scheduler.properties.Availability;
 
-public class Schedule {
+public class Schedule extends Observable {
 	
 	protected ArrayList<Lesson> unallocatedLessons;
 	protected ArrayList<Lesson> schedulingSet;
@@ -36,6 +38,10 @@ public class Schedule {
 
 	public int getRating() {
 		return rating;
+	}
+	
+	public double getProgress() {
+		return ((1. * allocatedLessons.size()) / (allocatedLessons.size() + unallocatableLessons.size() + unallocatedLessons.size() + schedulingSet.size())) * 100;
 	}
 	
 	/*
@@ -194,8 +200,15 @@ public class Schedule {
 			System.out.println("ScheduleLesson error: Input lesson not sane");
 			System.exit(1);
 		}
+		
+		informObservers();
 	}
 	
+	private void informObservers() {
+        setChanged();
+		notifyObservers();
+	}
+
 	/**
 	 * Allocate a DoubleHourLesson present in the scheduling set to a classroom and hour.
 	 * @param lesson Double hour lesson object to allocate.
@@ -390,6 +403,8 @@ public class Schedule {
 	
 	public void addToRating(int addition) {
 		rating += addition;
+
+		informObservers();
 	}
 
 	public boolean isPreferredAt(Lesson lesson, LessonHour firstHour) {
