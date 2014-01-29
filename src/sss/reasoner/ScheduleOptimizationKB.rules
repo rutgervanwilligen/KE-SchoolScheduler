@@ -46,13 +46,14 @@ public ruleBase ScheduleOptimizationKB {
       Teacher teacher = penalty.teacher;
       Lesson lesson1 = penalty.lesson1;
       Lesson lesson2 = penalty.lesson2;
+      Classroom classroom1 = penalty.lesson1.getClassroom();
     conditions
       lessonInTheWay.getHour().equals(lesson2.getHour());
-      lessonInTheWay.getClassroom().equals(lesson1.getClassroom());
-      lesson1.getClassroom().isSuitedFor(lesson2);
-      lesson1.getClassroom().isAvailable(lesson2.getHour(), lesson2);
+      lessonInTheWay.getClassroom().equals(classroom1);
+      classroom1.isSuitedFor(lesson2);
+      classroom1.isAvailable(lesson2.getHour(), lesson2);
     actions
-      schedule.moveLesson(lesson2, lesson2.getHour(), lesson1.getClassroom());
+      schedule.moveLesson(lesson2, lesson2.getHour(), classroom1);
       System.out.println("TeacherWalkingRule1 fired.");
       retract(penalty);
       retract(schedule);
@@ -107,6 +108,7 @@ public ruleBase ScheduleOptimizationKB {
 	  !teacher.isScheduled(alternativeLessonHour, lesson);
 	  classInSchool.isAvailable(alternativeLessonHour, lesson);
 	  alternativeClassroom.isAvailable(alternativeLessonHour, lesson);
+	  alternativeClassroom.isSuitedFor(lesson);
 	  
     actions
       schedule.moveLesson(lesson, alternativeLessonHour, alternativeClassroom);
@@ -129,10 +131,13 @@ public ruleBase ScheduleOptimizationKB {
     conditions
 	  !teacher.isScheduled(lessonHour1, lesson);
 	  teacher.isAvailable(lessonHour1, lesson);
+	  classInSchool.isAvailable(lessonHour1, lesson);
+	  classroom.isAvailable(lessonHour1, lesson);
+	  classroom.isSuitedFor(lesson);
+	  
 	  classInSchool.hasStartOrEndingHour(lessonHour2);
 	  lesson.getHour().equals(lessonHour2);
 	  lesson.getClassInSchool().equals(classInSchool);
-	  classroom.isAvailable(lessonHour1, lesson);
     actions
       schedule.moveLesson(lesson, lessonHour1, classroom);
       retract(penalty);

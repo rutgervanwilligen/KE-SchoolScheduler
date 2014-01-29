@@ -87,14 +87,16 @@ public class Scheduler {
 			ArrayList<Penalty> penalties = schedule.getAndResetPenalties();
 			Collections.sort(penalties);
 			
-			for (Penalty penalty : penalties) {
+//			for (Penalty penalty : penalties) {
+			do {
 				if (! running) {
 					break;
 				}
+				System.out.println("Schedule now has " + penalties.size() + ".");
 				evaluateSchedule();
 				oldRating = schedule.getRating();
 				
-				optimizeSchedule(penalty);
+				optimizeSchedule(penalties.remove(0));
 				evaluateSchedule();
 				
 				newRating = schedule.getRating();
@@ -103,10 +105,11 @@ public class Scheduler {
 					schedule.revertActions();
 				}
 				schedule.removeActionHistory();
-			}
+			} while (newRating == oldRating && ! penalties.isEmpty());
+//			}
 			
 			schedule.resetUnallocatableLessons();
-			scheduleUnallocatableLessons();
+//			scheduleUnallocatableLessons();
 		} while (running);
 
 		System.out.println("\nTadadadaaaaaahh, results!\n");

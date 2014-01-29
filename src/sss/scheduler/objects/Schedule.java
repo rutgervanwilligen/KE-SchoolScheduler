@@ -490,6 +490,9 @@ public class Schedule extends Observable {
 				MoveLessonAction moveAction = (MoveLessonAction) action;
 				moveLesson(moveAction.lesson, moveAction.lessonHour, moveAction.classroom);
 				actionStack.pop();
+			} else {
+				System.out.println("Encounterd unknown revert action.");
+				System.exit(1);
 			}
 		}
 	}

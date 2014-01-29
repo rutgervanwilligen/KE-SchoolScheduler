@@ -393,37 +393,37 @@ import sss.reasoner.penaltyObjects.*;
     /**
      * Condition 1 of rule TeacherWalkingRule2.<p>
      * The original expression was:<br>
-     * <code>lessonInTheWay.getClassroom().equals(lesson1.getClassroom())</code>
+     * <code>lessonInTheWay.getClassroom().equals(classroom1)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean TeacherWalkingRule2_cond_1() {
-        return (sss_scheduler_objects_Lesson_1.getClassroom().equals((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1).getClassroom()));
+        return (sss_scheduler_objects_Lesson_1.getClassroom().equals((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1.getClassroom())));
     }
 
     /**
      * Condition 2 of rule TeacherWalkingRule2.<p>
      * The original expression was:<br>
-     * <code>lesson1.getClassroom().isSuitedFor(lesson2)</code>
+     * <code>classroom1.isSuitedFor(lesson2)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean TeacherWalkingRule2_cond_2() {
-        return ((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1).getClassroom().isSuitedFor((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2)));
+        return ((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1.getClassroom()).isSuitedFor((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2)));
     }
 
     /**
      * Condition 3 of rule TeacherWalkingRule2.<p>
      * The original expression was:<br>
-     * <code>lesson1.getClassroom().isAvailable(lesson2.getHour(), lesson2)</code>
+     * <code>classroom1.isAvailable(lesson2.getHour(), lesson2)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean TeacherWalkingRule2_cond_3() {
-        return ((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1).getClassroom().isAvailable((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2).getHour(), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2)));
+        return ((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1.getClassroom()).isAvailable((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2).getHour(), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2)));
     }
 
     /**
@@ -493,7 +493,7 @@ import sss.reasoner.penaltyObjects.*;
      * Executes the action part of the rule TeacherWalkingRule2
      */
     private void TeacherWalkingRule2() {
-      sss_scheduler_objects_Schedule_1.moveLesson((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2).getHour(), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1).getClassroom());
+      sss_scheduler_objects_Schedule_1.moveLesson((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2).getHour(), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1.getClassroom()));
       System.out.println("TeacherWalkingRule1 fired.");
       retract(sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1);
       retract(sss_scheduler_objects_Schedule_1);
@@ -984,6 +984,18 @@ import sss.reasoner.penaltyObjects.*;
     }
 
     /**
+     * Condition 6 of rule Class9thHourRule1.<p>
+     * The original expression was:<br>
+     * <code>alternativeClassroom.isSuitedFor(lesson)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean Class9thHourRule1_cond_6() {
+        return (sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_Lesson_1));
+    }
+
+    /**
      * Checks whether some conditions of rule Class9thHourRule1 is satisfied.
      *
      * @param index the index of the condition to be checked.
@@ -998,6 +1010,7 @@ import sss.reasoner.penaltyObjects.*;
             case 3: return Class9thHourRule1_cond_3();
             case 4: return Class9thHourRule1_cond_4();
             case 5: return Class9thHourRule1_cond_5();
+            case 6: return Class9thHourRule1_cond_6();
             default: return false;
         }
     }
@@ -1053,6 +1066,7 @@ import sss.reasoner.penaltyObjects.*;
                 if (!Class9thHourRule1_cond_3()) return false;
                 if (!Class9thHourRule1_cond_4()) return false;
                 if (!Class9thHourRule1_cond_5()) return false;
+                if (!Class9thHourRule1_cond_6()) return false;
                 return true;
             default: return false;
         }
@@ -1219,49 +1233,73 @@ import sss.reasoner.penaltyObjects.*;
     /**
      * Condition 2 of rule ClassBetweenHoursRule1.<p>
      * The original expression was:<br>
-     * <code>classInSchool.hasStartOrEndingHour(lessonHour2)</code>
+     * <code>classInSchool.isAvailable(lessonHour1, lesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean ClassBetweenHoursRule1_cond_2() {
-        return ((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool).hasStartOrEndingHour(sss_scheduler_objects_LessonHour_1));
+        return ((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool).isAvailable((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.lessonHour), sss_scheduler_objects_Lesson_1));
     }
 
     /**
      * Condition 3 of rule ClassBetweenHoursRule1.<p>
-     * The original expression was:<br>
-     * <code>lesson.getHour().equals(lessonHour2)</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean ClassBetweenHoursRule1_cond_3() {
-        return (sss_scheduler_objects_Lesson_1.getHour().equals(sss_scheduler_objects_LessonHour_1));
-    }
-
-    /**
-     * Condition 4 of rule ClassBetweenHoursRule1.<p>
-     * The original expression was:<br>
-     * <code>lesson.getClassInSchool().equals(classInSchool)</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean ClassBetweenHoursRule1_cond_4() {
-        return (sss_scheduler_objects_Lesson_1.getClassInSchool().equals((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool)));
-    }
-
-    /**
-     * Condition 5 of rule ClassBetweenHoursRule1.<p>
      * The original expression was:<br>
      * <code>classroom.isAvailable(lessonHour1, lesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean ClassBetweenHoursRule1_cond_5() {
+    private boolean ClassBetweenHoursRule1_cond_3() {
         return (sss_scheduler_objects_Classroom_1.isAvailable((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.lessonHour), sss_scheduler_objects_Lesson_1));
+    }
+
+    /**
+     * Condition 4 of rule ClassBetweenHoursRule1.<p>
+     * The original expression was:<br>
+     * <code>classroom.isSuitedFor(lesson)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean ClassBetweenHoursRule1_cond_4() {
+        return (sss_scheduler_objects_Classroom_1.isSuitedFor(sss_scheduler_objects_Lesson_1));
+    }
+
+    /**
+     * Condition 5 of rule ClassBetweenHoursRule1.<p>
+     * The original expression was:<br>
+     * <code>classInSchool.hasStartOrEndingHour(lessonHour2)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean ClassBetweenHoursRule1_cond_5() {
+        return ((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool).hasStartOrEndingHour(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 6 of rule ClassBetweenHoursRule1.<p>
+     * The original expression was:<br>
+     * <code>lesson.getHour().equals(lessonHour2)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean ClassBetweenHoursRule1_cond_6() {
+        return (sss_scheduler_objects_Lesson_1.getHour().equals(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 7 of rule ClassBetweenHoursRule1.<p>
+     * The original expression was:<br>
+     * <code>lesson.getClassInSchool().equals(classInSchool)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean ClassBetweenHoursRule1_cond_7() {
+        return (sss_scheduler_objects_Lesson_1.getClassInSchool().equals((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool)));
     }
 
     /**
@@ -1279,6 +1317,8 @@ import sss.reasoner.penaltyObjects.*;
             case 3: return ClassBetweenHoursRule1_cond_3();
             case 4: return ClassBetweenHoursRule1_cond_4();
             case 5: return ClassBetweenHoursRule1_cond_5();
+            case 6: return ClassBetweenHoursRule1_cond_6();
+            case 7: return ClassBetweenHoursRule1_cond_7();
             default: return false;
         }
     }
@@ -1324,16 +1364,18 @@ import sss.reasoner.penaltyObjects.*;
             case 1:
                 return true;
             case 2:
-                if (!ClassBetweenHoursRule1_cond_2()) return false;
+                if (!ClassBetweenHoursRule1_cond_5()) return false;
                 return true;
             case 3:
                 if (!ClassBetweenHoursRule1_cond_0()) return false;
                 if (!ClassBetweenHoursRule1_cond_1()) return false;
-                if (!ClassBetweenHoursRule1_cond_3()) return false;
-                if (!ClassBetweenHoursRule1_cond_4()) return false;
+                if (!ClassBetweenHoursRule1_cond_2()) return false;
+                if (!ClassBetweenHoursRule1_cond_6()) return false;
+                if (!ClassBetweenHoursRule1_cond_7()) return false;
                 return true;
             case 4:
-                if (!ClassBetweenHoursRule1_cond_5()) return false;
+                if (!ClassBetweenHoursRule1_cond_3()) return false;
+                if (!ClassBetweenHoursRule1_cond_4()) return false;
                 return true;
             default: return false;
         }
@@ -1399,8 +1441,8 @@ import sss.reasoner.penaltyObjects.*;
         5,
         4,
         7,
-        6,
-        6
+        7,
+        8
     };
 
     /**
