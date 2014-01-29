@@ -75,30 +75,30 @@ public class Scheduler {
 		System.out.println("Starting schedule creation.");
 		
 		scheduleUnallocatableLessons();
-		
+
 		int oldRating, newRating = schedule.getRating();
-		System.out.println("\nStarting rating is " + schedule.getRating() + ", optimizing.");
+		ArrayList<Penalty> penalties;
 		do {
-
+			schedule.getAndResetPenalties();
 			evaluateSchedule();
-			
-			System.out.println("Schedule rating is " + schedule.getRating() + ", optimizing.");
-
-			ArrayList<Penalty> penalties = schedule.getAndResetPenalties();
+			penalties = schedule.getAndResetPenalties();
 			Collections.sort(penalties);
 			
-//			for (Penalty penalty : penalties) {
+			System.out.println("Schedule rating is " + schedule.getRating() + ", optimizing.");
+			
 			do {
 				if (! running) {
 					break;
 				}
-				System.out.println("Schedule now has " + penalties.size() + ".");
+
+				schedule.getAndResetPenalties();
 				evaluateSchedule();
 				oldRating = schedule.getRating();
 				
 				optimizeSchedule(penalties.remove(0));
+
+				schedule.getAndResetPenalties();
 				evaluateSchedule();
-				
 				newRating = schedule.getRating();
 				
 				if (newRating < oldRating) {
@@ -106,10 +106,11 @@ public class Scheduler {
 				}
 				schedule.removeActionHistory();
 			} while (newRating == oldRating && ! penalties.isEmpty());
-//			}
 			
-			schedule.resetUnallocatableLessons();
-//			scheduleUnallocatableLessons();
+			if (penalties.isEmpty()) {
+				schedule.resetUnallocatableLessons();
+				scheduleUnallocatableLessons();
+			}
 		} while (running);
 
 		System.out.println("\nTadadadaaaaaahh, results!\n");
@@ -173,8 +174,8 @@ public class Scheduler {
 		}
 
 		scheduleOptimizationKB.tell(penalty);
-		
 		scheduleOptimizationKB.run();
+		scheduleEvaluationKB.retract(penalty);
 	}
 
 

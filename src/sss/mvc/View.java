@@ -51,6 +51,14 @@ public class View extends JFrame implements Observer {
 
 	private JTextPane textPaneRating;
 
+	private JTextPane textPanePenalties;
+
+	private JTextPane textPaneTotalLessons;
+
+	private JTextPane textPaneUnallocated;
+
+	private JTextPane textPaneUnallocatable;
+
 	/**
 	 * Create the frame.
 	 */
@@ -210,12 +218,12 @@ public class View extends JFrame implements Observer {
 		contentPane.add(btnSelectSubjectHoursInfo);
 		
 		JLabel lblCurrentScheduleRating = new JLabel("Current schedule rating: ");
-		lblCurrentScheduleRating.setBounds(582, 299, 184, 15);
+		lblCurrentScheduleRating.setBounds(577, 427, 184, 15);
 		contentPane.add(lblCurrentScheduleRating);
 		
 		textPaneRating = new JTextPane();
 		textPaneRating.setText("-");
-		textPaneRating.setBounds(763, 293, 78, 21);
+		textPaneRating.setBounds(757, 421, 78, 21);
 		contentPane.add(textPaneRating);
 		
 		JLabel lblFillInThe = new JLabel("Fill in the location of each input file, or leave empty to use defaults values.");
@@ -229,6 +237,42 @@ public class View extends JFrame implements Observer {
 		btnStop = new JButton("Stop");
 		btnStop.setBounds(132, 262, 78, 25);
 		contentPane.add(btnStop);
+		
+		JLabel label_6 = new JLabel("Number of penalties:");
+		label_6.setBounds(577, 454, 184, 15);
+		contentPane.add(label_6);
+		
+		textPanePenalties = new JTextPane();
+		textPanePenalties.setText("-");
+		textPanePenalties.setBounds(757, 448, 78, 21);
+		contentPane.add(textPanePenalties);
+		
+		JLabel label_7 = new JLabel("Total number of lessons:");
+		label_7.setBounds(577, 264, 184, 15);
+		contentPane.add(label_7);
+		
+		JLabel label_8 = new JLabel("Unallocated lessons:");
+		label_8.setBounds(577, 291, 184, 15);
+		contentPane.add(label_8);
+		
+		textPaneUnallocated = new JTextPane();
+		textPaneUnallocated.setText("-");
+		textPaneUnallocated.setBounds(757, 285, 78, 21);
+		contentPane.add(textPaneUnallocated);
+		
+		textPaneTotalLessons = new JTextPane();
+		textPaneTotalLessons.setText("-");
+		textPaneTotalLessons.setBounds(757, 258, 78, 21);
+		contentPane.add(textPaneTotalLessons);
+		
+		JLabel label_9 = new JLabel("Unallocatable lessons:");
+		label_9.setBounds(577, 319, 184, 15);
+		contentPane.add(label_9);
+		
+		textPaneUnallocatable = new JTextPane();
+		textPaneUnallocatable.setText("-");
+		textPaneUnallocatable.setBounds(757, 313, 78, 21);
+		contentPane.add(textPaneUnallocatable);
 		
 		redirectSystemStreams();
 	}
@@ -272,6 +316,10 @@ public class View extends JFrame implements Observer {
 		
 		progressBar.setValue((int) schedule.getProgress());
 		textPaneRating.setText(String.valueOf(schedule.getRating()));
+		textPanePenalties.setText(String.valueOf(schedule.getNumberOfPenalties()));
+		textPaneTotalLessons.setText(String.valueOf(schedule.getTotalNumberOfLessons()));
+		textPaneUnallocatable.setText(String.valueOf(schedule.getUnallocatableLessons().size()));
+		textPaneUnallocated.setText(String.valueOf(schedule.getUnallocatedLessons().size()));
 	}
 	
 	private void redirectSystemStreams() {

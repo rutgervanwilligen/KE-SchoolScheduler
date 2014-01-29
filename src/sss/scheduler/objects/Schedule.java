@@ -53,6 +53,10 @@ public class Schedule extends Observable {
 		return penalties;
 	}
 	
+	public int getNumberOfPenalties() {
+		return penalties.size();
+	}
+	
 	/*
 	 * Setters
 	 */
@@ -499,6 +503,10 @@ public class Schedule extends Observable {
 
 	public void removeActionHistory() {
 		actionStack.clear();
+	}
+
+	public int getTotalNumberOfLessons() {
+		return allocatedLessons.size() + unallocatedLessons.size() + unallocatableLessons.size() + schedulingSet.size();
 	}
 	
 }
