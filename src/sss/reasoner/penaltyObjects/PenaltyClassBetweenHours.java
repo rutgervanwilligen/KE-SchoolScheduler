@@ -6,9 +6,11 @@ import sss.scheduler.objects.LessonHour;
 public class PenaltyClassBetweenHours extends Penalty {
 
 	public ClassInSchool classInSchool;
+	public LessonHour lessonHour;
 	
-	public PenaltyClassBetweenHours(ClassInSchool classInSchool) {
+	public PenaltyClassBetweenHours(ClassInSchool classInSchool, LessonHour lessonHour) {
 		this.classInSchool = classInSchool;
+		this.lessonHour = lessonHour;
 	}
 	
 }

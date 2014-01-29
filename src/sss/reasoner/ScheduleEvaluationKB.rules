@@ -17,13 +17,11 @@ public ruleBase ScheduleEvaluationKB {
     declarations
       Schedule schedule;
       ClassInSchool classInSchool;
-    localdecl
-      Integer nrOfBetweenHours = classInSchool.getNumberOfBetweenHours();
+      LessonHour lessonHour;
     conditions
-      nrOfBetweenHours > 0;
+      classInSchool.hasBetweenHourOn(lessonHour);
     actions
-      schedule.addToRating(nrOfBetweenHours * -100000);
-      schedule.addPenaltyObject(new PenaltyClassBetweenHours(classInSchool));
+      schedule.addPenaltyObject(new PenaltyClassBetweenHours(classInSchool, lessonHour), -10000);
       // System.out.println("classEvaluationRule1 fired for " + classInSchool.getName() + " with " + (nrOfBetweenHours * 1000) + " penalty points.");
   }
 
@@ -36,8 +34,7 @@ public ruleBase ScheduleEvaluationKB {
       !classInSchool.isAvailable(lessonHour);
 	  lessonHour.getHour() == 9;
     actions
-      schedule.addToRating(-1000);
-      schedule.addPenaltyObject(new PenaltyClass9thHour(classInSchool, lessonHour));
+      schedule.addPenaltyObject(new PenaltyClass9thHour(classInSchool, lessonHour), -1000);
       // System.out.println("classEvaluationRule2 fired for " + classInSchool.getName() + " on " + lessonHour.getWeekday());
   }
   
@@ -65,8 +62,7 @@ public ruleBase ScheduleEvaluationKB {
       teacher.isScheduled(lessonHour);
     actions
       // System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " on " + lessonHour.getWeekday() + " at " + lessonHour.getHour());
-	  schedule.addPenaltyObject(new PenaltyTeacherRatherNot(teacher, lessonHour));
-      schedule.addToRating(-1000);
+	  schedule.addPenaltyObject(new PenaltyTeacherRatherNot(teacher, lessonHour), -1000);
   }
 
   // Teacher has to walk in between hours.
@@ -86,8 +82,7 @@ public ruleBase ScheduleEvaluationKB {
       !lesson1.getClassroom().equals(lesson2.getClassroom());
     actions
       // System.out.println("teacherEvaluationRule2 fired for " + teacher.getName());
-	  schedule.addPenaltyObject(new PenaltyTeacherWalking(teacher, lesson1, lesson2));
-      schedule.addToRating(-100);
+	  schedule.addPenaltyObject(new PenaltyTeacherWalking(teacher, lesson1, lesson2), -100);
   }
 	 
   rule teacherEvaluationRule3 {

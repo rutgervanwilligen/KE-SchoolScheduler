@@ -455,12 +455,18 @@ public class Schedule extends Observable {
 		}
 	}
 	
-	public void addPenaltyObject(Penalty penalty) {
-		this.penalties.add(penalty);
+	public void addPenaltyObject(Penalty penaltyObject, int penalty) {
+		penaltyObject.penalty = penalty;
+		penalties.add(penaltyObject);
+		
+		rating += penalty;
 	}
 
-	public void clearPenalties() {
-		penalties.clear();
+	public ArrayList<Penalty> getAndResetPenalties() {
+		ArrayList<Penalty> result = penalties;
+		penalties = new ArrayList<Penalty>();
+		
+		return result;
 	}
 	
 	public void revertLastAction() {
@@ -488,7 +494,7 @@ public class Schedule extends Observable {
 		}
 	}
 
-	public void removeOptimizationHistory() {
+	public void removeActionHistory() {
 		actionStack.clear();
 	}
 	

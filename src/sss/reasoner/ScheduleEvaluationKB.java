@@ -19,7 +19,8 @@ import sss.reasoner.penaltyObjects.*;
      */
     private String[] identifiers_classEvaluationRule1 = {
         "schedule",
-        "classInSchool"
+        "classInSchool",
+        "lessonHour"
     };
 
     /**
@@ -43,6 +44,7 @@ import sss.reasoner.penaltyObjects.*;
         switch (index) {
             case 0: return "sss.scheduler.objects.Schedule";
             case 1: return "sss.scheduler.objects.ClassInSchool";
+            case 2: return "sss.scheduler.objects.LessonHour";
             default: return null;
         }
     }
@@ -57,6 +59,7 @@ import sss.reasoner.penaltyObjects.*;
         switch (index) {
             case 0: return sss.scheduler.objects.Schedule.class;
             case 1: return sss.scheduler.objects.ClassInSchool.class;
+            case 2: return sss.scheduler.objects.LessonHour.class;
             default: return null;
         }
     }
@@ -71,6 +74,7 @@ import sss.reasoner.penaltyObjects.*;
         switch (index) {
             case 0: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
             case 1: this.sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) value; break;
+            case 2: this.sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) value; break;
         }
     }
 
@@ -84,6 +88,7 @@ import sss.reasoner.penaltyObjects.*;
         switch (index) {
             case 0: return sss_scheduler_objects_Schedule_1;
             case 1: return sss_scheduler_objects_ClassInSchool_1;
+            case 2: return sss_scheduler_objects_LessonHour_1;
             default: return null;
         }
     }
@@ -98,7 +103,8 @@ import sss.reasoner.penaltyObjects.*;
     private Object[] getObjects_classEvaluationRule1() {
         return new Object[] {
                             sss_scheduler_objects_Schedule_1,
-                            sss_scheduler_objects_ClassInSchool_1
+                            sss_scheduler_objects_ClassInSchool_1,
+                            sss_scheduler_objects_LessonHour_1
                             };
     }
 
@@ -112,18 +118,19 @@ import sss.reasoner.penaltyObjects.*;
     private void setObjects_classEvaluationRule1(Object[] objects) {
         sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[0];
         sss_scheduler_objects_ClassInSchool_1 = (sss.scheduler.objects.ClassInSchool) objects[1];
+        sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) objects[2];
     }
 
     /**
      * Condition 0 of rule classEvaluationRule1.<p>
      * The original expression was:<br>
-     * <code>nrOfBetweenHours > 0</code>
+     * <code>classInSchool.hasBetweenHourOn(lessonHour)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
     private boolean classEvaluationRule1_cond_0() {
-        return ((sss_scheduler_objects_ClassInSchool_1.getNumberOfBetweenHours()) > 0);
+        return (sss_scheduler_objects_ClassInSchool_1.hasBetweenHourOn(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
@@ -153,7 +160,8 @@ import sss.reasoner.penaltyObjects.*;
             case 0:
                 return true;
             case 1:
-                if (!classEvaluationRule1_cond_0()) return false;
+                return true;
+            case 2:
                 return true;
             default: return false;
         }
@@ -175,6 +183,9 @@ import sss.reasoner.penaltyObjects.*;
                 return true;
             case 1:
                 return true;
+            case 2:
+                if (!classEvaluationRule1_cond_0()) return false;
+                return true;
             default: return false;
         }
     }
@@ -183,8 +194,7 @@ import sss.reasoner.penaltyObjects.*;
      * Executes the action part of the rule classEvaluationRule1
      */
     private void classEvaluationRule1() {
-      sss_scheduler_objects_Schedule_1.addToRating((sss_scheduler_objects_ClassInSchool_1.getNumberOfBetweenHours()) * -100000);
-      sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyClassBetweenHours(sss_scheduler_objects_ClassInSchool_1));
+      sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyClassBetweenHours(sss_scheduler_objects_ClassInSchool_1, sss_scheduler_objects_LessonHour_1), -10000);
       // System.out.println("classEvaluationRule1 fired for " + classInSchool.getName() + " with " + (nrOfBetweenHours * 1000) + " penalty points.");
       }
 
@@ -385,8 +395,7 @@ import sss.reasoner.penaltyObjects.*;
      * Executes the action part of the rule classEvaluationRule2
      */
     private void classEvaluationRule2() {
-      sss_scheduler_objects_Schedule_1.addToRating(-1000);
-      sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyClass9thHour(sss_scheduler_objects_ClassInSchool_1, sss_scheduler_objects_LessonHour_1));
+      sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyClass9thHour(sss_scheduler_objects_ClassInSchool_1, sss_scheduler_objects_LessonHour_1), -1000);
       // System.out.println("classEvaluationRule2 fired for " + classInSchool.getName() + " on " + lessonHour.getWeekday());
       }
 
@@ -744,8 +753,7 @@ import sss.reasoner.penaltyObjects.*;
      */
     private void teacherEvaluationRule1() {
       // System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " on " + lessonHour.getWeekday() + " at " + lessonHour.getHour());
-	  sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyTeacherRatherNot(sss_scheduler_objects_Teacher_1, sss_scheduler_objects_LessonHour_1));
-      sss_scheduler_objects_Schedule_1.addToRating(-1000);
+	  sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyTeacherRatherNot(sss_scheduler_objects_Teacher_1, sss_scheduler_objects_LessonHour_1), -1000);
       }
 
 
@@ -1000,8 +1008,7 @@ import sss.reasoner.penaltyObjects.*;
      */
     private void teacherEvaluationRule2() {
       // System.out.println("teacherEvaluationRule2 fired for " + teacher.getName());
-	  sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyTeacherWalking(sss_scheduler_objects_Teacher_1, sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Lesson_2));
-      sss_scheduler_objects_Schedule_1.addToRating(-100);
+	  sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyTeacherWalking(sss_scheduler_objects_Teacher_1, sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Lesson_2), -100);
       }
 
 
@@ -1182,7 +1189,7 @@ import sss.reasoner.penaltyObjects.*;
      * The number of declarations of the rules in this class file.
      */
     private static final int[] File_numberOfDeclarations = {
-        2,
+        3,
         3,
         1,
         3,

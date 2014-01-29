@@ -119,20 +119,20 @@ public ruleBase ScheduleOptimizationKB {
     declarations
 	  PenaltyClassBetweenHours penalty;
       Schedule schedule;
-	  LessonHour lessonHour1, lessonHour2;
+	  LessonHour lessonHour2;
 	  Lesson lesson;
 	  Classroom classroom;
     localdecl
       ClassInSchool classInSchool = penalty.classInSchool;
+      LessonHour lessonHour1 = penalty.lessonHour;
 	  Teacher teacher = lesson.getTeacher();
     conditions
-	  teacher.isAvailable(lessonHour1, lesson);
 	  !teacher.isScheduled(lessonHour1, lesson);
-	  classroom.isAvailable(lessonHour1, lesson);
-	  
-	  classInSchool.hasBetweenHourOn(lessonHour1);
+	  teacher.isAvailable(lessonHour1, lesson);
 	  classInSchool.hasStartOrEndingHour(lessonHour2);
 	  lesson.getHour().equals(lessonHour2);
+	  lesson.getClassInSchool().equals(classInSchool);
+	  classroom.isAvailable(lessonHour1, lesson);
     actions
       schedule.moveLesson(lesson, lessonHour1, classroom);
       retract(penalty);

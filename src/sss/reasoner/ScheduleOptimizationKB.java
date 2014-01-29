@@ -1077,7 +1077,6 @@ import sss.reasoner.penaltyObjects.*;
     private String[] identifiers_ClassBetweenHoursRule1 = {
         "penalty",
         "schedule",
-        "lessonHour1",
         "lessonHour2",
         "lesson",
         "classroom"
@@ -1105,9 +1104,8 @@ import sss.reasoner.penaltyObjects.*;
             case 0: return "sss.reasoner.penaltyObjects.PenaltyClassBetweenHours";
             case 1: return "sss.scheduler.objects.Schedule";
             case 2: return "sss.scheduler.objects.LessonHour";
-            case 3: return "sss.scheduler.objects.LessonHour";
-            case 4: return "sss.scheduler.objects.Lesson";
-            case 5: return "sss.scheduler.objects.Classroom";
+            case 3: return "sss.scheduler.objects.Lesson";
+            case 4: return "sss.scheduler.objects.Classroom";
             default: return null;
         }
     }
@@ -1123,9 +1121,8 @@ import sss.reasoner.penaltyObjects.*;
             case 0: return sss.reasoner.penaltyObjects.PenaltyClassBetweenHours.class;
             case 1: return sss.scheduler.objects.Schedule.class;
             case 2: return sss.scheduler.objects.LessonHour.class;
-            case 3: return sss.scheduler.objects.LessonHour.class;
-            case 4: return sss.scheduler.objects.Lesson.class;
-            case 5: return sss.scheduler.objects.Classroom.class;
+            case 3: return sss.scheduler.objects.Lesson.class;
+            case 4: return sss.scheduler.objects.Classroom.class;
             default: return null;
         }
     }
@@ -1141,9 +1138,8 @@ import sss.reasoner.penaltyObjects.*;
             case 0: this.sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1 = (sss.reasoner.penaltyObjects.PenaltyClassBetweenHours) value; break;
             case 1: this.sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) value; break;
             case 2: this.sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) value; break;
-            case 3: this.sss_scheduler_objects_LessonHour_2 = (sss.scheduler.objects.LessonHour) value; break;
-            case 4: this.sss_scheduler_objects_Lesson_1 = (sss.scheduler.objects.Lesson) value; break;
-            case 5: this.sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) value; break;
+            case 3: this.sss_scheduler_objects_Lesson_1 = (sss.scheduler.objects.Lesson) value; break;
+            case 4: this.sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) value; break;
         }
     }
 
@@ -1158,9 +1154,8 @@ import sss.reasoner.penaltyObjects.*;
             case 0: return sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1;
             case 1: return sss_scheduler_objects_Schedule_1;
             case 2: return sss_scheduler_objects_LessonHour_1;
-            case 3: return sss_scheduler_objects_LessonHour_2;
-            case 4: return sss_scheduler_objects_Lesson_1;
-            case 5: return sss_scheduler_objects_Classroom_1;
+            case 3: return sss_scheduler_objects_Lesson_1;
+            case 4: return sss_scheduler_objects_Classroom_1;
             default: return null;
         }
     }
@@ -1177,7 +1172,6 @@ import sss.reasoner.penaltyObjects.*;
                             sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1,
                             sss_scheduler_objects_Schedule_1,
                             sss_scheduler_objects_LessonHour_1,
-                            sss_scheduler_objects_LessonHour_2,
                             sss_scheduler_objects_Lesson_1,
                             sss_scheduler_objects_Classroom_1
                             };
@@ -1194,81 +1188,80 @@ import sss.reasoner.penaltyObjects.*;
         sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1 = (sss.reasoner.penaltyObjects.PenaltyClassBetweenHours) objects[0];
         sss_scheduler_objects_Schedule_1 = (sss.scheduler.objects.Schedule) objects[1];
         sss_scheduler_objects_LessonHour_1 = (sss.scheduler.objects.LessonHour) objects[2];
-        sss_scheduler_objects_LessonHour_2 = (sss.scheduler.objects.LessonHour) objects[3];
-        sss_scheduler_objects_Lesson_1 = (sss.scheduler.objects.Lesson) objects[4];
-        sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) objects[5];
+        sss_scheduler_objects_Lesson_1 = (sss.scheduler.objects.Lesson) objects[3];
+        sss_scheduler_objects_Classroom_1 = (sss.scheduler.objects.Classroom) objects[4];
     }
 
     /**
      * Condition 0 of rule ClassBetweenHoursRule1.<p>
-     * The original expression was:<br>
-     * <code>teacher.isAvailable(lessonHour1, lesson)</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean ClassBetweenHoursRule1_cond_0() {
-        return ((sss_scheduler_objects_Lesson_1.getTeacher()).isAvailable(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_1));
-    }
-
-    /**
-     * Condition 1 of rule ClassBetweenHoursRule1.<p>
      * The original expression was:<br>
      * <code>!teacher.isScheduled(lessonHour1, lesson)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
+    private boolean ClassBetweenHoursRule1_cond_0() {
+        return (!(sss_scheduler_objects_Lesson_1.getTeacher()).isScheduled((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.lessonHour), sss_scheduler_objects_Lesson_1));
+    }
+
+    /**
+     * Condition 1 of rule ClassBetweenHoursRule1.<p>
+     * The original expression was:<br>
+     * <code>teacher.isAvailable(lessonHour1, lesson)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
     private boolean ClassBetweenHoursRule1_cond_1() {
-        return (!(sss_scheduler_objects_Lesson_1.getTeacher()).isScheduled(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_1));
+        return ((sss_scheduler_objects_Lesson_1.getTeacher()).isAvailable((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.lessonHour), sss_scheduler_objects_Lesson_1));
     }
 
     /**
      * Condition 2 of rule ClassBetweenHoursRule1.<p>
-     * The original expression was:<br>
-     * <code>classroom.isAvailable(lessonHour1, lesson)</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean ClassBetweenHoursRule1_cond_2() {
-        return (sss_scheduler_objects_Classroom_1.isAvailable(sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Lesson_1));
-    }
-
-    /**
-     * Condition 3 of rule ClassBetweenHoursRule1.<p>
-     * The original expression was:<br>
-     * <code>classInSchool.hasBetweenHourOn(lessonHour1)</code>
-     *
-     * @return <code>true</code> if the condition is satisfied;
-     *          <code>false</code> otherwise.
-     */
-    private boolean ClassBetweenHoursRule1_cond_3() {
-        return ((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool).hasBetweenHourOn(sss_scheduler_objects_LessonHour_1));
-    }
-
-    /**
-     * Condition 4 of rule ClassBetweenHoursRule1.<p>
      * The original expression was:<br>
      * <code>classInSchool.hasStartOrEndingHour(lessonHour2)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
-    private boolean ClassBetweenHoursRule1_cond_4() {
-        return ((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool).hasStartOrEndingHour(sss_scheduler_objects_LessonHour_2));
+    private boolean ClassBetweenHoursRule1_cond_2() {
+        return ((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool).hasStartOrEndingHour(sss_scheduler_objects_LessonHour_1));
     }
 
     /**
-     * Condition 5 of rule ClassBetweenHoursRule1.<p>
+     * Condition 3 of rule ClassBetweenHoursRule1.<p>
      * The original expression was:<br>
      * <code>lesson.getHour().equals(lessonHour2)</code>
      *
      * @return <code>true</code> if the condition is satisfied;
      *          <code>false</code> otherwise.
      */
+    private boolean ClassBetweenHoursRule1_cond_3() {
+        return (sss_scheduler_objects_Lesson_1.getHour().equals(sss_scheduler_objects_LessonHour_1));
+    }
+
+    /**
+     * Condition 4 of rule ClassBetweenHoursRule1.<p>
+     * The original expression was:<br>
+     * <code>lesson.getClassInSchool().equals(classInSchool)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
+    private boolean ClassBetweenHoursRule1_cond_4() {
+        return (sss_scheduler_objects_Lesson_1.getClassInSchool().equals((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.classInSchool)));
+    }
+
+    /**
+     * Condition 5 of rule ClassBetweenHoursRule1.<p>
+     * The original expression was:<br>
+     * <code>classroom.isAvailable(lessonHour1, lesson)</code>
+     *
+     * @return <code>true</code> if the condition is satisfied;
+     *          <code>false</code> otherwise.
+     */
     private boolean ClassBetweenHoursRule1_cond_5() {
-        return (sss_scheduler_objects_Lesson_1.getHour().equals(sss_scheduler_objects_LessonHour_2));
+        return (sss_scheduler_objects_Classroom_1.isAvailable((sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.lessonHour), sss_scheduler_objects_Lesson_1));
     }
 
     /**
@@ -1310,8 +1303,6 @@ import sss.reasoner.penaltyObjects.*;
                 return true;
             case 4:
                 return true;
-            case 5:
-                return true;
             default: return false;
         }
     }
@@ -1333,18 +1324,16 @@ import sss.reasoner.penaltyObjects.*;
             case 1:
                 return true;
             case 2:
-                if (!ClassBetweenHoursRule1_cond_3()) return false;
+                if (!ClassBetweenHoursRule1_cond_2()) return false;
                 return true;
             case 3:
+                if (!ClassBetweenHoursRule1_cond_0()) return false;
+                if (!ClassBetweenHoursRule1_cond_1()) return false;
+                if (!ClassBetweenHoursRule1_cond_3()) return false;
                 if (!ClassBetweenHoursRule1_cond_4()) return false;
                 return true;
             case 4:
-                if (!ClassBetweenHoursRule1_cond_0()) return false;
-                if (!ClassBetweenHoursRule1_cond_1()) return false;
                 if (!ClassBetweenHoursRule1_cond_5()) return false;
-                return true;
-            case 5:
-                if (!ClassBetweenHoursRule1_cond_2()) return false;
                 return true;
             default: return false;
         }
@@ -1354,7 +1343,7 @@ import sss.reasoner.penaltyObjects.*;
      * Executes the action part of the rule ClassBetweenHoursRule1
      */
     private void ClassBetweenHoursRule1() {
-      sss_scheduler_objects_Schedule_1.moveLesson(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Classroom_1);
+      sss_scheduler_objects_Schedule_1.moveLesson(sss_scheduler_objects_Lesson_1, (sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.lessonHour), sss_scheduler_objects_Classroom_1);
       retract(sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1);
       retract(sss_scheduler_objects_Schedule_1);
       System.out.println("ClassBetweenHoursRule1 fired for " + sss_scheduler_objects_Lesson_1.getClassInSchool().getName() + " at " + sss_scheduler_objects_Lesson_1.getHour().getWeekday());
@@ -1391,7 +1380,7 @@ import sss.reasoner.penaltyObjects.*;
         3,
         4,
         5,
-        6
+        5
     };
 
     /**
@@ -1644,7 +1633,6 @@ import sss.reasoner.penaltyObjects.*;
     private sss.scheduler.objects.LessonHour sss_scheduler_objects_LessonHour_1;
     private sss.reasoner.penaltyObjects.PenaltyClass9thHour sss_reasoner_penaltyObjects_PenaltyClass9thHour_1;
     private sss.reasoner.penaltyObjects.PenaltyClassBetweenHours sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1;
-    private sss.scheduler.objects.LessonHour sss_scheduler_objects_LessonHour_2;
 
     /**
      * Class constructor.

@@ -12,6 +12,7 @@ import sss.reasoner.LessonSwapKB;
 import sss.reasoner.ScheduleEvaluationKB;
 import sss.reasoner.ScheduleOptimizationKB;
 import sss.reasoner.penaltyObjects.Penalty;
+import sss.reasoner.penaltyObjects.PenaltyClassBetweenHours;
 import sss.reasoner.penaltyObjects.PenaltyTeacherRatherNot;
 import sss.reasoner.penaltyObjects.PenaltyTeacherWalking;
 import sss.scheduler.objects.ClassInSchool;
@@ -78,26 +79,35 @@ public class Scheduler {
 		int oldRating, newRating = schedule.getRating();
 		System.out.println("\nStarting rating is " + schedule.getRating() + ", optimizing.");
 		do {
-			schedule.clearPenalties();
 
 			evaluateSchedule();
-			oldRating = schedule.getRating();
 			
 			System.out.println("Schedule rating is " + schedule.getRating() + ", optimizing.");
-			optimizeSchedule();
-			evaluateSchedule();
-			newRating = schedule.getRating();
-			System.out.println("New rating is " + newRating + ".");
+
+			ArrayList<Penalty> penalties = schedule.getAndResetPenalties();
+			Collections.sort(penalties);
 			
-			if (newRating < oldRating) {
-				schedule.revertActions();
-			} else if (newRating == oldRating) {
-				schedule.resetUnallocatableLessons();
-				scheduleUnallocatableLessons();
+			for (Penalty penalty : penalties) {
+				if (! running) {
+					break;
+				}
+				evaluateSchedule();
+				oldRating = schedule.getRating();
+				
+				optimizeSchedule(penalty);
+				evaluateSchedule();
+				
+				newRating = schedule.getRating();
+				
+				if (newRating < oldRating) {
+					schedule.revertActions();
+				}
+				schedule.removeActionHistory();
 			}
-			schedule.removeOptimizationHistory();
-		}
-		while (running); // && oldRating != newRating
+			
+			schedule.resetUnallocatableLessons();
+			scheduleUnallocatableLessons();
+		} while (running);
 
 		System.out.println("\nTadadadaaaaaahh, results!\n");
 		System.out.println("Unallocatable lessons");
@@ -135,7 +145,7 @@ public class Scheduler {
 		}
 	}
 
-	private void optimizeSchedule() {
+	private void optimizeSchedule(Penalty penalty) {
 		scheduleOptimizationKB.flush();
 		scheduleOptimizationKB.tell(schedule);
 
@@ -159,11 +169,7 @@ public class Scheduler {
 			scheduleOptimizationKB.tell(lesson);
 		}
 
-		ArrayList<Penalty> penalties = schedule.getPenalties();
-		Collections.shuffle(penalties);
-		for (Penalty penalty : penalties) {
-			scheduleOptimizationKB.tell(penalty);
-		}
+		scheduleOptimizationKB.tell(penalty);
 		
 		scheduleOptimizationKB.run();
 	}
