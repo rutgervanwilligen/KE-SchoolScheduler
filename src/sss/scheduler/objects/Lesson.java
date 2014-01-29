@@ -115,7 +115,7 @@ public abstract class Lesson implements Comparable<Lesson> {
 
 	/**
 	 * Creates lesson object with weekday and hour, without other contents
-	 * @param hour Hour of the lesson
+	 * @param lessonHour Hour of the lesson
 	 */
 	public Lesson(LessonHour firstHour, LessonHour secondHour, boolean doubleHour) {
 		this.firstHour = firstHour;
@@ -131,7 +131,7 @@ public abstract class Lesson implements Comparable<Lesson> {
 	/**
 	 * Create Lesson object with all fields instantiated. The students included in the class
 	 * are the students included in the ClassInSchool object.
-	 * @param hour Hour of the lesson
+	 * @param lessonHour Hour of the lesson
 	 * @param subject Subject of the lesson
 	 * @param classroom Classroom of the lesson
 	 * @param teacher Teacher of the lesson

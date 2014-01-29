@@ -37,7 +37,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule1 fired");
+      // System.out.println("allocationRule1 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -70,7 +70,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule2 fired");
+      // System.out.println("allocationRule2 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -102,7 +102,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule3 fired");
+      // System.out.println("allocationRule3 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -137,7 +137,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule4 fired");
+      // System.out.println("allocationRule4 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -170,7 +170,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule5 fired");
+      // System.out.println("allocationRule5 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -204,7 +204,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule6 fired");
+      // System.out.println("allocationRule6 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -237,7 +237,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule7 fired");
+      // System.out.println("allocationRule7 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -272,7 +272,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule8 fired");
+      // System.out.println("allocationRule8 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -299,7 +299,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule9 fired");
+      // System.out.println("allocationRule9 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -326,7 +326,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule10 fired");
+      // System.out.println("allocationRule10 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -353,7 +353,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule11 fired");
+      // System.out.println("allocationRule11 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);
@@ -383,7 +383,7 @@ public ruleBase ClassroomTimeslotAllocationKB {
   	  teacher.isAvailable(hour, lessonToAllocate);
       !teacher.isScheduled(hour, lessonToAllocate);
     actions
-      System.out.println("allocationRule12 fired");
+      // System.out.println("allocationRule12 fired");
   	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
   	  modified(schedule);
   	  modified(classroom);

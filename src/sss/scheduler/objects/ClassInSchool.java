@@ -112,10 +112,31 @@ public abstract class ClassInSchool extends Resource implements Comparable<Class
 	public int getNumberOfBetweenHours() {
 		int result = 0;
 		for (LessonHour lessonHour : Scheduler.hours) {
-			if (getTypeOfHour(lessonHour).equals(LESSON_TYPE_BETWEEN_HOUR))
+			if (hasBetweenHourOn(lessonHour))
 				result++;
 		}
 		return result;
+	}
+	
+	public boolean hasBetweenHourOn(LessonHour lessonHour) {
+		return getTypeOfHour(lessonHour).equals(LESSON_TYPE_BETWEEN_HOUR);
+	}
+	
+	public boolean hasStartOrEndingHour(LessonHour lessonHour1) {
+		boolean hasHourBefore = false;
+		boolean hasHourAfter = false;
+		
+		for (LessonHour lessonHour2 : Scheduler.hours) {
+			if (lessonHour1.getWeekday().equals(lessonHour2.getWeekday()) && !this.isAvailable(lessonHour2)) {
+				int comparison = lessonHour1.compareTo(lessonHour2);
+				if (comparison < 0) {
+					hasHourBefore = true;
+				} else if (comparison > 0) {
+					hasHourAfter = true;
+				}
+			}
+		}
+		return hasHourBefore ^ hasHourAfter;
 	}
 	
 }

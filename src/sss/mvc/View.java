@@ -39,7 +39,7 @@ public class View extends JFrame implements Observer {
 	private JTextPane consoleTextPane;
 	private JTextField teacherInfoField;
 
-	private JButton btnRun;
+	private JButton btnRun, btnStop, btnPrint;
 	private JTextField classesInfoField;
 	private JTextField teacherClassesInfoField;
 	private JTextField classroomInfoField;
@@ -64,15 +64,11 @@ public class View extends JFrame implements Observer {
 		contentPane.setLayout(null);
 
 		btnRun = new JButton("Run");
-		btnRun.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnRun.setBounds(42, 262, 147, 25);
+		btnRun.setBounds(42, 262, 78, 25);
 		contentPane.add(btnRun);
 
 		progressBar = new JProgressBar();
-		progressBar.setBounds(201, 262, 364, 25);
+		progressBar.setBounds(222, 262, 343, 25);
 		contentPane.add(progressBar);
 		JScrollPane scroll = new JScrollPane();
 		scroll.getVerticalScrollBar().addAdjustmentListener(
@@ -226,6 +222,14 @@ public class View extends JFrame implements Observer {
 		lblFillInThe.setBounds(42, 12, 855, 15);
 		contentPane.add(lblFillInThe);
 		
+		btnPrint = new JButton("Print schedules");
+		btnPrint.setBounds(577, 586, 158, 25);
+		contentPane.add(btnPrint);
+		
+		btnStop = new JButton("Stop");
+		btnStop.setBounds(132, 262, 78, 25);
+		contentPane.add(btnStop);
+		
 		redirectSystemStreams();
 	}
 
@@ -238,6 +242,14 @@ public class View extends JFrame implements Observer {
 
 	public JButton getRunButton() {
 		return btnRun;
+	}
+
+	public JButton getStopButton() {
+		return btnStop;
+	}
+
+	public JButton getPrintButton() {
+		return btnPrint;
 	}
 	
 	public String[] getFilePaths() {

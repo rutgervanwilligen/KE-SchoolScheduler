@@ -48,10 +48,10 @@ public ruleBase LessonSwapKB {
       newLesson.setClassroom(newClassroom);
       newLesson.setHour(newLessonHour);
       schedule.swapLessons(newLesson, allocatedLesson);
-      System.out.println("lessonSwap1 fired");
       modified(schedule);
       modified(newLesson);
       modified(allocatedLesson);
+      // System.out.println("lessonSwap1 fired");
   }
   
   /* Rule to rotate an unallocated and two allocated lessons. */
@@ -102,11 +102,11 @@ public ruleBase LessonSwapKB {
       newLesson.setHour(newLessonHour);
       schedule.swapLessons(newLesson, allocatedLesson1);
       schedule.swapLessons(allocatedLesson1, allocatedLesson2);
-      System.out.println("lessonSwap1 fired");
       modified(schedule);
       modified(newLesson);
       modified(allocatedLesson1);
       modified(allocatedLesson2);
+      // System.out.println("lessonSwap1 fired");
   }
   
 }

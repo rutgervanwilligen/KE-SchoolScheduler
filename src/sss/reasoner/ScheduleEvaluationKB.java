@@ -1,11 +1,8 @@
 package sss.reasoner;
 
-import sss.scheduler.objects.Schedule;
-import sss.scheduler.objects.Lesson;
-import sss.scheduler.objects.Teacher;
-import sss.scheduler.objects.ClassInSchool;
-import sss.scheduler.objects.LessonHour;
+import sss.scheduler.objects.*;
 import sss.scheduler.properties.Availability;
+import sss.reasoner.penaltyObjects.*;
 
 /**
  * Rule base used to evaluate a schedule.
@@ -186,8 +183,9 @@ import sss.scheduler.properties.Availability;
      * Executes the action part of the rule classEvaluationRule1
      */
     private void classEvaluationRule1() {
-      sss_scheduler_objects_Schedule_1.addToRating((sss_scheduler_objects_ClassInSchool_1.getNumberOfBetweenHours()) * -1000);
-      System.out.println("classEvaluationRule1 fired for " + sss_scheduler_objects_ClassInSchool_1.getName() + " with " + ((sss_scheduler_objects_ClassInSchool_1.getNumberOfBetweenHours()) * 1000) + " penalty points.");
+      sss_scheduler_objects_Schedule_1.addToRating((sss_scheduler_objects_ClassInSchool_1.getNumberOfBetweenHours()) * -100000);
+      sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyClassBetweenHours(sss_scheduler_objects_ClassInSchool_1));
+      // System.out.println("classEvaluationRule1 fired for " + classInSchool.getName() + " with " + (nrOfBetweenHours * 1000) + " penalty points.");
       }
 
 
@@ -387,8 +385,9 @@ import sss.scheduler.properties.Availability;
      * Executes the action part of the rule classEvaluationRule2
      */
     private void classEvaluationRule2() {
-      sss_scheduler_objects_Schedule_1.addToRating(-29);
-      System.out.println("classEvaluationRule2 fired for " + sss_scheduler_objects_ClassInSchool_1.getName() + " on " + sss_scheduler_objects_LessonHour_1.getWeekday());
+      sss_scheduler_objects_Schedule_1.addToRating(-1000);
+      sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyClass9thHour(sss_scheduler_objects_ClassInSchool_1, sss_scheduler_objects_LessonHour_1));
+      // System.out.println("classEvaluationRule2 fired for " + classInSchool.getName() + " on " + lessonHour.getWeekday());
       }
 
 
@@ -538,7 +537,7 @@ import sss.scheduler.properties.Availability;
      * Executes the action part of the rule classEvaluationRule3
      */
     private void classEvaluationRule3() {
-      System.out.println("classEvaluationRule3 fired for " + sss_scheduler_objects_ClassInSchool_1.getName());
+      // System.out.println("classEvaluationRule3 fired for " + classInSchool.getName());
       retract(sss_scheduler_objects_ClassInSchool_1);
       }
 
@@ -744,9 +743,9 @@ import sss.scheduler.properties.Availability;
      * Executes the action part of the rule teacherEvaluationRule1
      */
     private void teacherEvaluationRule1() {
-      //System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " with " + teacher.getScheduledValue(lessonHour));
-      System.out.println("teacherEvaluationRule1 fired for " + sss_scheduler_objects_Teacher_1.getName() + " on " + sss_scheduler_objects_LessonHour_1.getWeekday() + " at " + sss_scheduler_objects_LessonHour_1.getHour());
-      sss_scheduler_objects_Schedule_1.addToRating(-100);
+      // System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " on " + lessonHour.getWeekday() + " at " + lessonHour.getHour());
+	  sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyTeacherRatherNot(sss_scheduler_objects_Teacher_1, sss_scheduler_objects_LessonHour_1));
+      sss_scheduler_objects_Schedule_1.addToRating(-1000);
       }
 
 
@@ -1000,8 +999,9 @@ import sss.scheduler.properties.Availability;
      * Executes the action part of the rule teacherEvaluationRule2
      */
     private void teacherEvaluationRule2() {
-      System.out.println("teacherEvaluationRule2 fired for " + sss_scheduler_objects_Teacher_1.getName());
-      sss_scheduler_objects_Schedule_1.addToRating(-1000);
+      // System.out.println("teacherEvaluationRule2 fired for " + teacher.getName());
+	  sss_scheduler_objects_Schedule_1.addPenaltyObject(new PenaltyTeacherWalking(sss_scheduler_objects_Teacher_1, sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Lesson_2));
+      sss_scheduler_objects_Schedule_1.addToRating(-100);
       }
 
 
@@ -1151,7 +1151,7 @@ import sss.scheduler.properties.Availability;
      * Executes the action part of the rule teacherEvaluationRule3
      */
     private void teacherEvaluationRule3() {
-      System.out.println("teacherEvaluationRule3 fired for " + sss_scheduler_objects_Teacher_1.getName());
+      // System.out.println("teacherEvaluationRule3 fired for " + teacher.getName());
       retract(sss_scheduler_objects_Teacher_1);
       }
 
@@ -1464,7 +1464,7 @@ import sss.scheduler.properties.Availability;
 /**
  * Knowledge base created by JEOPS from file ScheduleEvaluationKB.rules
  *
- * @version Jan 23, 2014
+ * @version Jan 29, 2014
  */
 public class ScheduleEvaluationKB extends jeops.AbstractKnowledgeBase {
 

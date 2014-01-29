@@ -25,7 +25,7 @@ public class Model implements Runnable {
 	protected static SubjectClassAllocation subjectsClasses;
 	protected static TeacherClassAllocation teachersClasses;
 	
-	protected static Scheduler scheduler;
+	protected Scheduler scheduler;
 
 	public Model() {
 		scheduler = new Scheduler();
@@ -59,9 +59,16 @@ public class Model implements Runnable {
 	}
 
 	/**
+	 * Create scheduler with all data and start scheduler.
+	 */
+	public void stopScheduler() {
+		scheduler.stopScheduling();
+	}
+
+	/**
 	 * Prints the created schedule per classroom, class and teacher.
 	 */
-	public static void writeOutput() {
+	public void writeOutput() {
 		OutputWriter.writeClassroomSchedulesToFile(scheduler.getSchedule(), classrooms);
 		OutputWriter.writeClassSchedulesToFile(scheduler.getSchedule(), classes);
 		OutputWriter.writeTeacherSchedulesToFile(scheduler.getSchedule(), teachers);
@@ -108,6 +115,10 @@ public class Model implements Runnable {
 
 	public Schedule getSchedule() {
 		return scheduler.getSchedule();
+	}
+
+	public boolean isRunning() {
+		return scheduler.isRunning();
 	}
 
 }

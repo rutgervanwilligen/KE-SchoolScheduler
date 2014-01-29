@@ -1,5 +1,6 @@
 package sss.scheduler;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -9,6 +10,10 @@ import sss.reasoner.ClassroomTimeslotAllocationKB;
 import sss.reasoner.LessonSelectionKB;
 import sss.reasoner.LessonSwapKB;
 import sss.reasoner.ScheduleEvaluationKB;
+import sss.reasoner.ScheduleOptimizationKB;
+import sss.reasoner.penaltyObjects.Penalty;
+import sss.reasoner.penaltyObjects.PenaltyTeacherRatherNot;
+import sss.reasoner.penaltyObjects.PenaltyTeacherWalking;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.DoubleHourLesson;
@@ -34,15 +39,15 @@ public class Scheduler {
 	protected ClassroomTimeslotAllocationKB lessonAllocationKB;
 	protected LessonSwapKB lessonSwapKB;
 	protected ScheduleEvaluationKB scheduleEvaluationKB;
+	private ScheduleOptimizationKB scheduleOptimizationKB;
+	private boolean running;
 	
-
 	/*
 	 * Getters
 	 */
 	public Schedule getSchedule() {
 		return schedule;
 	}
-	
 	
 	/**
 	 * Constructor
@@ -55,33 +60,46 @@ public class Scheduler {
 	 * Main scheduling loop as found in the knowledge model.
 	 */
 	public void createSchedule() {
-		int swapCounter = 0;
+		running = true;
 		
-		System.out.println("Starting schedule creation");
+		System.out.println("Setting up knowledge bases.");
 		addAllLessonsToSchedule();
 		
 		createLessonSelectionKB();
 		createLessonAllocationKB();
 		createLessonSwapKB();
 		createScheduleEvaluationKB();
+		createScheduleOptimizationKB();
 
-		while (schedule.containsUnallocatedLessons()) {
-			selectLessonToSchedule();
-			allocateLessonToClassroomAndTimeslot();
-			
-			while (schedule.getSchedulingSet().size() > 0) {
-				System.out.println("Swapping..");
-				swapCounter++;
-				
-				schedule.markUnallocatableLessons();
-				allocateLessonsThroughSwap();
-			}
-		}
+		System.out.println("Starting schedule creation.");
 		
-		evaluateSchedule();
+		scheduleUnallocatableLessons();
+		
+		int oldRating, newRating = schedule.getRating();
+		System.out.println("\nStarting rating is " + schedule.getRating() + ", optimizing.");
+		do {
+			schedule.clearPenalties();
+
+			evaluateSchedule();
+			oldRating = schedule.getRating();
+			
+			System.out.println("Schedule rating is " + schedule.getRating() + ", optimizing.");
+			optimizeSchedule();
+			evaluateSchedule();
+			newRating = schedule.getRating();
+			System.out.println("New rating is " + newRating + ".");
+			
+			if (newRating < oldRating) {
+				schedule.revertActions();
+			} else if (newRating == oldRating) {
+				schedule.resetUnallocatableLessons();
+				scheduleUnallocatableLessons();
+			}
+			schedule.removeOptimizationHistory();
+		}
+		while (running); // && oldRating != newRating
 
 		System.out.println("\nTadadadaaaaaahh, results!\n");
-		System.out.println("Number of swap attempts: " + swapCounter);
 		System.out.println("Unallocatable lessons");
 		for (Lesson lesson : schedule.getUnallocatableLessons()) {
 			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());
@@ -100,13 +118,75 @@ public class Scheduler {
 	}
 	
 	
+	private void scheduleUnallocatableLessons() {
+		System.out.println("Selecting and allocating lessons.");
+		while (schedule.containsUnallocatedLessons() && running) {
+			selectLessonToSchedule();
+			allocateLessonToClassroomAndTimeslot();
+			
+			while (schedule.getSchedulingSet().size() > 0 && running) {
+				System.out.println("Could not find available timeslot for lesson, swapping..");
+				
+				schedule.markUnallocatableLessons();
+				allocateLessonsThroughSwap();
+				
+				System.out.println("Resuming allocating lessons.");
+			}
+		}
+	}
+
+	private void optimizeSchedule() {
+		scheduleOptimizationKB.flush();
+		scheduleOptimizationKB.tell(schedule);
+
+		for (LessonHour hour : hours) {
+			scheduleOptimizationKB.tell(hour);
+		}
+		
+		for (Entry<String, Classroom> entry : classrooms.entrySet()) {
+			scheduleOptimizationKB.tell(entry.getValue());
+		}
+		
+		for (Entry<String, Teacher> entry : teachers.entrySet()) {
+			scheduleOptimizationKB.tell(entry.getValue());
+		}
+		
+		for (Entry<String, ClassInSchool> entry : classes.entrySet()) {
+			scheduleOptimizationKB.tell(entry.getValue());
+		}
+		
+		for (Lesson lesson : schedule.getAllocatedLessons()) {
+			scheduleOptimizationKB.tell(lesson);
+		}
+
+		ArrayList<Penalty> penalties = schedule.getPenalties();
+		Collections.shuffle(penalties);
+		for (Penalty penalty : penalties) {
+			scheduleOptimizationKB.tell(penalty);
+		}
+		
+		scheduleOptimizationKB.run();
+	}
+
+
 	protected void createScheduleEvaluationKB() {
 		scheduleEvaluationKB = new ScheduleEvaluationKB(new MRUConflictSet()); //TODO Conflict set?
 	}
 	
+	
+	protected void createScheduleOptimizationKB() {
+		scheduleOptimizationKB = new ScheduleOptimizationKB(new PriorityConflictSet()); //TODO Conflict set?
+	}
+	
 	protected void evaluateSchedule() {
+		schedule.setRating(0);
+		
 		scheduleEvaluationKB.flush();
 		scheduleEvaluationKB.tell(schedule);
+
+		for (LessonHour hour : hours) {
+			scheduleEvaluationKB.tell(hour);
+		}
 		
 		for (Entry<String, Teacher> entry : teachers.entrySet()) {
 			scheduleEvaluationKB.tell(entry.getValue());
@@ -118,10 +198,6 @@ public class Scheduler {
 		
 		for (Lesson lesson : schedule.getAllocatedLessons()) {
 			scheduleEvaluationKB.tell(lesson);
-		}
-
-		for (LessonHour hour : hours) {
-			scheduleEvaluationKB.tell(hour);
 		}
 		
 		scheduleEvaluationKB.run();
@@ -161,10 +237,6 @@ public class Scheduler {
 
 		lessonSelectionKB.tell(this);
 		lessonSelectionKB.tell(schedule);
-		for (Lesson lesson : schedule.getUnallocatedLessons()) {
-			lesson.setAvailabilityCount(this.getAvailabilityCountForLesson(lesson));
-			lessonSelectionKB.tell(lesson);
-		}
 	}
 	
 	protected void createLessonAllocationKB() {
@@ -187,6 +259,7 @@ public class Scheduler {
 	public void selectLessonToSchedule() {
 		for (Lesson lesson : schedule.getUnallocatedLessons()) {
 			lesson.setAvailabilityCount(this.getAvailabilityCountForLesson(lesson));
+			lessonSelectionKB.tell(lesson);
 		}
 		lessonSelectionKB.retract(schedule);
 		lessonSelectionKB.tell(schedule);
@@ -203,7 +276,6 @@ public class Scheduler {
 	}	
 	
 	public void addAllLessonsToSchedule() {
-		
 		for (Entry<String, Subject> subjectEntry : subjects.entrySet()) {
 			for (Entry<String, ClassInSchool> classEntry : classes.entrySet()) {
 				Subject s = subjectEntry.getValue();
@@ -296,5 +368,15 @@ public class Scheduler {
 		this.classes = classes;
 		this.subjectsClasses = subjectsClasses;
 		this.teachersClasses = teachersClasses;
+	}
+
+
+	public void stopScheduling() {
+		running = false;
+	}
+
+
+	public boolean isRunning() {
+		return running;
 	}
 }

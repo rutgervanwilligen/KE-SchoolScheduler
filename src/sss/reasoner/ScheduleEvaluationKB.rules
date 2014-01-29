@@ -1,11 +1,8 @@
 package sss.reasoner;
 
-import sss.scheduler.objects.Schedule;
-import sss.scheduler.objects.Lesson;
-import sss.scheduler.objects.Teacher;
-import sss.scheduler.objects.ClassInSchool;
-import sss.scheduler.objects.LessonHour;
+import sss.scheduler.objects.*;
 import sss.scheduler.properties.Availability;
+import sss.reasoner.penaltyObjects.*;
 
 /**
  * Rule base used to evaluate a schedule.
@@ -25,8 +22,9 @@ public ruleBase ScheduleEvaluationKB {
     conditions
       nrOfBetweenHours > 0;
     actions
-      schedule.addToRating(nrOfBetweenHours * -1000);
-      System.out.println("classEvaluationRule1 fired for " + classInSchool.getName() + " with " + (nrOfBetweenHours * 1000) + " penalty points.");
+      schedule.addToRating(nrOfBetweenHours * -100000);
+      schedule.addPenaltyObject(new PenaltyClassBetweenHours(classInSchool));
+      // System.out.println("classEvaluationRule1 fired for " + classInSchool.getName() + " with " + (nrOfBetweenHours * 1000) + " penalty points.");
   }
 
   rule classEvaluationRule2 {
@@ -38,8 +36,9 @@ public ruleBase ScheduleEvaluationKB {
       !classInSchool.isAvailable(lessonHour);
 	  lessonHour.getHour() == 9;
     actions
-      schedule.addToRating(-29);
-      System.out.println("classEvaluationRule2 fired for " + classInSchool.getName() + " on " + lessonHour.getWeekday());
+      schedule.addToRating(-1000);
+      schedule.addPenaltyObject(new PenaltyClass9thHour(classInSchool, lessonHour));
+      // System.out.println("classEvaluationRule2 fired for " + classInSchool.getName() + " on " + lessonHour.getWeekday());
   }
   
   rule classEvaluationRule3 {
@@ -47,7 +46,7 @@ public ruleBase ScheduleEvaluationKB {
       ClassInSchool classInSchool;
     conditions
     actions
-      System.out.println("classEvaluationRule3 fired for " + classInSchool.getName());
+      // System.out.println("classEvaluationRule3 fired for " + classInSchool.getName());
       retract(classInSchool);
   }
   
@@ -65,9 +64,9 @@ public ruleBase ScheduleEvaluationKB {
       teacher.getAvailability(lessonHour) == Availability.RATHER_NOT;
       teacher.isScheduled(lessonHour);
     actions
-      //System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " with " + teacher.getScheduledValue(lessonHour));
-      System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " on " + lessonHour.getWeekday() + " at " + lessonHour.getHour());
-      schedule.addToRating(-100);
+      // System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " on " + lessonHour.getWeekday() + " at " + lessonHour.getHour());
+	  schedule.addPenaltyObject(new PenaltyTeacherRatherNot(teacher, lessonHour));
+      schedule.addToRating(-1000);
   }
 
   // Teacher has to walk in between hours.
@@ -86,8 +85,9 @@ public ruleBase ScheduleEvaluationKB {
       lesson2.getTeacher().equals(teacher);
       !lesson1.getClassroom().equals(lesson2.getClassroom());
     actions
-      System.out.println("teacherEvaluationRule2 fired for " + teacher.getName());
-      schedule.addToRating(-1000);
+      // System.out.println("teacherEvaluationRule2 fired for " + teacher.getName());
+	  schedule.addPenaltyObject(new PenaltyTeacherWalking(teacher, lesson1, lesson2));
+      schedule.addToRating(-100);
   }
 	 
   rule teacherEvaluationRule3 {
@@ -95,7 +95,7 @@ public ruleBase ScheduleEvaluationKB {
       Teacher teacher;
     conditions
     actions
-      System.out.println("teacherEvaluationRule3 fired for " + teacher.getName());
+      // System.out.println("teacherEvaluationRule3 fired for " + teacher.getName());
       retract(teacher);
   }
 }

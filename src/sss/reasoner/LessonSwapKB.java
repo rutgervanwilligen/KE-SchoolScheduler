@@ -374,7 +374,7 @@ import sss.scheduler.objects.Schedule;
       sss_scheduler_objects_Lesson_1.setClassroom(sss_scheduler_objects_Classroom_1);
       sss_scheduler_objects_Lesson_1.setHour(sss_scheduler_objects_LessonHour_1);
       sss_scheduler_objects_Schedule_1.swapLessons(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Lesson_2);
-      System.out.println("lessonSwap1 fired");
+      // System.out.println("lessonSwap1 fired");
       modified(sss_scheduler_objects_Schedule_1);
       modified(sss_scheduler_objects_Lesson_1);
       modified(sss_scheduler_objects_Lesson_2);
@@ -839,7 +839,7 @@ import sss.scheduler.objects.Schedule;
       sss_scheduler_objects_Lesson_1.setHour(sss_scheduler_objects_LessonHour_1);
       sss_scheduler_objects_Schedule_1.swapLessons(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Lesson_2);
       sss_scheduler_objects_Schedule_1.swapLessons(sss_scheduler_objects_Lesson_2, sss_scheduler_objects_Lesson_3);
-      System.out.println("lessonSwap1 fired");
+      // System.out.println("lessonSwap1 fired");
       modified(sss_scheduler_objects_Schedule_1);
       modified(sss_scheduler_objects_Lesson_1);
       modified(sss_scheduler_objects_Lesson_2);
@@ -1100,7 +1100,7 @@ import sss.scheduler.objects.Schedule;
 /**
  * Knowledge base created by JEOPS from file LessonSwapKB.rules
  *
- * @version Jan 21, 2014
+ * @version Jan 29, 2014
  */
 public class LessonSwapKB extends jeops.AbstractKnowledgeBase {
 

@@ -17,7 +17,7 @@ public class Main {
                 View view = new View(); 
                 view.setVisible(true);
                 Controller controller = new Controller(model,view);
-                controller.contol();
+                controller.control();
             }
         });
 	}

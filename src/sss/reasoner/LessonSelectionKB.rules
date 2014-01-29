@@ -23,7 +23,7 @@ public ruleBase LessonSelectionKB {
       !lesson.isAllocatedToTimeslot();
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
     actions
-      System.out.println("lessonSelection1 fired");
+      // System.out.println("lessonSelection1 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
@@ -45,7 +45,7 @@ public ruleBase LessonSelectionKB {
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
       lesson.getSubject().getCode().equals("LO");
     actions
-      System.out.println("lessonSelection2 fired");
+      // System.out.println("lessonSelection2 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
@@ -67,7 +67,7 @@ public ruleBase LessonSelectionKB {
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
       lesson.getSubject().getCode().equals("HV");
     actions
-      System.out.println("lessonSelection3 fired");
+      // System.out.println("lessonSelection3 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
@@ -89,7 +89,7 @@ public ruleBase LessonSelectionKB {
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
       lesson.getSubject().getCode().equals("IN");
     actions
-      System.out.println("lessonSelection4 fired");
+      // System.out.println("lessonSelection4 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
@@ -110,7 +110,7 @@ public ruleBase LessonSelectionKB {
       !lesson.isAllocatedToTimeslot();
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
     actions
-      System.out.println("lessonSelection5 fired");
+      // System.out.println("lessonSelection5 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);

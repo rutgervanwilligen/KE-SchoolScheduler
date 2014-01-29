@@ -3,7 +3,11 @@ package sss.scheduler.objects;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Stack;
 
+import sss.reasoner.penaltyObjects.Penalty;
+import sss.scheduler.actions.MoveLessonAction;
+import sss.scheduler.actions.ScheduleAction;
 import sss.scheduler.objects.Lesson;
 import sss.scheduler.properties.Availability;
 
@@ -15,7 +19,8 @@ public class Schedule extends Observable {
 	protected ArrayList<Lesson> unallocatableLessons;
 	
 	private int rating;
-	
+	private ArrayList<Penalty> penalties;
+	private Stack<ScheduleAction> actionStack;
 
 	/*
 	 * Getters
@@ -43,6 +48,10 @@ public class Schedule extends Observable {
 	public double getProgress() {
 		return ((1. * allocatedLessons.size()) / (allocatedLessons.size() + unallocatableLessons.size() + unallocatedLessons.size() + schedulingSet.size())) * 100;
 	}
+
+	public ArrayList<Penalty> getPenalties() {
+		return penalties;
+	}
 	
 	/*
 	 * Setters
@@ -59,6 +68,9 @@ public class Schedule extends Observable {
 		unallocatedLessons = new ArrayList<Lesson>();
 		schedulingSet = new ArrayList<Lesson>();
 		unallocatableLessons = new ArrayList<Lesson>();
+		
+		penalties = new ArrayList<Penalty>();
+		actionStack = new Stack<ScheduleAction>();
 		
 		setRating(0);
 	}
@@ -240,6 +252,14 @@ public class Schedule extends Observable {
 		unallocatableLessons.addAll(schedulingSet);
 		schedulingSet.clear();
 	}
+
+	/**
+	 * Returns all unallocatable lessons to unallocated lessons.
+	 */
+	public void resetUnallocatableLessons() {
+		unallocatedLessons.addAll(unallocatableLessons);
+		unallocatableLessons.clear();
+	}
 	
 	/**
 	 * Deschedules a double lesson. Also takes into account the availability of teacher, classroom, etc.
@@ -305,6 +325,22 @@ public class Schedule extends Observable {
 	}
 	
 	/**
+	 * Move lesson to new timeslot and classroom.
+	 * @param lesson Lesson to swap
+	 */
+	public void moveLesson(Lesson lesson, LessonHour newLessonHour, Classroom newClassroom) {
+		Classroom oldClassroom = lesson.getClassroom();
+		LessonHour oldLessonHour = lesson.getHour();
+		Teacher teacher = lesson.getTeacher();
+		ClassInSchool classInSchool = lesson.getClassInSchool();
+
+		descheduleLesson(lesson);
+		scheduleLesson(lesson, newClassroom, classInSchool, teacher, newLessonHour);
+		
+		actionStack.push(new MoveLessonAction(lesson, oldLessonHour, oldClassroom));
+	}
+	
+	/**
 	 * Returns the lowest availability count.
 	 * @return Lowest availability count.
 	 */
@@ -342,7 +378,7 @@ public class Schedule extends Observable {
 	 * Returns whether a teacher already has given lessons in a classroom on a certain day, given an hour.
 	 * @param teacher Teacher to check
 	 * @param classroom Classroom to check
-	 * @param hour The LessonHour object to check
+	 * @param lessonHour The LessonHour object to check
 	 * @return Truth value indicating if the teacher is scheduled in the Classroom on the day of the LessonHour object
 	 */
 	public boolean teacherAlreadyScheduledInClassroomOnWeekday(Teacher teacher, Classroom classroom, LessonHour hourToCheck) {
@@ -419,5 +455,41 @@ public class Schedule extends Observable {
 		}
 	}
 	
+	public void addPenaltyObject(Penalty penalty) {
+		this.penalties.add(penalty);
+	}
+
+	public void clearPenalties() {
+		penalties.clear();
+	}
+	
+	public void revertLastAction() {
+		System.out.println("\n---------------- Reverting! ----------------\n");
+		if (! actionStack.isEmpty()) {
+			ScheduleAction action = actionStack.pop();
+			
+			if (action instanceof MoveLessonAction) {
+				MoveLessonAction moveAction = (MoveLessonAction) action;
+				moveLesson(moveAction.lesson, moveAction.lessonHour, moveAction.classroom);
+			}
+		}
+	}
+	
+	public void revertActions() {
+		System.out.println("\n---------------- Reverting! ----------------\n");
+		while (! actionStack.empty()) {
+			ScheduleAction action = actionStack.pop();
+			
+			if (action instanceof MoveLessonAction) {
+				MoveLessonAction moveAction = (MoveLessonAction) action;
+				moveLesson(moveAction.lesson, moveAction.lessonHour, moveAction.classroom);
+				actionStack.pop();
+			}
+		}
+	}
+
+	public void removeOptimizationHistory() {
+		actionStack.clear();
+	}
 	
 }

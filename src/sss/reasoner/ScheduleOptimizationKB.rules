@@ -1,0 +1,143 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.*;
+import sss.scheduler.properties.Availability;
+import sss.reasoner.penaltyObjects.*;
+
+/**
+ * Rule base used to optimize a schedule.
+ */
+public ruleBase ScheduleOptimizationKB {
+
+	/**
+	 * Rules for Teachers
+	 */
+	 
+  rule TeacherWalkingRule1 {
+    declarations
+	  PenaltyTeacherWalking penalty;
+      Schedule schedule;
+      Classroom alternativeClassroom;
+      Lesson lessonInTheWay;
+    localdecl
+      Teacher teacher = penalty.teacher;
+      Lesson lesson1 = penalty.lesson1;
+      Lesson lesson2 = penalty.lesson2;
+    conditions
+      alternativeClassroom.isAvailable(lessonInTheWay.getHour(), lessonInTheWay);
+      alternativeClassroom.isSuitedFor(lessonInTheWay);
+      lessonInTheWay.getHour().equals(lesson2.getHour());
+      lessonInTheWay.getClassroom().equals(lesson1.getClassroom());
+      lesson1.getClassroom().isSuitedFor(lesson2);
+    actions
+      schedule.moveLesson(lessonInTheWay, lessonInTheWay.getHour(), alternativeClassroom);
+      schedule.moveLesson(lesson2, lesson2.getHour(), lesson1.getClassroom());
+      System.out.println("TeacherWalkingRule1 fired.");
+      retract(penalty);
+      retract(schedule);
+  }
+	 
+  rule TeacherWalkingRule2 {
+    declarations
+	  PenaltyTeacherWalking penalty;
+      Schedule schedule;
+      Lesson lessonInTheWay;
+    localdecl
+      Teacher teacher = penalty.teacher;
+      Lesson lesson1 = penalty.lesson1;
+      Lesson lesson2 = penalty.lesson2;
+    conditions
+      lessonInTheWay.getHour().equals(lesson2.getHour());
+      lessonInTheWay.getClassroom().equals(lesson1.getClassroom());
+      lesson1.getClassroom().isSuitedFor(lesson2);
+      lesson1.getClassroom().isAvailable(lesson2.getHour(), lesson2);
+    actions
+      schedule.moveLesson(lesson2, lesson2.getHour(), lesson1.getClassroom());
+      System.out.println("TeacherWalkingRule1 fired.");
+      retract(penalty);
+      retract(schedule);
+  }
+	 
+  rule TeacherRatherNot1 {
+    declarations
+	  PenaltyTeacherRatherNot penalty;
+      Schedule schedule;
+      Lesson lesson;
+      LessonHour lessonHour2;
+    localdecl
+      Teacher teacher = penalty.teacher;
+      LessonHour lessonHour1 = penalty.lessonHour;
+      Classroom classroom = lesson.getClassroom();
+      ClassInSchool classInSchool = lesson.getClassInSchool();
+    conditions
+      lesson.getTeacher().equals(teacher);
+      lesson.getHour().equals(lessonHour1);
+      teacher.getAvailability(lessonHour2).equals(Availability.AVAILABLE);
+      !teacher.isScheduled(lessonHour2, lesson);
+      classroom.isAvailable(lessonHour2, lesson);
+      classroom.isSuitedFor(lesson);
+      classInSchool.isAvailable(lessonHour2, lesson);
+    actions
+      schedule.moveLesson(lesson, lessonHour2, classroom);
+      System.out.println("TeacherRatherNot1 fired.");
+      retract(penalty);
+      retract(schedule);
+  }
+
+	/**
+	 * Rules for Classes
+	 */
+	 
+  rule Class9thHourRule1 {
+    declarations
+	  PenaltyClass9thHour penalty;
+      Schedule schedule;
+	  LessonHour alternativeLessonHour;
+	  Classroom alternativeClassroom;
+	  Lesson lesson;
+    localdecl
+      ClassInSchool classInSchool = penalty.classInSchool;
+	  LessonHour lessonHour = penalty.lessonHour;
+	  Teacher teacher = lesson.getTeacher();
+    conditions
+	  lesson.getHour().equals(lessonHour);
+	  lesson.getClassInSchool().equals(classInSchool);
+	  
+	  teacher.isAvailable(alternativeLessonHour, lesson);
+	  !teacher.isScheduled(alternativeLessonHour, lesson);
+	  classInSchool.isAvailable(alternativeLessonHour, lesson);
+	  alternativeClassroom.isAvailable(alternativeLessonHour, lesson);
+	  
+    actions
+      schedule.moveLesson(lesson, alternativeLessonHour, alternativeClassroom);
+      retract(penalty);
+      retract(schedule);
+      System.out.println("Class9thHourRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
+  }
+	 
+  rule ClassBetweenHoursRule1 {
+    declarations
+	  PenaltyClassBetweenHours penalty;
+      Schedule schedule;
+	  LessonHour lessonHour1, lessonHour2;
+	  Lesson lesson;
+	  Classroom classroom;
+    localdecl
+      ClassInSchool classInSchool = penalty.classInSchool;
+	  Teacher teacher = lesson.getTeacher();
+    conditions
+	  teacher.isAvailable(lessonHour1, lesson);
+	  !teacher.isScheduled(lessonHour1, lesson);
+	  classroom.isAvailable(lessonHour1, lesson);
+	  
+	  classInSchool.hasBetweenHourOn(lessonHour1);
+	  classInSchool.hasStartOrEndingHour(lessonHour2);
+	  lesson.getHour().equals(lessonHour2);
+    actions
+      schedule.moveLesson(lesson, lessonHour1, classroom);
+      retract(penalty);
+      retract(schedule);
+      System.out.println("ClassBetweenHoursRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
+  }
+  
+}
