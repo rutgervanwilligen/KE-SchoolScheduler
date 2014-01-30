@@ -63,7 +63,8 @@ public class Scheduler {
 	public void createSchedule() {
 		running = true;
 		
-		System.out.println("Setting up knowledge bases.");
+		System.out.println();
+		System.out.println("Setting up knowledge bases...");
 		addAllLessonsToSchedule();
 		
 		createLessonSelectionKB();
@@ -72,19 +73,20 @@ public class Scheduler {
 		createScheduleEvaluationKB();
 		createScheduleOptimizationKB();
 
-		System.out.println("Starting schedule creation.");
+		System.out.println("Creating initial schedule...");
 		
 		scheduleUnallocatableLessons();
+		
+		System.out.print("Done with first schedule version, performing optimization process...");
 
 		int oldRating, newRating = schedule.getRating();
+		int successfullSwaps = 0;
 		ArrayList<Penalty> penalties;
 		do {
 			schedule.getAndResetPenalties();
 			evaluateSchedule();
 			penalties = schedule.getAndResetPenalties();
 			Collections.sort(penalties);
-			
-			System.out.println("Schedule rating is " + schedule.getRating() + ", optimizing.");
 			
 			do {
 				if (! running) {
@@ -102,49 +104,53 @@ public class Scheduler {
 				newRating = schedule.getRating();
 				
 				if (newRating < oldRating) {
+					System.out.print("\nDid something stupid there, reverting...");
 					schedule.revertActions();
+					System.out.print("..and resuming..");
+				} else if (newRating > oldRating) {
+					System.out.print(".");
+					successfullSwaps++;
 				}
 				schedule.removeActionHistory();
 			} while (newRating == oldRating && ! penalties.isEmpty());
 			
-			if (penalties.isEmpty()) {
+			if (successfullSwaps >= 25 && schedule.containsUnallocatableLessons()) {
+				System.out.println("\nRetrying to schedule unallocatable lessons...");
+				
 				schedule.resetUnallocatableLessons();
 				scheduleUnallocatableLessons();
+				successfullSwaps = 0;
+				
+				System.out.print("Resuming optimization process...");
 			}
 		} while (running);
 
+		printTerminatedText();
+	}
+	
+	protected void printTerminatedText() {
 		System.out.println("\nTadadadaaaaaahh, results!\n");
-		System.out.println("Unallocatable lessons");
+		System.out.println("Unallocatable lessons:");
 		for (Lesson lesson : schedule.getUnallocatableLessons()) {
 			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());
 		}
-		System.out.println("Unallocated lessons");
+		System.out.println("Unallocated lessons:");
 		for (Lesson lesson : schedule.getUnallocatedLessons()) {
-			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());
-		}
-		System.out.println("Scheduling set");
-		for (Lesson lesson : schedule.getSchedulingSet()) {
 			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());
 		}
 		System.out.println();
 		System.out.println("The schedule has a rating of " + schedule.getRating() + ".");
 		System.out.println();
 	}
-	
-	
+
 	private void scheduleUnallocatableLessons() {
-		System.out.println("Selecting and allocating lessons.");
 		while (schedule.containsUnallocatedLessons() && running) {
 			selectLessonToSchedule();
 			allocateLessonToClassroomAndTimeslot();
 			
 			while (schedule.getSchedulingSet().size() > 0 && running) {
-				System.out.println("Could not find available timeslot for lesson, swapping..");
-				
 				schedule.markUnallocatableLessons();
 				allocateLessonsThroughSwap();
-				
-				System.out.println("Resuming allocating lessons.");
 			}
 		}
 	}

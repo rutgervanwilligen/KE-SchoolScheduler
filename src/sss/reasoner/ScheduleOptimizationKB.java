@@ -263,7 +263,7 @@ import sss.reasoner.penaltyObjects.*;
     private void TeacherWalkingRule1() {
       sss_scheduler_objects_Schedule_1.moveLesson(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_Lesson_1.getHour(), sss_scheduler_objects_Classroom_1);
       sss_scheduler_objects_Schedule_1.moveLesson((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2).getHour(), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1).getClassroom());
-      System.out.println("TeacherWalkingRule1 fired.");
+      // System.out.println("TeacherWalkingRule1 fired.");
       retract(sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1);
       retract(sss_scheduler_objects_Schedule_1);
       }
@@ -494,7 +494,7 @@ import sss.reasoner.penaltyObjects.*;
      */
     private void TeacherWalkingRule2() {
       sss_scheduler_objects_Schedule_1.moveLesson((sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson2).getHour(), (sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1.lesson1.getClassroom()));
-      System.out.println("TeacherWalkingRule1 fired.");
+      // System.out.println("TeacherWalkingRule1 fired.");
       retract(sss_reasoner_penaltyObjects_PenaltyTeacherWalking_1);
       retract(sss_scheduler_objects_Schedule_1);
       }
@@ -778,7 +778,7 @@ import sss.reasoner.penaltyObjects.*;
      */
     private void TeacherRatherNot1() {
       sss_scheduler_objects_Schedule_1.moveLesson(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_LessonHour_1, (sss_scheduler_objects_Lesson_1.getClassroom()));
-      System.out.println("TeacherRatherNot1 fired.");
+      // System.out.println("TeacherRatherNot1 fired.");
       retract(sss_reasoner_penaltyObjects_PenaltyTeacherRatherNot_1);
       retract(sss_scheduler_objects_Schedule_1);
       }
@@ -1079,7 +1079,7 @@ import sss.reasoner.penaltyObjects.*;
       sss_scheduler_objects_Schedule_1.moveLesson(sss_scheduler_objects_Lesson_1, sss_scheduler_objects_LessonHour_1, sss_scheduler_objects_Classroom_1);
       retract(sss_reasoner_penaltyObjects_PenaltyClass9thHour_1);
       retract(sss_scheduler_objects_Schedule_1);
-      System.out.println("Class9thHourRule1 fired for " + sss_scheduler_objects_Lesson_1.getClassInSchool().getName() + " at " + sss_scheduler_objects_Lesson_1.getHour().getWeekday());
+      // System.out.println("Class9thHourRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
       }
 
 
@@ -1388,7 +1388,7 @@ import sss.reasoner.penaltyObjects.*;
       sss_scheduler_objects_Schedule_1.moveLesson(sss_scheduler_objects_Lesson_1, (sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1.lessonHour), sss_scheduler_objects_Classroom_1);
       retract(sss_reasoner_penaltyObjects_PenaltyClassBetweenHours_1);
       retract(sss_scheduler_objects_Schedule_1);
-      System.out.println("ClassBetweenHoursRule1 fired for " + sss_scheduler_objects_Lesson_1.getClassInSchool().getName() + " at " + sss_scheduler_objects_Lesson_1.getHour().getWeekday());
+      // System.out.println("ClassBetweenHoursRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
       }
 
 
@@ -1689,7 +1689,7 @@ import sss.reasoner.penaltyObjects.*;
 /**
  * Knowledge base created by JEOPS from file ScheduleOptimizationKB.rules
  *
- * @version Jan 29, 2014
+ * @version Jan 30, 2014
  */
 public class ScheduleOptimizationKB extends jeops.AbstractKnowledgeBase {
 

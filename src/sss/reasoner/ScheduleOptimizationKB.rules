@@ -32,7 +32,7 @@ public ruleBase ScheduleOptimizationKB {
     actions
       schedule.moveLesson(lessonInTheWay, lessonInTheWay.getHour(), alternativeClassroom);
       schedule.moveLesson(lesson2, lesson2.getHour(), lesson1.getClassroom());
-      System.out.println("TeacherWalkingRule1 fired.");
+      // System.out.println("TeacherWalkingRule1 fired.");
       retract(penalty);
       retract(schedule);
   }
@@ -54,7 +54,7 @@ public ruleBase ScheduleOptimizationKB {
       classroom1.isAvailable(lesson2.getHour(), lesson2);
     actions
       schedule.moveLesson(lesson2, lesson2.getHour(), classroom1);
-      System.out.println("TeacherWalkingRule1 fired.");
+      // System.out.println("TeacherWalkingRule1 fired.");
       retract(penalty);
       retract(schedule);
   }
@@ -80,7 +80,7 @@ public ruleBase ScheduleOptimizationKB {
       classInSchool.isAvailable(lessonHour2, lesson);
     actions
       schedule.moveLesson(lesson, lessonHour2, classroom);
-      System.out.println("TeacherRatherNot1 fired.");
+      // System.out.println("TeacherRatherNot1 fired.");
       retract(penalty);
       retract(schedule);
   }
@@ -114,7 +114,7 @@ public ruleBase ScheduleOptimizationKB {
       schedule.moveLesson(lesson, alternativeLessonHour, alternativeClassroom);
       retract(penalty);
       retract(schedule);
-      System.out.println("Class9thHourRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
+      // System.out.println("Class9thHourRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
   }
 	 
   rule ClassBetweenHoursRule1 {
@@ -142,7 +142,7 @@ public ruleBase ScheduleOptimizationKB {
       schedule.moveLesson(lesson, lessonHour1, classroom);
       retract(penalty);
       retract(schedule);
-      System.out.println("ClassBetweenHoursRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
+      // System.out.println("ClassBetweenHoursRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
   }
   
 }

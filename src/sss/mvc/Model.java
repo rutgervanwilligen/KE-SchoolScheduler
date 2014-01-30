@@ -40,6 +40,8 @@ public class Model implements Runnable {
 	private static void readInput(String teacherInputFile, String classesInputFile, 
 			String hoursInputFile, String subjectsInputFile, String classroomsInputFile,
 			String subjectsClassesInputFile, String teachersClassesInputFile) {
+		System.out.println("Reading input files...");
+		
 		hours = InputReader.readHoursInfo(hoursInputFile);
 		subjects = InputReader.readSubjectsInfo(subjectsInputFile);
 		teachers = InputReader.readTeachersInfo(teacherInputFile, hours, subjects);
@@ -72,6 +74,7 @@ public class Model implements Runnable {
 		OutputWriter.writeClassroomSchedulesToFile(scheduler.getSchedule(), classrooms);
 		OutputWriter.writeClassSchedulesToFile(scheduler.getSchedule(), classes);
 		OutputWriter.writeTeacherSchedulesToFile(scheduler.getSchedule(), teachers);
+		System.out.println("Results have been saved to output folder.");
 	}
 	
 	public void readInputFiles(String[] args) {

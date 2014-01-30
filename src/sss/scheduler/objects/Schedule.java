@@ -146,6 +146,14 @@ public class Schedule extends Observable {
 	public boolean containsUnallocatedLessons() {
 		return !unallocatedLessons.isEmpty();
 	}
+
+	/**
+	 * Returns whether the schedule contains unallocatable lessons.
+	 * @return Boolean value indicating whether the schedule contains unallocatable lessons.
+	 */
+	public boolean containsUnallocatableLessons() {
+		return !unallocatableLessons.isEmpty();
+	}
 	
 	/**
 	 * Add a lesson to the scheduling set.
@@ -474,7 +482,6 @@ public class Schedule extends Observable {
 	}
 	
 	public void revertLastAction() {
-		System.out.println("\n---------------- Reverting! ----------------\n");
 		if (! actionStack.isEmpty()) {
 			ScheduleAction action = actionStack.pop();
 			
@@ -486,7 +493,6 @@ public class Schedule extends Observable {
 	}
 	
 	public void revertActions() {
-		System.out.println("\n---------------- Reverting! ----------------\n");
 		while (! actionStack.empty()) {
 			ScheduleAction action = actionStack.pop();
 			
