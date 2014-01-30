@@ -405,7 +405,7 @@ public class Schedule extends Observable {
 		return false;
 	}
 	
-	public boolean teacherAlreadyScheduledInClassroomRightBeforeOrAfter(Teacher teacher, Classroom classroom, LessonHour hourToCheck) {
+	public boolean teacherScheduledInClassroomBeforeOrAfter(Teacher teacher, Classroom classroom, LessonHour hourToCheck) {
 		for (Lesson lesson : allocatedLessons) {
 			if (!(lesson.getTeacher().equals(teacher)) ||
 				!(lesson.getHour().getWeekday() == hourToCheck.getWeekday()) ||
@@ -420,7 +420,7 @@ public class Schedule extends Observable {
 		return false;
 	}
 	
-	public boolean subjectAlreadyAllocatedToClassOnWeekday(Subject subject, LessonHour hourToCheck, ClassInSchool classInSchool) {
+	public boolean subjectAllocatedToClassOnWeekday(Subject subject, LessonHour hourToCheck, ClassInSchool classInSchool) {
 		for (Lesson lesson : allocatedLessons) {
 			if ((lesson.getSubject().equals(subject)) &&
 				(classInSchool.equals(lesson.getClassInSchool())) &&

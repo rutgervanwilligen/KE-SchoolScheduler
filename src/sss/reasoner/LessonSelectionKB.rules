@@ -8,8 +8,8 @@ import sss.scheduler.objects.Schedule;
  */
 public ruleBase LessonSelectionKB {
 
-  rule lessonSelection1 {
   /* Select lesson with lowest availability count */
+  rule LSR1 {
     declarations
       Lesson lesson;
       Schedule schedule;
@@ -19,18 +19,16 @@ public ruleBase LessonSelectionKB {
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
       schedule.singleLowestAvailabilityCount();
-      
       !lesson.isAllocatedToTimeslot();
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
     actions
-      // System.out.println("lessonSelection1 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
   }
 
-  rule lessonSelection2 {
-  /* If multiple lessons have lowest count, select LO, HV or IN */
+  /* If multiple lessons have lowest count, select lesson for course that is hard to allocate */
+  rule LSR2 {
     declarations
       Lesson lesson;
       Schedule schedule;
@@ -40,19 +38,17 @@ public ruleBase LessonSelectionKB {
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
       !schedule.singleLowestAvailabilityCount();
-      
       !lesson.isAllocatedToTimeslot();
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
       lesson.getSubject().getCode().equals("LO");
     actions
-      // System.out.println("lessonSelection2 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
   }
 
-  rule lessonSelection3 {
-  /* If multiple lessons have lowest count, select LO, HV or IN */
+  /* If multiple lessons have lowest count, select lesson for course that is hard to allocate */
+  rule LSR3 {
     declarations
       Lesson lesson;
       Schedule schedule;
@@ -62,19 +58,17 @@ public ruleBase LessonSelectionKB {
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
       !schedule.singleLowestAvailabilityCount();
-      
       !lesson.isAllocatedToTimeslot();
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
       lesson.getSubject().getCode().equals("HV");
     actions
-      // System.out.println("lessonSelection3 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
   }
 
-  rule lessonSelection4 {
-  /* If multiple lessons have lowest count, select LO, HV or IN */
+  /* If multiple lessons have lowest count, select lesson for course that is hard to allocate */
+  rule LSR4 {
     declarations
       Lesson lesson;
       Schedule schedule;
@@ -84,19 +78,17 @@ public ruleBase LessonSelectionKB {
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
       !schedule.singleLowestAvailabilityCount();
-      
       !lesson.isAllocatedToTimeslot();
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
       lesson.getSubject().getCode().equals("IN");
     actions
-      // System.out.println("lessonSelection4 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);
   }
 
-  rule lessonSelection5 {
   /* If multiple lessons have lowest count and no special course is left, select any course. */
+  rule LSR5 {
     declarations
       Lesson lesson;
       Schedule schedule;
@@ -106,11 +98,9 @@ public ruleBase LessonSelectionKB {
       schedule.schedulingSetIsEmpty();
       schedule.containsUnallocatedLesson(lesson);
       !schedule.singleLowestAvailabilityCount();
-      
       !lesson.isAllocatedToTimeslot();
       lesson.getAvailabilityCount() == lowestAvailabilityCount;
     actions
-      // System.out.println("lessonSelection5 fired");
 	  schedule.addToSchedulingSet(lesson);
       modified(schedule);
       retract(lesson);

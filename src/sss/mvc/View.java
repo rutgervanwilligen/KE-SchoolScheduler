@@ -34,28 +34,10 @@ public class View extends JFrame implements Observer {
 	final JFileChooser fileChooser = new JFileChooser();
 
 	private JPanel contentPane;
-	private JTextPane consoleTextPane;
-	private JTextField teacherInfoField;
-
 	private JButton btnRun, btnStop, btnPrint;
-	private JTextField classesInfoField;
-	private JTextField teacherClassesInfoField;
-	private JTextField classroomInfoField;
-	private JTextField hoursInfoField;
-	private JTextField subjectInfoField;
-	private JTextField subjectHoursInfoField;
-
+	private JTextField teacherInfoField, classesInfoField, teacherClassesInfoField, classroomInfoField, hoursInfoField, subjectInfoField, subjectHoursInfoField;
+	private JTextPane consoleTextPane, textPaneRating, textPanePenalties, textPaneTotalLessons, textPaneUnallocated, textPaneUnallocatable;
 	private JProgressBar progressBar;
-
-	private JTextPane textPaneRating;
-
-	private JTextPane textPanePenalties;
-
-	private JTextPane textPaneTotalLessons;
-
-	private JTextPane textPaneUnallocated;
-
-	private JTextPane textPaneUnallocatable;
 
 	/**
 	 * Create the frame.
@@ -73,6 +55,69 @@ public class View extends JFrame implements Observer {
 		btnRun.setBounds(42, 262, 78, 25);
 		contentPane.add(btnRun);
 
+		JButton btnSelectTeacherFile = new JButton("Select file");
+		btnSelectTeacherFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectFile(teacherInfoField);
+			}
+		});
+		btnSelectTeacherFile.setBounds(503, 36, 117, 20);
+		contentPane.add(btnSelectTeacherFile);
+		
+		JButton btnSelectClassesFile = new JButton("Select file");
+		btnSelectClassesFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectFile(classesInfoField);
+			}
+		});
+		btnSelectClassesFile.setBounds(503, 63, 117, 20);
+		contentPane.add(btnSelectClassesFile);
+		
+		JButton btnSelectTeacherClassesInfo = new JButton("Select file");
+		btnSelectTeacherClassesInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectFile(teacherClassesInfoField);
+			}
+		});
+		btnSelectTeacherClassesInfo.setBounds(503, 90, 117, 20);
+		contentPane.add(btnSelectTeacherClassesInfo);
+		
+		JButton btnSelectClassroomInfo = new JButton("Select file");
+		btnSelectClassroomInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectFile(classroomInfoField);
+			}
+		});
+		btnSelectClassroomInfo.setBounds(503, 117, 117, 20);
+		contentPane.add(btnSelectClassroomInfo);
+		
+		JButton btnSelectHoursInfo = new JButton("Select file");
+		btnSelectHoursInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectFile(hoursInfoField);
+			}
+		});
+		btnSelectHoursInfo.setBounds(503, 144, 117, 20);
+		contentPane.add(btnSelectHoursInfo);
+		
+		JButton btnSelectSubjectInfo = new JButton("Select file");
+		btnSelectSubjectInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectFile(subjectInfoField);
+			}
+		});
+		btnSelectSubjectInfo.setBounds(503, 171, 117, 20);
+		contentPane.add(btnSelectSubjectInfo);
+		
+		JButton btnSelectSubjectHoursInfo = new JButton("Select file");
+		btnSelectSubjectHoursInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectFile(subjectHoursInfoField);
+			}
+		});
+		btnSelectSubjectHoursInfo.setBounds(503, 199, 117, 20);
+		contentPane.add(btnSelectSubjectHoursInfo);
+
 		progressBar = new JProgressBar();
 		progressBar.setBounds(222, 262, 343, 25);
 		contentPane.add(progressBar);
@@ -86,147 +131,100 @@ public class View extends JFrame implements Observer {
 		scroll.setBounds(42, 299, 523, 312);
 		contentPane.add(scroll);
 		
-				consoleTextPane = new JTextPane();
-				scroll.setViewportView(consoleTextPane);
+		consoleTextPane = new JTextPane();
+		scroll.setViewportView(consoleTextPane);
 
-		JLabel lblDocenten = new JLabel("Teacher information:");
-		lblDocenten.setBounds(42, 39, 194, 15);
-		contentPane.add(lblDocenten);
+		JLabel lblTeacherFile = new JLabel("Teacher information:");
+		lblTeacherFile.setBounds(42, 39, 194, 15);
+		contentPane.add(lblTeacherFile);
 
-		JLabel label = new JLabel("Classes information:");
-		label.setBounds(42, 68, 194, 15);
-		contentPane.add(label);
+		JLabel lblClassesInformation = new JLabel("Classes information:");
+		lblClassesInformation.setBounds(42, 68, 194, 15);
+		contentPane.add(lblClassesInformation);
 
-		JLabel label_1 = new JLabel("Classroom info:");
-		label_1.setBounds(42, 122, 194, 15);
-		contentPane.add(label_1);
+		JLabel lblClassroomInformation = new JLabel("Classroom info:");
+		lblClassroomInformation.setBounds(42, 122, 194, 15);
+		contentPane.add(lblClassroomInformation);
 
-		JLabel label_2 = new JLabel("Teacher-classes info:");
-		label_2.setBounds(42, 95, 194, 15);
-		contentPane.add(label_2);
+		JLabel lblTeacherClassesInfo = new JLabel("Teacher-classes info:");
+		lblTeacherClassesInfo.setBounds(42, 95, 194, 15);
+		contentPane.add(lblTeacherClassesInfo);
 
-		JLabel label_3 = new JLabel("Subject info:");
-		label_3.setBounds(42, 176, 194, 15);
-		contentPane.add(label_3);
+		JLabel lblSubjectInfo = new JLabel("Subject info:");
+		lblSubjectInfo.setBounds(42, 176, 194, 15);
+		contentPane.add(lblSubjectInfo);
 
-		JLabel label_4 = new JLabel("Hours info:");
-		label_4.setBounds(42, 149, 194, 15);
-		contentPane.add(label_4);
+		JLabel lblHoursInfo = new JLabel("Hours info:");
+		lblHoursInfo.setBounds(42, 149, 194, 15);
+		contentPane.add(lblHoursInfo);
 
-		JLabel label_5 = new JLabel("Subject-hours info:");
-		label_5.setBounds(42, 203, 194, 15);
-		contentPane.add(label_5);
+		JLabel lblSubjectHoursInfo = new JLabel("Subject-hours info:");
+		lblSubjectHoursInfo.setBounds(42, 203, 194, 15);
+		contentPane.add(lblSubjectHoursInfo);
+		
+		JLabel lblNrOfPenalties = new JLabel("Number of penalties:");
+		lblNrOfPenalties.setBounds(577, 454, 184, 15);
+		contentPane.add(lblNrOfPenalties);
+		
+		JLabel lblNrOfLessons = new JLabel("Total number of lessons:");
+		lblNrOfLessons.setBounds(577, 264, 184, 15);
+		contentPane.add(lblNrOfLessons);
+		
+		JLabel lblUnallocatedLessons = new JLabel("Unallocated lessons:");
+		lblUnallocatedLessons.setBounds(577, 291, 184, 15);
+		contentPane.add(lblUnallocatedLessons);
+		
+		JLabel lblUnallocatableLessons = new JLabel("Unallocatable lessons:");
+		lblUnallocatableLessons.setBounds(577, 319, 184, 15);
+		contentPane.add(lblUnallocatableLessons);
+		
+		JLabel lblCurrentScheduleRating = new JLabel("Current schedule rating: ");
+		lblCurrentScheduleRating.setBounds(577, 427, 184, 15);
+		contentPane.add(lblCurrentScheduleRating);
+		
+		JLabel lblFillInThe = new JLabel("Fill in the location of each input file, or leave empty to use defaults values.");
+		lblFillInThe.setBounds(42, 12, 855, 15);
+		contentPane.add(lblFillInThe);
 
 		teacherInfoField = new JTextField();
 		teacherInfoField.setColumns(10);
 		teacherInfoField.setBounds(233, 37, 265, 19);
 		contentPane.add(teacherInfoField);
-
-		JButton btnSelectTeacherFile = new JButton("Select file");
-		btnSelectTeacherFile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectFile(teacherInfoField);
-			}
-		});
-		btnSelectTeacherFile.setBounds(503, 36, 117, 20);
-		contentPane.add(btnSelectTeacherFile);
 		
 		classesInfoField = new JTextField();
 		classesInfoField.setColumns(10);
 		classesInfoField.setBounds(233, 64, 265, 19);
 		contentPane.add(classesInfoField);
 		
-		JButton btnSelectClassesFile = new JButton("Select file");
-		btnSelectClassesFile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectFile(classesInfoField);
-			}
-		});
-		btnSelectClassesFile.setBounds(503, 63, 117, 20);
-		contentPane.add(btnSelectClassesFile);
-		
 		teacherClassesInfoField = new JTextField();
 		teacherClassesInfoField.setColumns(10);
 		teacherClassesInfoField.setBounds(233, 91, 265, 19);
 		contentPane.add(teacherClassesInfoField);
-		
-		JButton btnSelectTeacherClassesInfo = new JButton("Select file");
-		btnSelectTeacherClassesInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectFile(teacherClassesInfoField);
-			}
-		});
-		btnSelectTeacherClassesInfo.setBounds(503, 90, 117, 20);
-		contentPane.add(btnSelectTeacherClassesInfo);
 		
 		classroomInfoField = new JTextField();
 		classroomInfoField.setColumns(10);
 		classroomInfoField.setBounds(233, 118, 265, 19);
 		contentPane.add(classroomInfoField);
 		
-		JButton btnSelectClassroomInfo = new JButton("Select file");
-		btnSelectClassroomInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectFile(classroomInfoField);
-			}
-		});
-		btnSelectClassroomInfo.setBounds(503, 117, 117, 20);
-		contentPane.add(btnSelectClassroomInfo);
-		
 		hoursInfoField = new JTextField();
 		hoursInfoField.setColumns(10);
 		hoursInfoField.setBounds(233, 145, 265, 19);
 		contentPane.add(hoursInfoField);
-		
-		JButton btnSelectHoursInfo = new JButton("Select file");
-		btnSelectHoursInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectFile(hoursInfoField);
-			}
-		});
-		btnSelectHoursInfo.setBounds(503, 144, 117, 20);
-		contentPane.add(btnSelectHoursInfo);
 		
 		subjectInfoField = new JTextField();
 		subjectInfoField.setColumns(10);
 		subjectInfoField.setBounds(233, 172, 265, 19);
 		contentPane.add(subjectInfoField);
 		
-		JButton btnSelectSubjectInfo = new JButton("Select file");
-		btnSelectSubjectInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectFile(subjectInfoField);
-			}
-		});
-		btnSelectSubjectInfo.setBounds(503, 171, 117, 20);
-		contentPane.add(btnSelectSubjectInfo);
-		
 		subjectHoursInfoField = new JTextField();
 		subjectHoursInfoField.setColumns(10);
 		subjectHoursInfoField.setBounds(233, 200, 265, 19);
 		contentPane.add(subjectHoursInfoField);
 		
-		JButton btnSelectSubjectHoursInfo = new JButton("Select file");
-		btnSelectSubjectHoursInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectFile(subjectHoursInfoField);
-			}
-		});
-		btnSelectSubjectHoursInfo.setBounds(503, 199, 117, 20);
-		contentPane.add(btnSelectSubjectHoursInfo);
-		
-		JLabel lblCurrentScheduleRating = new JLabel("Current schedule rating: ");
-		lblCurrentScheduleRating.setBounds(577, 427, 184, 15);
-		contentPane.add(lblCurrentScheduleRating);
-		
 		textPaneRating = new JTextPane();
 		textPaneRating.setText("-");
 		textPaneRating.setBounds(757, 421, 78, 21);
 		contentPane.add(textPaneRating);
-		
-		JLabel lblFillInThe = new JLabel("Fill in the location of each input file, or leave empty to use defaults values.");
-		lblFillInThe.setBounds(42, 12, 855, 15);
-		contentPane.add(lblFillInThe);
 		
 		btnPrint = new JButton("Print schedules");
 		btnPrint.setBounds(577, 586, 158, 25);
@@ -236,22 +234,10 @@ public class View extends JFrame implements Observer {
 		btnStop.setBounds(132, 262, 78, 25);
 		contentPane.add(btnStop);
 		
-		JLabel label_6 = new JLabel("Number of penalties:");
-		label_6.setBounds(577, 454, 184, 15);
-		contentPane.add(label_6);
-		
 		textPanePenalties = new JTextPane();
 		textPanePenalties.setText("-");
 		textPanePenalties.setBounds(757, 448, 78, 21);
 		contentPane.add(textPanePenalties);
-		
-		JLabel label_7 = new JLabel("Total number of lessons:");
-		label_7.setBounds(577, 264, 184, 15);
-		contentPane.add(label_7);
-		
-		JLabel label_8 = new JLabel("Unallocated lessons:");
-		label_8.setBounds(577, 291, 184, 15);
-		contentPane.add(label_8);
 		
 		textPaneUnallocated = new JTextPane();
 		textPaneUnallocated.setText("-");
@@ -262,10 +248,6 @@ public class View extends JFrame implements Observer {
 		textPaneTotalLessons.setText("-");
 		textPaneTotalLessons.setBounds(757, 258, 78, 21);
 		contentPane.add(textPaneTotalLessons);
-		
-		JLabel label_9 = new JLabel("Unallocatable lessons:");
-		label_9.setBounds(577, 319, 184, 15);
-		contentPane.add(label_9);
 		
 		textPaneUnallocatable = new JTextPane();
 		textPaneUnallocatable.setText("-");

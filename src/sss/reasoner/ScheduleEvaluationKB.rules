@@ -13,7 +13,8 @@ public ruleBase ScheduleEvaluationKB {
 	 * Rules for ClassInSchool
 	 */
 
-  rule classEvaluationRule1 {
+/* Penalty for class having a free hour. */
+  rule SER1 {
     declarations
       Schedule schedule;
       ClassInSchool classInSchool;
@@ -22,10 +23,10 @@ public ruleBase ScheduleEvaluationKB {
       classInSchool.hasBetweenHourOn(lessonHour);
     actions
       schedule.addPenaltyObject(new PenaltyClassBetweenHours(classInSchool, lessonHour), -10000);
-      // System.out.println("classEvaluationRule1 fired for " + classInSchool.getName() + " with " + (nrOfBetweenHours * 1000) + " penalty points.");
   }
 
-  rule classEvaluationRule2 {
+/* Penalty for class having a lesson on the 9th hour. */
+  rule SER2 {
     declarations
       Schedule schedule;
       ClassInSchool classInSchool;
@@ -35,15 +36,14 @@ public ruleBase ScheduleEvaluationKB {
 	  lessonHour.getHour() == 9;
     actions
       schedule.addPenaltyObject(new PenaltyClass9thHour(classInSchool, lessonHour), -1000);
-      // System.out.println("classEvaluationRule2 fired for " + classInSchool.getName() + " on " + lessonHour.getWeekday());
   }
   
-  rule classEvaluationRule3 {
+/* Rule to make sure other rules don't fire multiple times. */
+  rule SER3 {
     declarations
       ClassInSchool classInSchool;
     conditions
     actions
-      // System.out.println("classEvaluationRule3 fired for " + classInSchool.getName());
       retract(classInSchool);
   }
   
@@ -51,8 +51,8 @@ public ruleBase ScheduleEvaluationKB {
 	 * Rules for Teacher
 	 */
 	
-  // Teacher has been scheduled on an hour he would rather not be scheduled on. 
-  rule teacherEvaluationRule1 {
+/*  Penalty for teacher having to teach on a lesson hour he or she would rather not teach on. */ 
+  rule SER4 {
     declarations
 	  Schedule schedule;
       Teacher teacher;
@@ -61,12 +61,11 @@ public ruleBase ScheduleEvaluationKB {
       teacher.getAvailability(lessonHour) == Availability.RATHER_NOT;
       teacher.isScheduled(lessonHour);
     actions
-      // System.out.println("teacherEvaluationRule1 fired for " + teacher.getName() + " on " + lessonHour.getWeekday() + " at " + lessonHour.getHour());
 	  schedule.addPenaltyObject(new PenaltyTeacherRatherNot(teacher, lessonHour), -1000);
   }
 
-  // Teacher has to walk in between hours.
-  rule teacherEvaluationRule2 {
+/* Penalty for teacher having to walk between classrooms on adjecent hours. */
+  rule SER5 {
     declarations
       Schedule schedule;
       Lesson lesson1, lesson2;
@@ -81,16 +80,15 @@ public ruleBase ScheduleEvaluationKB {
       lesson2.getTeacher().equals(teacher);
       !lesson1.getClassroom().equals(lesson2.getClassroom());
     actions
-      // System.out.println("teacherEvaluationRule2 fired for " + teacher.getName());
 	  schedule.addPenaltyObject(new PenaltyTeacherWalking(teacher, lesson1, lesson2), -100);
   }
 	 
-  rule teacherEvaluationRule3 {
+/* Rule to make sure other rules don't fire multiple times. */
+  rule SER6 {
     declarations
       Teacher teacher;
     conditions
     actions
-      // System.out.println("teacherEvaluationRule3 fired for " + teacher.getName());
       retract(teacher);
   }
 }

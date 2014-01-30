@@ -12,8 +12,9 @@ public ruleBase ScheduleOptimizationKB {
 	/**
 	 * Rules for Teachers
 	 */
-	 
-  rule TeacherWalkingRule1 {
+/* Move a lesson for another lesson for which a teacher has to walk between hours.
+Also move the lesson for which a teacher has to walk to a classroom where this is not the case. */
+  rule SOR1 {
     declarations
 	  PenaltyTeacherWalking penalty;
       Schedule schedule;
@@ -32,12 +33,12 @@ public ruleBase ScheduleOptimizationKB {
     actions
       schedule.moveLesson(lessonInTheWay, lessonInTheWay.getHour(), alternativeClassroom);
       schedule.moveLesson(lesson2, lesson2.getHour(), lesson1.getClassroom());
-      // System.out.println("TeacherWalkingRule1 fired.");
       retract(penalty);
       retract(schedule);
   }
-	 
-  rule TeacherWalkingRule2 {
+
+/* Move a lesson for which a teacher has to walk to a classroom where this is not the case. */
+  rule SOR2 {
     declarations
 	  PenaltyTeacherWalking penalty;
       Schedule schedule;
@@ -54,12 +55,12 @@ public ruleBase ScheduleOptimizationKB {
       classroom1.isAvailable(lesson2.getHour(), lesson2);
     actions
       schedule.moveLesson(lesson2, lesson2.getHour(), classroom1);
-      // System.out.println("TeacherWalkingRule1 fired.");
       retract(penalty);
       retract(schedule);
   }
-	 
-  rule TeacherRatherNot1 {
+
+/* Move a lesson in a time slot on which the teacher would rather not teach to a time slot were the teacher is available. */
+  rule SOR3 {
     declarations
 	  PenaltyTeacherRatherNot penalty;
       Schedule schedule;
@@ -80,7 +81,6 @@ public ruleBase ScheduleOptimizationKB {
       classInSchool.isAvailable(lessonHour2, lesson);
     actions
       schedule.moveLesson(lesson, lessonHour2, classroom);
-      // System.out.println("TeacherRatherNot1 fired.");
       retract(penalty);
       retract(schedule);
   }
@@ -89,7 +89,8 @@ public ruleBase ScheduleOptimizationKB {
 	 * Rules for Classes
 	 */
 	 
-  rule Class9thHourRule1 {
+/* Move a lesson of a class that is located on the 9th hour to a timeslot where it is not. */
+  rule SOR4 {
     declarations
 	  PenaltyClass9thHour penalty;
       Schedule schedule;
@@ -114,10 +115,10 @@ public ruleBase ScheduleOptimizationKB {
       schedule.moveLesson(lesson, alternativeLessonHour, alternativeClassroom);
       retract(penalty);
       retract(schedule);
-      // System.out.println("Class9thHourRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
   }
 	 
-  rule ClassBetweenHoursRule1 {
+/* Move a lesson that is located at the start or end of a day for a class to a free hour for that class. */
+  rule SOR5 {
     declarations
 	  PenaltyClassBetweenHours penalty;
       Schedule schedule;
@@ -142,7 +143,6 @@ public ruleBase ScheduleOptimizationKB {
       schedule.moveLesson(lesson, lessonHour1, classroom);
       retract(penalty);
       retract(schedule);
-      // System.out.println("ClassBetweenHoursRule1 fired for " + lesson.getClassInSchool().getName() + " at " + lesson.getHour().getWeekday());
   }
   
 }

@@ -14,7 +14,7 @@ import sss.scheduler.objects.Schedule;
 public ruleBase LessonSwapKB {
 
   /* Rule to swap an unallocated and an allocated lesson. */
-  rule lessonSwap1 {
+  rule LSWR1 {
     declarations
       Lesson newLesson, allocatedLesson;
       Schedule schedule;
@@ -51,11 +51,10 @@ public ruleBase LessonSwapKB {
       modified(schedule);
       modified(newLesson);
       modified(allocatedLesson);
-      // System.out.println("lessonSwap1 fired");
   }
   
   /* Rule to rotate an unallocated and two allocated lessons. */
-  rule lessonSwap2 {
+  rule LSWR2 {
     declarations
       Lesson newLesson, allocatedLesson1, allocatedLesson2;
       Schedule schedule;
@@ -86,8 +85,8 @@ public ruleBase LessonSwapKB {
       newClassroom.isAvailable(allocatedLessonHour1, newLesson);
       newClassroom.isSuitedFor(allocatedSubject1);
       
-      allocatedTeacher1.isAvailable(allocatedLessonHour2, allocatedLesson1); // change this with boolean
-      !allocatedTeacher1.isScheduled(allocatedLessonHour2, allocatedLesson1); // change this with boolean
+      allocatedTeacher1.isAvailable(allocatedLessonHour2, allocatedLesson1);
+      !allocatedTeacher1.isScheduled(allocatedLessonHour2, allocatedLesson1);
       allocatedClass1.isAvailable(allocatedLessonHour2, allocatedLesson1);
       allocatedClassroom1.isAvailable(allocatedLessonHour2, allocatedLesson1);
       allocatedClassroom1.isSuitedFor(allocatedSubject2);
@@ -106,7 +105,6 @@ public ruleBase LessonSwapKB {
       modified(newLesson);
       modified(allocatedLesson1);
       modified(allocatedLesson2);
-      // System.out.println("lessonSwap1 fired");
   }
   
 }

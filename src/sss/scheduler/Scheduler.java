@@ -74,7 +74,7 @@ public class Scheduler {
 		
 		scheduleUnallocatableLessons();
 		
-		System.out.print("Done with first schedule version, performing optimization process...");
+		System.out.print("\nDone with first schedule version, performing optimization process...");
 
 		int oldRating, newRating = schedule.getRating();
 		int successfullSwaps = 0;
@@ -126,7 +126,7 @@ public class Scheduler {
 	}
 	
 	protected void printTerminatedText() {
-		System.out.println("\nTadadadaaaaaahh, results!\n");
+		System.out.println("\n\nTadadadaaaaaahh, results!\n");
 		System.out.println("Unallocatable lessons:");
 		for (Lesson lesson : schedule.getUnallocatableLessons()) {
 			System.out.println(lesson.getClassInSchool().getName() + ", " + lesson.getSubject().getName() + ", " + lesson.getTeacher().getName());

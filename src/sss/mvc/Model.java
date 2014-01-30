@@ -27,8 +27,32 @@ public class Model implements Runnable {
 	
 	protected Scheduler scheduler;
 
+	/*
+	 * Getters	
+	 */
+	public Schedule getSchedule() {
+		return scheduler.getSchedule();
+	}
+	public boolean isRunning() {
+		return scheduler.isRunning();
+	}
+	
+	/**
+	 * Constructor
+	 */
 	public Model() {
 		scheduler = new Scheduler();
+	}
+
+	/**
+	 * Executes scheduling process and prints output afterwards.
+	 */
+	@Override
+	public void run() {
+		startScheduler();
+		writeOutput();
+		
+		System.out.println("\nDone!");
 	}
 	
 	/**
@@ -40,7 +64,7 @@ public class Model implements Runnable {
 	private static void readInput(String teacherInputFile, String classesInputFile, 
 			String hoursInputFile, String subjectsInputFile, String classroomsInputFile,
 			String subjectsClassesInputFile, String teachersClassesInputFile) {
-		System.out.println("Reading input files...");
+		System.out.println("Reading input files...\n");
 		
 		hours = InputReader.readHoursInfo(hoursInputFile);
 		subjects = InputReader.readSubjectsInfo(subjectsInputFile);
@@ -61,7 +85,7 @@ public class Model implements Runnable {
 	}
 
 	/**
-	 * Create scheduler with all data and start scheduler.
+	 * Tells scheduler to stop scheduling.
 	 */
 	public void stopScheduler() {
 		scheduler.stopScheduling();
@@ -77,51 +101,42 @@ public class Model implements Runnable {
 		System.out.println("Results have been saved to output folder.");
 	}
 	
-	public void readInputFiles(String[] args) {
+	/**
+	 * Read all input files based on the string given in inputFiles.
+	 * @param inputFiles List of input files.
+	 */
+	public void readInputFiles(String[] inputFiles) {
 		String teacherInputFile, classesInputFile, hoursInputFile, subjectsInputFile, 
 		classroomsInputFile, subjectsClassesInputFile, teachersClassesInputFile;
 		
-		if (args.length != 7) {
+		if (inputFiles.length != 7) {
 			printUsage();
 		} else {
-			teacherInputFile = args[0];
-			classesInputFile = args[1];
-			hoursInputFile = args[2];
-			subjectsInputFile = args[3];
-			classroomsInputFile = args[4];
-			subjectsClassesInputFile = args[5];
-			teachersClassesInputFile = args[6];
+			teacherInputFile = inputFiles[0];
+			classesInputFile = inputFiles[1];
+			hoursInputFile = inputFiles[2];
+			subjectsInputFile = inputFiles[3];
+			classroomsInputFile = inputFiles[4];
+			subjectsClassesInputFile = inputFiles[5];
+			teachersClassesInputFile = inputFiles[6];
 			
 			readInput(teacherInputFile, classesInputFile, hoursInputFile, subjectsInputFile, 
 					classroomsInputFile, subjectsClassesInputFile, teachersClassesInputFile);
 		}
 	}
 
+	/**
+	 * Print usage to output.
+	 */
 	private static void printUsage() {
 		System.out.println("Usage: <java Main> with the following arguments:");
 		System.out.println("  Teacher input file (docenteninfo.csv)");
 		System.out.println("  Classes input file (klasseninfo.csv)");
-		System.out.println("  Hours input file (ureninfo.csv");
+		System.out.println("  Hours input file (ureninfo.csv)");
 		System.out.println("  Subjects input file (vakkeninfo.csv)");
 		System.out.println("  Classrooms input file (lokaleninfo.csv)");
-		System.out.println("  Subjects-classes allocations input file (vakkenurenaantallen.csv");
-		System.out.println("  Teachers-classes allocations input file (klassendocenten.csv");
-	}
-
-	@Override
-	public void run() {
-		
-		startScheduler();
-		writeOutput();
-		System.out.println("Done");
-	}
-
-	public Schedule getSchedule() {
-		return scheduler.getSchedule();
-	}
-
-	public boolean isRunning() {
-		return scheduler.isRunning();
+		System.out.println("  Subjects-classes allocations input file (vakkenurenaantallen.csv)");
+		System.out.println("  Teachers-classes allocations input file (klassendocenten.csv)");
 	}
 
 }
