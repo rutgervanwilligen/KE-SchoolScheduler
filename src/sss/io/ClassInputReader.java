@@ -40,9 +40,11 @@ public class ClassInputReader extends InputReader {
 		
 		String mentorString = lineScanner.next();
 		Teacher mentor = teachers.get(mentorString);
-		if (mentor == null)
+		if (mentor == null) {
+			lineScanner.close();
 			throw(new IOException("Mentor " + mentorString + " for class " + name + " cannot be found in teachers."));
-					
+		}
+							
 		lineScanner.close();
 		
 		if (levelChar == 'H') {

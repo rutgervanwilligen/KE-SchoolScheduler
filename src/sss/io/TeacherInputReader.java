@@ -98,7 +98,7 @@ public class TeacherInputReader extends InputReader {
 		for (int i=first; i<=last; i++) {
 			result[i] = availability;
 		}
-		
+		scanner.close();
 		return result;
 	}
 	

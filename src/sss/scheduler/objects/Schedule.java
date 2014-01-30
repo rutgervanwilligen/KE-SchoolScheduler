@@ -2,7 +2,6 @@ package sss.scheduler.objects;
 
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Stack;
 
 import sss.reasoner.penaltyObjects.Penalty;

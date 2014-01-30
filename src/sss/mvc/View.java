@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
@@ -28,7 +27,6 @@ import javax.swing.text.Document;
 
 import sss.scheduler.objects.Schedule;
 
-@SuppressWarnings("serial")
 public class View extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;

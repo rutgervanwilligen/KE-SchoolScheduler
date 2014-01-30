@@ -16,7 +16,6 @@ import sss.scheduler.objects.Lesson;
 import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Schedule;
 import sss.scheduler.objects.Teacher;
-import sss.scheduler.properties.Availability;
 import sss.scheduler.properties.ClockValue;
 import sss.scheduler.properties.Weekday;
 
