@@ -10,19 +10,21 @@ public class Controller {
 			"inputs/vakkeninfo.csv", "inputs/lokaleninfo.csv",
 			"inputs/vakkenurenaantallen.csv", "inputs/klassendocenten.csv", };
 
-	private Model model;
-	private View view;
-	private ActionListener runActionListener;
+	protected Model model;
+	protected View view;
+	protected ActionListener runActionListener, stopActionListener, printActionListener;
 
-	private ActionListener stopActionListener;
-
-	private ActionListener printActionListener;
-
+	/**
+	 * Constructor
+	 */
 	public Controller(Model model, View view) {
 		this.model = model;
 		this.view = view;
 	}
 
+	/**
+	 * Sets up the action event listeners
+	 */
 	public void control() {
 		runActionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -45,7 +47,10 @@ public class Controller {
 		model.getSchedule().addObserver(view);
 	}
 
-	private void startScheduling() {
+	/**
+	 * Starts up the scheduling process
+	 */
+	protected void startScheduling() {
 		if (! model.isRunning()) {
 			String[] files = view.getFilePaths();
 			for (int i = 0; i < files.length; i++) {
@@ -60,11 +65,17 @@ public class Controller {
 		}
 	}
 	
-	private void stopScheduling() {
+	/**
+	 * Stops scheduling process
+	 */
+	protected void stopScheduling() {
 		model.stopScheduler();
 	}
 	
-	private void printSchedules() {
+	/**
+	 * Prints all schedules
+	 */
+	protected void printSchedules() {
 		model.writeOutput();
 	}
 

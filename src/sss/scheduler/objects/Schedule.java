@@ -405,6 +405,13 @@ public class Schedule extends Observable {
 		return false;
 	}
 	
+	/**
+	 * Function to determine if teacher is scheduled in the same classroom as the as the hour before of after the hour to check.
+	 * @param teacher
+	 * @param classroom
+	 * @param hourToCheck
+	 * @return
+	 */
 	public boolean teacherScheduledInClassroomBeforeOrAfter(Teacher teacher, Classroom classroom, LessonHour hourToCheck) {
 		for (Lesson lesson : allocatedLessons) {
 			if (!(lesson.getTeacher().equals(teacher)) ||
@@ -420,6 +427,13 @@ public class Schedule extends Observable {
 		return false;
 	}
 	
+	/**
+	 * Function to determine if the given subject has already been scheduled on the same day for the given classInSchool.
+	 * @param subject
+	 * @param hourToCheck
+	 * @param classInSchool
+	 * @return
+	 */
 	public boolean subjectAllocatedToClassOnWeekday(Subject subject, LessonHour hourToCheck, ClassInSchool classInSchool) {
 		for (Lesson lesson : allocatedLessons) {
 			if ((lesson.getSubject().equals(subject)) &&
@@ -431,6 +445,12 @@ public class Schedule extends Observable {
 		return false;
 	}
 	
+	/**
+	 * Returns the number of lessons on a given weekday for a particular classInSchool.
+	 * @param classInSchool
+	 * @param hour
+	 * @return
+	 */
 	public int numberOfClassesWithoutHomeworkOnWeekday(ClassInSchool classInSchool, LessonHour hour) {
 		int result = 0;
 		
@@ -444,16 +464,32 @@ public class Schedule extends Observable {
 		return result;
 	}
 	
+	/**
+	 * Returns if the classInSchool has no courses with homework on that day.
+	 * @param classInSchool
+	 * @param hour
+	 * @return
+	 */
 	public boolean noClassesWithoutHomeworkOnWeekday(ClassInSchool classInSchool, LessonHour hour) {
 		return numberOfClassesWithoutHomeworkOnWeekday(classInSchool, hour) == 0;
 	}
 	
+	/**
+	 * Add an addition to the current rating.
+	 * @param addition
+	 */
 	public void addToRating(int addition) {
 		rating += addition;
 
 		informObservers();
 	}
 
+	/**
+	 * Returns if the given lesson is prefered at the given hour or not, due to breaks.
+	 * @param lesson
+	 * @param firstHour
+	 * @return
+	 */
 	public boolean isPreferredAt(Lesson lesson, LessonHour firstHour) {
 		if (lesson instanceof SingleHourLesson) {
 			return firstHour.isPreferredToTeachOn();
@@ -466,6 +502,11 @@ public class Schedule extends Observable {
 		}
 	}
 	
+	/**
+	 * Add a penalty to the schedule in the form of a penaltyObject and a penalty.
+	 * @param penaltyObject
+	 * @param penalty
+	 */
 	public void addPenaltyObject(Penalty penaltyObject, int penalty) {
 		penaltyObject.penalty = penalty;
 		penalties.add(penaltyObject);
@@ -473,6 +514,10 @@ public class Schedule extends Observable {
 		rating += penalty;
 	}
 
+	/**
+	 * Returns the current set of penalties and resets the penalty list.
+	 * @return
+	 */
 	public ArrayList<Penalty> getAndResetPenalties() {
 		ArrayList<Penalty> result = penalties;
 		penalties = new ArrayList<Penalty>();
@@ -480,6 +525,9 @@ public class Schedule extends Observable {
 		return result;
 	}
 	
+	/**
+	 * Reverts the last taken action on the schedule using the action stack.
+	 */
 	public void revertLastAction() {
 		if (! actionStack.isEmpty()) {
 			ScheduleAction action = actionStack.pop();
@@ -491,6 +539,9 @@ public class Schedule extends Observable {
 		}
 	}
 	
+	/**
+	 * Reverts all actions that are in the action stack.
+	 */
 	public void revertActions() {
 		while (! actionStack.empty()) {
 			ScheduleAction action = actionStack.pop();
@@ -506,10 +557,17 @@ public class Schedule extends Observable {
 		}
 	}
 
+	/**
+	 * Removes all currently know actions.
+	 */
 	public void removeActionHistory() {
 		actionStack.clear();
 	}
 
+	/**
+	 * Returns the total amount of lessons in the schedule.
+	 * @return
+	 */
 	public int getTotalNumberOfLessons() {
 		return allocatedLessons.size() + unallocatedLessons.size() + unallocatableLessons.size() + schedulingSet.size();
 	}

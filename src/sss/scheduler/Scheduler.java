@@ -58,26 +58,30 @@ public class Scheduler {
 	 * Main scheduling loop as found in the knowledge model.
 	 */
 	public void createSchedule() {
+		int oldRating, newRating, successfullSwaps;
 		running = true;
 		
 		System.out.println();
 		System.out.println("Setting up knowledge bases...");
 		addAllLessonsToSchedule();
 		
+		// Create all required knowledge bases
 		createLessonSelectionKB();
 		createLessonAllocationKB();
 		createLessonSwapKB();
 		createScheduleEvaluationKB();
 		createScheduleOptimizationKB();
-
-		System.out.println("Creating initial schedule...");
 		
+		// Build initial schedule
+		System.out.println("Creating initial schedule...");
 		scheduleUnallocatableLessons();
 		
+		/* Start loop to optimize schedule. The loop evaluates the current schedule and retrieves
+		all penalties. Then it loops through the penalties until it finds an optimization that
+		raises the rating. Then it retrieves the new set of penalties and starts over. */
 		System.out.print("\nDone with first schedule version, performing optimization process...");
-
-		int oldRating, newRating = schedule.getRating();
-		int successfullSwaps = 0;
+		newRating = schedule.getRating();
+		successfullSwaps = 0;
 		ArrayList<Penalty> penalties;
 		do {
 			schedule.getAndResetPenalties();
@@ -111,6 +115,7 @@ public class Scheduler {
 				schedule.removeActionHistory();
 			} while (newRating == oldRating && ! penalties.isEmpty());
 			
+			// Using some interval, try to schedule unallocateable lessons if there are still any present.
 			if (successfullSwaps >= 25 && schedule.containsUnallocatableLessons()) {
 				System.out.println("\nRetrying to schedule unallocatable lessons...");
 				
@@ -122,9 +127,13 @@ public class Scheduler {
 			}
 		} while (running);
 
+		// Print termination text.
 		printTerminatedText();
 	}
 	
+	/**
+	 * Print termination text.
+	 */
 	protected void printTerminatedText() {
 		System.out.println("\n\nTadadadaaaaaahh, results!\n");
 		System.out.println("Unallocatable lessons:");
@@ -140,7 +149,11 @@ public class Scheduler {
 		System.out.println();
 	}
 
-	private void scheduleUnallocatableLessons() {
+	/**
+	 * While there are still unallocated lessons tries to select and allocate a lesson. If
+	 * unallocatable lessons are found, it tries to find a swap to make it allocatable.
+	 */
+	protected void scheduleUnallocatableLessons() {
 		while (schedule.containsUnallocatedLessons() && running) {
 			selectLessonToSchedule();
 			allocateLessonToClassroomAndTimeslot();
@@ -152,6 +165,10 @@ public class Scheduler {
 		}
 	}
 
+	/**
+	 * Calls the schedulOptimizationKB and tries to find an optimization for the given penalty.
+	 * @param penalty
+	 */
 	private void optimizeSchedule(Penalty penalty) {
 		scheduleOptimizationKB.flush();
 		scheduleOptimizationKB.tell(schedule);
@@ -180,17 +197,10 @@ public class Scheduler {
 		scheduleOptimizationKB.run();
 		scheduleEvaluationKB.retract(penalty);
 	}
-
-
-	protected void createScheduleEvaluationKB() {
-		scheduleEvaluationKB = new ScheduleEvaluationKB(new MRUConflictSet());
-	}
 	
-	
-	protected void createScheduleOptimizationKB() {
-		scheduleOptimizationKB = new ScheduleOptimizationKB(new PriorityConflictSet());
-	}
-	
+	/**
+	 * Updates the scheduleEvaluationKB object and call it to evaluate the current schedule.f
+	 */
 	protected void evaluateSchedule() {
 		schedule.setRating(0);
 		
@@ -216,6 +226,9 @@ public class Scheduler {
 		scheduleEvaluationKB.run();
 	}
 	
+	/**
+	 * Updates lessonSwapKB object and runs it to find a swap for unallocatable lessons.
+	 */
 	protected void allocateLessonsThroughSwap() {
 		lessonSwapKB.flush();
 		lessonSwapKB.tell(schedule);
@@ -230,7 +243,24 @@ public class Scheduler {
 		
 		lessonSwapKB.run();
 	}
+
+	/**
+	 * Create schedul evaluation KB.
+	 */
+	protected void createScheduleEvaluationKB() {
+		scheduleEvaluationKB = new ScheduleEvaluationKB(new MRUConflictSet());
+	}
 	
+	/**
+	 * Creates schedules optimization KB.
+	 */
+	protected void createScheduleOptimizationKB() {
+		scheduleOptimizationKB = new ScheduleOptimizationKB(new PriorityConflictSet());
+	}
+	
+	/**
+	 * Creates the lesson swap KB.
+	 */
 	protected void createLessonSwapKB() {
 		lessonSwapKB = new LessonSwapKB(new PriorityConflictSet());
 		
@@ -245,6 +275,9 @@ public class Scheduler {
 		}
 	}
 	
+	/**
+	 * Creates the lesson selection KB.
+	 */
 	protected void createLessonSelectionKB() {
 		lessonSelectionKB = new LessonSelectionKB(new PriorityConflictSet());
 
@@ -252,6 +285,9 @@ public class Scheduler {
 		lessonSelectionKB.tell(schedule);
 	}
 	
+	/**
+	 * Creates the lesson allocation KB.
+	 */
 	protected void createLessonAllocationKB() {
 		lessonAllocationKB = new ClassroomTimeslotAllocationKB();
 		
@@ -279,6 +315,10 @@ public class Scheduler {
 		lessonSelectionKB.run();
 	}
 	
+	/**
+	 * Updates the lessonAllocationKB and runs it to allocates a classroom
+	 * and timeslot for a lesson.
+	 */
 	public void allocateLessonToClassroomAndTimeslot() {
 		// Add lessons from schedule's conflict set to KB
 		for (Lesson lesson : schedule.getSchedulingSet()) {
@@ -288,6 +328,10 @@ public class Scheduler {
 		// Lesson from schedule's "conflict set" is now allocated to classroom and time slot
 	}	
 	
+	/**
+	 * Using the subjects and classes sets, generates all required lessons
+	 * that are to be scheduled.
+	 */
 	public void addAllLessonsToSchedule() {
 		for (Entry<String, Subject> subjectEntry : subjects.entrySet()) {
 			for (Entry<String, ClassInSchool> classEntry : classes.entrySet()) {
@@ -304,6 +348,13 @@ public class Scheduler {
 		}
 	}
 
+	/**
+	 * Adds one particular lesson that complies to the given parameters
+	 * @param lessonString String describing the amount of lessons.
+	 * @param s Subject
+	 * @param c ClassInSchool
+	 * @param t Teacher
+	 */
 	public void parseAndAddLesson (String lessonString, Subject s, ClassInSchool c, Teacher t) {
 		int nHours = Character.getNumericValue(lessonString.charAt(0));
 
@@ -336,6 +387,11 @@ public class Scheduler {
 		}
 	}
 	
+	/**
+	 * Returns the amount of available timeslot combinations for the given lesson.
+	 * @param lesson
+	 * @return
+	 */
 	public int getAvailabilityCountForLesson(Lesson lesson) {
 		int availabilityCount = 0;
 
@@ -383,12 +439,17 @@ public class Scheduler {
 		this.teachersClasses = teachersClasses;
 	}
 
-
+	/**
+	 * Sets running to false in order for the scheduling loop to stop.
+	 */
 	public void stopScheduling() {
 		running = false;
 	}
 
-
+	/**
+	 * Returns if scheduler is runnning or not.
+	 * @return
+	 */
 	public boolean isRunning() {
 		return running;
 	}

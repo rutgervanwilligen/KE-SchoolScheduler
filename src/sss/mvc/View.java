@@ -38,9 +38,39 @@ public class View extends JFrame implements Observer {
 	private JTextField teacherInfoField, classesInfoField, teacherClassesInfoField, classroomInfoField, hoursInfoField, subjectInfoField, subjectHoursInfoField;
 	private JTextPane consoleTextPane, textPaneRating, textPanePenalties, textPaneTotalLessons, textPaneUnallocated, textPaneUnallocatable;
 	private JProgressBar progressBar;
+	
+	/*
+	 * Getters
+	 */
+	public JButton getRunButton() {
+		return btnRun;
+	}
+
+	public JButton getStopButton() {
+		return btnStop;
+	}
+
+	public JButton getPrintButton() {
+		return btnPrint;
+	}
+	
+	public String[] getFilePaths() {
+		String[] result = {
+				teacherInfoField.getText(),
+				classesInfoField.getText(),
+	        	hoursInfoField.getText(),
+	        	subjectInfoField.getText(),
+	        	classroomInfoField.getText(),
+	        	subjectHoursInfoField.getText(),
+	        	teacherClassesInfoField.getText(),
+	        };
+		
+		return result;
+	}
+
 
 	/**
-	 * Create the frame.
+	 * Create the frame with all its constents.
 	 */
 	public View() {
 		setTitle("School Scheduling System");
@@ -257,6 +287,10 @@ public class View extends JFrame implements Observer {
 		redirectSystemStreams();
 	}
 
+	/**
+	 * Call fileChooser to select a file and return the value to the JTextField.
+	 * @param teacherInfoField
+	 */
 	protected void selectFile(JTextField teacherInfoField) {
 		if (fileChooser.showOpenDialog(contentPane) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
@@ -264,32 +298,9 @@ public class View extends JFrame implements Observer {
 		}
 	}
 
-	public JButton getRunButton() {
-		return btnRun;
-	}
-
-	public JButton getStopButton() {
-		return btnStop;
-	}
-
-	public JButton getPrintButton() {
-		return btnPrint;
-	}
-	
-	public String[] getFilePaths() {
-		String[] result = {
-				teacherInfoField.getText(),
-				classesInfoField.getText(),
-	        	hoursInfoField.getText(),
-	        	subjectInfoField.getText(),
-	        	classroomInfoField.getText(),
-	        	subjectHoursInfoField.getText(),
-	        	teacherClassesInfoField.getText(),
-	        };
-		
-		return result;
-	}
-
+	/**
+	 * Update all values in the text pane using the Schedule object.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		Schedule schedule = (Schedule) o;
@@ -302,7 +313,10 @@ public class View extends JFrame implements Observer {
 		textPaneUnallocated.setText(String.valueOf(schedule.getUnallocatedLessons().size()));
 	}
 	
-	private void redirectSystemStreams() {
+	/**
+	 * Redirects the System.out output stream to the console text pane.
+	 */
+	protected void redirectSystemStreams() {
 		OutputStream out = new OutputStream() {
 			@Override
 			public void write(final int b) throws IOException {
@@ -324,7 +338,11 @@ public class View extends JFrame implements Observer {
 		System.setErr(new PrintStream(out, true));
 	}
 
-	private void updateTextPane(final String text) {
+	/**
+	 * Updates the console text pane.
+	 * @param text
+	 */
+	protected void updateTextPane(final String text) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				Document doc = consoleTextPane.getDocument();
