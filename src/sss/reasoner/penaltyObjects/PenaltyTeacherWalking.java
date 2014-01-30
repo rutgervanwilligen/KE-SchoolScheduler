@@ -1,7 +1,6 @@
 package sss.reasoner.penaltyObjects;
 
 import sss.scheduler.objects.Lesson;
-import sss.scheduler.objects.LessonHour;
 import sss.scheduler.objects.Teacher;
 
 public class PenaltyTeacherWalking extends Penalty {

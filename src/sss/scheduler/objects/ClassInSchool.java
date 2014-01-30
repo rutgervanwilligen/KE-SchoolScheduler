@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 import sss.scheduler.Resource;
 import sss.scheduler.Scheduler;
-import sss.scheduler.properties.Availability;
 import sss.scheduler.properties.Level;
 
 

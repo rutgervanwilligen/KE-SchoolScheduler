@@ -12,9 +12,6 @@ import sss.reasoner.LessonSwapKB;
 import sss.reasoner.ScheduleEvaluationKB;
 import sss.reasoner.ScheduleOptimizationKB;
 import sss.reasoner.penaltyObjects.Penalty;
-import sss.reasoner.penaltyObjects.PenaltyClassBetweenHours;
-import sss.reasoner.penaltyObjects.PenaltyTeacherRatherNot;
-import sss.reasoner.penaltyObjects.PenaltyTeacherWalking;
 import sss.scheduler.objects.ClassInSchool;
 import sss.scheduler.objects.Classroom;
 import sss.scheduler.objects.DoubleHourLesson;
@@ -186,12 +183,12 @@ public class Scheduler {
 
 
 	protected void createScheduleEvaluationKB() {
-		scheduleEvaluationKB = new ScheduleEvaluationKB(new MRUConflictSet()); //TODO Conflict set?
+		scheduleEvaluationKB = new ScheduleEvaluationKB(new MRUConflictSet());
 	}
 	
 	
 	protected void createScheduleOptimizationKB() {
-		scheduleOptimizationKB = new ScheduleOptimizationKB(new PriorityConflictSet()); //TODO Conflict set?
+		scheduleOptimizationKB = new ScheduleOptimizationKB(new PriorityConflictSet());
 	}
 	
 	protected void evaluateSchedule() {
@@ -235,7 +232,7 @@ public class Scheduler {
 	}
 	
 	protected void createLessonSwapKB() {
-		lessonSwapKB = new LessonSwapKB(new PriorityConflictSet()); //TODO priority conflict set?
+		lessonSwapKB = new LessonSwapKB(new PriorityConflictSet());
 		
 		// Add classrooms to KB
 		for (Entry<String, Classroom> entry : classrooms.entrySet()) {

@@ -40,6 +40,7 @@ public class ClassroomInputReader extends InputReader {
 		} else if (locationString.equals("DEP")) {
 			location = Location.DEP;
 		} else {
+			lineScanner.close();
 			throw(new IOException("Found unknown location " + locationString + " for classroom " + name + "."));
 		}
 		
@@ -61,6 +62,8 @@ public class ClassroomInputReader extends InputReader {
 			} else if (subjects.containsKey(next)){
 				facilities.add(subjects.get(next));
 			} else {
+				facilityScanner.close();
+				lineScanner.close();
 				throw(new IOException("Encountered unknown facility " + next + " for classroom " + name + "."));
 			}
 		}

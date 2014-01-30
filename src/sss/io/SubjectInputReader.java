@@ -26,6 +26,7 @@ public class SubjectInputReader extends InputReader {
 		} else if (homeworkString == 1) {
 			homework = true;
 		} else {
+			lineScanner.close();
 			throw(new IOException("Subject " + name + " has unexpected homework property. (" + homeworkString + ")"));
 		}
 		

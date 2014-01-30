@@ -63,6 +63,7 @@ public class HourInputReader extends InputReader {
 			Weekday weekday = getWeekday(daysScanner.next());
 			hours.add(new LessonHour(weekday, number, preferred, beginTimeHours, beginTimeMinutes, endTimeHours, endTimeMinutes));	
 		}
+		daysScanner.close();
 	}
 	
 	public Weekday getWeekday(String day) throws IOException {
