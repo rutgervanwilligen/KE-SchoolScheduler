@@ -1,0 +1,376 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.*;
+import sss.scheduler.properties.Availability;
+
+/**
+ * Rule base used to allocate a lesson object to a classroom and time slot.
+ */
+public ruleBase ClassroomTimeslotAllocationKB {
+
+/* 
+ * Allocation rule, class doesn't have this subject at the same day
+ * and teacher is already allocated to the classroom right before or after this hour
+ */
+  rule CTAR1 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+  	  Subject subject = lessonToAllocate.getSubject();
+    conditions
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  schedule.teacherScheduledInClassroomBeforeOrAfter(teacher, classroom, hour);
+  	  !schedule.subjectAllocatedToClassOnWeekday(subject, hour, classToAllocate);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+
+
+/* 
+ * Allocation rule, class doesn't have this subject at the same day
+ * and teacher has already been in the classroom that day 
+ */
+  rule CTAR2 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+  	  Subject subject = lessonToAllocate.getSubject();
+    conditions
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  schedule.teacherAlreadyScheduledInClassroomOnWeekday(teacher, classroom, hour);
+  	  !schedule.subjectAllocatedToClassOnWeekday(subject, hour, classToAllocate);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+  
+/* 
+ * Allocation rule, class doesn't have this subject at the same day
+ * and classroom is suited specially for this lesson
+ */
+  rule CTAR3 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+  	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+  	  Subject subject = lessonToAllocate.getSubject();
+    conditions
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  !schedule.subjectAllocatedToClassOnWeekday(subject, hour, classToAllocate);
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  classroom.isSuitedFor(lessonToAllocate);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+
+
+/* 
+ * Allocation rule, class doesn't have this subject at the same day
+ * and put lesson in classroom for general use 
+ */
+  rule CTAR4 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+  	  Subject subject = lessonToAllocate.getSubject();
+    conditions
+  	  !classroom.isSuitedFor(lessonToAllocate);
+  	  !lessonToAllocate.needsSpecialClassroom(); 
+  	  !schedule.subjectAllocatedToClassOnWeekday(subject, hour, classToAllocate); 
+  	  classroom.isSuitedForGeneralUse();
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  } 
+
+/* 
+ * Allocation rule, subject without homework on a day where such subjects aren't allocated yet,
+ * and teacher is already allocated to the classroom right before or after this hour
+ */
+   rule CTAR5 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+  	  Subject subject = lessonToAllocate.getSubject();
+    conditions
+  	  !subject.requiresHomework();
+  	  schedule.noClassesWithoutHomeworkOnWeekday(classToAllocate, hour);
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  schedule.teacherScheduledInClassroomBeforeOrAfter(teacher, classroom, hour);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+
+  
+/* 
+ * Allocation rule, subject without homework on a day where such subjects aren't allocated yet,
+ * teacher has already been in the classroom that day 
+ */
+   rule CTAR6 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+  	  Subject subject = lessonToAllocate.getSubject();
+    conditions
+  	  !subject.requiresHomework();
+  	  schedule.noClassesWithoutHomeworkOnWeekday(classToAllocate, hour);
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  schedule.teacherAlreadyScheduledInClassroomOnWeekday(teacher, classroom, hour);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+  
+/* 
+ * Allocation rule, subject without homework on a day where such subjects aren't allocated yet,
+ * classroom is suited specially for this lesson
+ */
+   rule CTAR7 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+  	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+  	  Subject subject = lessonToAllocate.getSubject();
+    conditions
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  !subject.requiresHomework();
+  	  schedule.noClassesWithoutHomeworkOnWeekday(classToAllocate, hour);
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  classroom.isSuitedFor(lessonToAllocate);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+ 
+/* 
+ * Allocation rule, subject without homework on a day where such subjects aren't allocated yet,
+ * put lesson in classroom for general use 
+ */ 
+  rule CTAR8 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+  	  Subject subject = lessonToAllocate.getSubject();
+    conditions
+  	  !subject.requiresHomework();
+  	  schedule.noClassesWithoutHomeworkOnWeekday(classToAllocate, hour);
+  	  !classroom.isSuitedFor(lessonToAllocate);
+  	  !lessonToAllocate.needsSpecialClassroom();  
+  	  classroom.isSuitedForGeneralUse();
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+
+/* Allocation rule, teacher is already allocated to the classroom right before or after this hour */
+  rule CTAR9 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+    conditions
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  schedule.teacherScheduledInClassroomBeforeOrAfter(teacher, classroom, hour);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+
+/* Allocation rule, teacher has already been in the classroom that day */
+  rule CTAR10 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+    conditions
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  schedule.teacherAlreadyScheduledInClassroomOnWeekday(teacher, classroom, hour);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+
+/* Allocation rule, classroom is suited specially for this lesson */
+  rule CTAR11 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+  	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+    conditions
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  classroom.isSuitedFor(lessonToAllocate);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+
+
+/* Allocation rule, put lesson in classroom for general use */
+  rule CTAR12 {
+    declarations
+      Schedule schedule;
+  	  Lesson lessonToAllocate;
+  	  Classroom classroom;
+  	  LessonHour hour;
+  	localdecl
+   	  Teacher teacher = lessonToAllocate.getTeacher();
+  	  ClassInSchool classToAllocate = lessonToAllocate.getClassInSchool();
+    conditions
+  	  !classroom.isSuitedFor(lessonToAllocate);
+  	  !lessonToAllocate.needsSpecialClassroom();  
+  	  classroom.isSuitedForGeneralUse();
+  	  classroom.isAvailable(hour, lessonToAllocate);
+  	  classToAllocate.isAvailable(hour, lessonToAllocate);
+  	  teacher.isSuitedFor(lessonToAllocate);
+  	  teacher.isAvailable(hour, lessonToAllocate);
+      !teacher.isScheduled(hour, lessonToAllocate);
+    actions
+  	  schedule.scheduleLesson(lessonToAllocate, classroom, classToAllocate, teacher, hour);
+  	  modified(schedule);
+  	  modified(classroom);
+  	  modified(classToAllocate);
+  	  modified(teacher);
+  	  retract(lessonToAllocate);
+  }
+}

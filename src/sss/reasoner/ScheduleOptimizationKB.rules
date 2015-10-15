@@ -1,0 +1,148 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.*;
+import sss.scheduler.properties.Availability;
+import sss.reasoner.penaltyObjects.*;
+
+/**
+ * Rule base used to optimize a schedule.
+ */
+public ruleBase ScheduleOptimizationKB {
+
+	/**
+	 * Rules for Teachers
+	 */
+/* Move a lesson for another lesson for which a teacher has to walk between hours.
+Also move the lesson for which a teacher has to walk to a classroom where this is not the case. */
+  rule SOR1 {
+    declarations
+	  PenaltyTeacherWalking penalty;
+      Schedule schedule;
+      Classroom alternativeClassroom;
+      Lesson lessonInTheWay;
+    localdecl
+      Teacher teacher = penalty.teacher;
+      Lesson lesson1 = penalty.lesson1;
+      Lesson lesson2 = penalty.lesson2;
+    conditions
+      alternativeClassroom.isAvailable(lessonInTheWay.getHour(), lessonInTheWay);
+      alternativeClassroom.isSuitedFor(lessonInTheWay);
+      lessonInTheWay.getHour().equals(lesson2.getHour());
+      lessonInTheWay.getClassroom().equals(lesson1.getClassroom());
+      lesson1.getClassroom().isSuitedFor(lesson2);
+    actions
+      schedule.moveLesson(lessonInTheWay, lessonInTheWay.getHour(), alternativeClassroom);
+      schedule.moveLesson(lesson2, lesson2.getHour(), lesson1.getClassroom());
+      retract(penalty);
+      retract(schedule);
+  }
+
+/* Move a lesson for which a teacher has to walk to a classroom where this is not the case. */
+  rule SOR2 {
+    declarations
+	  PenaltyTeacherWalking penalty;
+      Schedule schedule;
+      Lesson lessonInTheWay;
+    localdecl
+      Teacher teacher = penalty.teacher;
+      Lesson lesson1 = penalty.lesson1;
+      Lesson lesson2 = penalty.lesson2;
+      Classroom classroom1 = penalty.lesson1.getClassroom();
+    conditions
+      lessonInTheWay.getHour().equals(lesson2.getHour());
+      lessonInTheWay.getClassroom().equals(classroom1);
+      classroom1.isSuitedFor(lesson2);
+      classroom1.isAvailable(lesson2.getHour(), lesson2);
+    actions
+      schedule.moveLesson(lesson2, lesson2.getHour(), classroom1);
+      retract(penalty);
+      retract(schedule);
+  }
+
+/* Move a lesson in a time slot on which the teacher would rather not teach to a time slot were the teacher is available. */
+  rule SOR3 {
+    declarations
+	  PenaltyTeacherRatherNot penalty;
+      Schedule schedule;
+      Lesson lesson;
+      LessonHour lessonHour2;
+    localdecl
+      Teacher teacher = penalty.teacher;
+      LessonHour lessonHour1 = penalty.lessonHour;
+      Classroom classroom = lesson.getClassroom();
+      ClassInSchool classInSchool = lesson.getClassInSchool();
+    conditions
+      lesson.getTeacher().equals(teacher);
+      lesson.getHour().equals(lessonHour1);
+      teacher.getAvailability(lessonHour2).equals(Availability.AVAILABLE);
+      !teacher.isScheduled(lessonHour2, lesson);
+      classroom.isAvailable(lessonHour2, lesson);
+      classroom.isSuitedFor(lesson);
+      classInSchool.isAvailable(lessonHour2, lesson);
+    actions
+      schedule.moveLesson(lesson, lessonHour2, classroom);
+      retract(penalty);
+      retract(schedule);
+  }
+
+	/**
+	 * Rules for Classes
+	 */
+	 
+/* Move a lesson of a class that is located on the 9th hour to a timeslot where it is not. */
+  rule SOR4 {
+    declarations
+	  PenaltyClass9thHour penalty;
+      Schedule schedule;
+	  LessonHour alternativeLessonHour;
+	  Classroom alternativeClassroom;
+	  Lesson lesson;
+    localdecl
+      ClassInSchool classInSchool = penalty.classInSchool;
+	  LessonHour lessonHour = penalty.lessonHour;
+	  Teacher teacher = lesson.getTeacher();
+    conditions
+	  lesson.getHour().equals(lessonHour);
+	  lesson.getClassInSchool().equals(classInSchool);
+	  
+	  teacher.isAvailable(alternativeLessonHour, lesson);
+	  !teacher.isScheduled(alternativeLessonHour, lesson);
+	  classInSchool.isAvailable(alternativeLessonHour, lesson);
+	  alternativeClassroom.isAvailable(alternativeLessonHour, lesson);
+	  alternativeClassroom.isSuitedFor(lesson);
+	  
+    actions
+      schedule.moveLesson(lesson, alternativeLessonHour, alternativeClassroom);
+      retract(penalty);
+      retract(schedule);
+  }
+	 
+/* Move a lesson that is located at the start or end of a day for a class to a free hour for that class. */
+  rule SOR5 {
+    declarations
+	  PenaltyClassBetweenHours penalty;
+      Schedule schedule;
+	  LessonHour lessonHour2;
+	  Lesson lesson;
+	  Classroom classroom;
+    localdecl
+      ClassInSchool classInSchool = penalty.classInSchool;
+      LessonHour lessonHour1 = penalty.lessonHour;
+	  Teacher teacher = lesson.getTeacher();
+    conditions
+	  !teacher.isScheduled(lessonHour1, lesson);
+	  teacher.isAvailable(lessonHour1, lesson);
+	  classInSchool.isAvailable(lessonHour1, lesson);
+	  classroom.isAvailable(lessonHour1, lesson);
+	  classroom.isSuitedFor(lesson);
+	  
+	  classInSchool.hasStartOrEndingHour(lessonHour2);
+	  lesson.getHour().equals(lessonHour2);
+	  lesson.getClassInSchool().equals(classInSchool);
+    actions
+      schedule.moveLesson(lesson, lessonHour1, classroom);
+      retract(penalty);
+      retract(schedule);
+  }
+  
+}

@@ -1,0 +1,94 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.*;
+import sss.scheduler.properties.Availability;
+import sss.reasoner.penaltyObjects.*;
+
+/**
+ * Rule base used to evaluate a schedule.
+ */
+public ruleBase ScheduleEvaluationKB {
+
+	/**
+	 * Rules for ClassInSchool
+	 */
+
+/* Penalty for class having a free hour. */
+  rule SER1 {
+    declarations
+      Schedule schedule;
+      ClassInSchool classInSchool;
+      LessonHour lessonHour;
+    conditions
+      classInSchool.hasBetweenHourOn(lessonHour);
+    actions
+      schedule.addPenaltyObject(new PenaltyClassBetweenHours(classInSchool, lessonHour), -10000);
+  }
+
+/* Penalty for class having a lesson on the 9th hour. */
+  rule SER2 {
+    declarations
+      Schedule schedule;
+      ClassInSchool classInSchool;
+      LessonHour lessonHour;
+    conditions
+      !classInSchool.isAvailable(lessonHour);
+	  lessonHour.getHour() == 9;
+    actions
+      schedule.addPenaltyObject(new PenaltyClass9thHour(classInSchool, lessonHour), -1000);
+  }
+  
+/* Rule to make sure other rules don't fire multiple times. */
+  rule SER3 {
+    declarations
+      ClassInSchool classInSchool;
+    conditions
+    actions
+      retract(classInSchool);
+  }
+  
+	/**
+	 * Rules for Teacher
+	 */
+	
+/*  Penalty for teacher having to teach on a lesson hour he or she would rather not teach on. */ 
+  rule SER4 {
+    declarations
+	  Schedule schedule;
+      Teacher teacher;
+      LessonHour lessonHour;
+    conditions
+      teacher.getAvailability(lessonHour) == Availability.RATHER_NOT;
+      teacher.isScheduled(lessonHour);
+    actions
+	  schedule.addPenaltyObject(new PenaltyTeacherRatherNot(teacher, lessonHour), -1000);
+  }
+
+/* Penalty for teacher having to walk between classrooms on adjecent hours. */
+  rule SER5 {
+    declarations
+      Schedule schedule;
+      Lesson lesson1, lesson2;
+      Teacher teacher;
+    localdecl
+      LessonHour lessonHour1 = lesson1.getHour();
+      LessonHour lessonHour2 = lesson2.getHour();
+    conditions
+      lessonHour1.hasNextHour();
+      lessonHour1.getNextHour().equals(lessonHour2);
+      lesson1.getTeacher().equals(teacher);
+      lesson2.getTeacher().equals(teacher);
+      !lesson1.getClassroom().equals(lesson2.getClassroom());
+    actions
+	  schedule.addPenaltyObject(new PenaltyTeacherWalking(teacher, lesson1, lesson2), -100);
+  }
+	 
+/* Rule to make sure other rules don't fire multiple times. */
+  rule SER6 {
+    declarations
+      Teacher teacher;
+    conditions
+    actions
+      retract(teacher);
+  }
+}

@@ -1,0 +1,110 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.Teacher;
+import sss.scheduler.objects.ClassInSchool;
+import sss.scheduler.objects.Classroom;
+import sss.scheduler.objects.LessonHour;
+import sss.scheduler.objects.Subject;
+import sss.scheduler.objects.Schedule;
+
+/**
+ * Rule base used to swap lessons.
+ */
+public ruleBase LessonSwapKB {
+
+  /* Rule to swap an unallocated and an allocated lesson. */
+  rule LSWR1 {
+    declarations
+      Lesson newLesson, allocatedLesson;
+      Schedule schedule;
+      Classroom newClassroom;
+      LessonHour newLessonHour;
+    localdecl
+      Teacher newTeacher = newLesson.getTeacher();
+      Teacher allocatedTeacher = allocatedLesson.getTeacher();
+      ClassInSchool newClass = newLesson.getClassInSchool();
+      ClassInSchool allocatedClass = allocatedLesson.getClassInSchool();
+      Classroom allocatedClassroom = allocatedLesson.getClassroom();
+      LessonHour allocatedLessonHour = allocatedLesson.getHour();
+      Subject newSubject = newLesson.getSubject();
+      Subject allocatedSubject = allocatedLesson.getSubject();
+    conditions
+      schedule.containsUnallocatableLesson(newLesson);
+      schedule.containsAllocatedLesson(allocatedLesson);
+      
+      newTeacher.isAvailable(allocatedLessonHour, newLesson);
+      !newTeacher.isScheduled(allocatedLessonHour, newLesson);
+      newClass.isAvailable(allocatedLessonHour, newLesson);
+      newClassroom.isAvailable(allocatedLessonHour, newLesson);
+      newClassroom.isSuitedFor(allocatedSubject);
+      
+      allocatedTeacher.isAvailable(newLessonHour, allocatedLesson);
+      !allocatedTeacher.isScheduled(newLessonHour, allocatedLesson);
+      allocatedClass.isAvailable(newLessonHour, allocatedLesson);
+      allocatedClassroom.isAvailable(newLessonHour, allocatedLesson);
+      allocatedClassroom.isSuitedFor(newSubject);
+    actions
+      newLesson.setClassroom(newClassroom);
+      newLesson.setHour(newLessonHour);
+      schedule.swapLessons(newLesson, allocatedLesson);
+      modified(schedule);
+      modified(newLesson);
+      modified(allocatedLesson);
+  }
+  
+  /* Rule to rotate an unallocated and two allocated lessons. */
+  rule LSWR2 {
+    declarations
+      Lesson newLesson, allocatedLesson1, allocatedLesson2;
+      Schedule schedule;
+      Classroom newClassroom;
+      LessonHour newLessonHour;
+    localdecl
+      Teacher newTeacher = newLesson.getTeacher();
+      Teacher allocatedTeacher1 = allocatedLesson1.getTeacher();
+      Teacher allocatedTeacher2 = allocatedLesson2.getTeacher();
+      ClassInSchool newClass = newLesson.getClassInSchool();
+      ClassInSchool allocatedClass1 = allocatedLesson1.getClassInSchool();
+      ClassInSchool allocatedClass2 = allocatedLesson2.getClassInSchool();
+      Classroom allocatedClassroom1 = allocatedLesson1.getClassroom();
+      Classroom allocatedClassroom2 = allocatedLesson2.getClassroom();
+      LessonHour allocatedLessonHour1 = allocatedLesson1.getHour();
+      LessonHour allocatedLessonHour2 = allocatedLesson2.getHour();
+      Subject newSubject = newLesson.getSubject();
+      Subject allocatedSubject1 = allocatedLesson1.getSubject();
+      Subject allocatedSubject2 = allocatedLesson2.getSubject();
+    conditions
+      schedule.containsUnallocatableLesson(newLesson);
+      schedule.containsAllocatedLesson(allocatedLesson1);
+      schedule.containsAllocatedLesson(allocatedLesson2);
+      
+      newTeacher.isAvailable(allocatedLessonHour1, newLesson);
+      !newTeacher.isScheduled(allocatedLessonHour1, newLesson);
+      newClass.isAvailable(allocatedLessonHour1, newLesson);
+      newClassroom.isAvailable(allocatedLessonHour1, newLesson);
+      newClassroom.isSuitedFor(allocatedSubject1);
+      
+      allocatedTeacher1.isAvailable(allocatedLessonHour2, allocatedLesson1);
+      !allocatedTeacher1.isScheduled(allocatedLessonHour2, allocatedLesson1);
+      allocatedClass1.isAvailable(allocatedLessonHour2, allocatedLesson1);
+      allocatedClassroom1.isAvailable(allocatedLessonHour2, allocatedLesson1);
+      allocatedClassroom1.isSuitedFor(allocatedSubject2);
+      
+      allocatedTeacher2.isAvailable(newLessonHour, allocatedLesson2);
+      !allocatedTeacher2.isScheduled(newLessonHour, allocatedLesson2);
+      allocatedClass2.isAvailable(newLessonHour, allocatedLesson2);
+      allocatedClassroom2.isAvailable(newLessonHour, allocatedLesson2);
+      allocatedClassroom2.isSuitedFor(newSubject);
+    actions
+      newLesson.setClassroom(newClassroom);
+      newLesson.setHour(newLessonHour);
+      schedule.swapLessons(newLesson, allocatedLesson1);
+      schedule.swapLessons(allocatedLesson1, allocatedLesson2);
+      modified(schedule);
+      modified(newLesson);
+      modified(allocatedLesson1);
+      modified(allocatedLesson2);
+  }
+  
+}

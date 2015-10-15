@@ -1,0 +1,109 @@
+package sss.reasoner;
+
+import sss.scheduler.objects.Lesson;
+import sss.scheduler.objects.Schedule;
+
+/**
+ * Rule base used to select lessons.
+ */
+public ruleBase LessonSelectionKB {
+
+  /* Select lesson with lowest availability count */
+  rule LSR1 {
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+      schedule.singleLowestAvailabilityCount();
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+    actions
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+      retract(lesson);
+  }
+
+  /* If multiple lessons have lowest count, select lesson for course that is hard to allocate */
+  rule LSR2 {
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+      !schedule.singleLowestAvailabilityCount();
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+      lesson.getSubject().getCode().equals("LO");
+    actions
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+      retract(lesson);
+  }
+
+  /* If multiple lessons have lowest count, select lesson for course that is hard to allocate */
+  rule LSR3 {
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+      !schedule.singleLowestAvailabilityCount();
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+      lesson.getSubject().getCode().equals("HV");
+    actions
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+      retract(lesson);
+  }
+
+  /* If multiple lessons have lowest count, select lesson for course that is hard to allocate */
+  rule LSR4 {
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+      !schedule.singleLowestAvailabilityCount();
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+      lesson.getSubject().getCode().equals("IN");
+    actions
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+      retract(lesson);
+  }
+
+  /* If multiple lessons have lowest count and no special course is left, select any course. */
+  rule LSR5 {
+    declarations
+      Lesson lesson;
+      Schedule schedule;
+    localdecl
+      Integer lowestAvailabilityCount = schedule.lowestAvailabilityCount();
+    conditions
+      schedule.schedulingSetIsEmpty();
+      schedule.containsUnallocatedLesson(lesson);
+      !schedule.singleLowestAvailabilityCount();
+      !lesson.isAllocatedToTimeslot();
+      lesson.getAvailabilityCount() == lowestAvailabilityCount;
+    actions
+	  schedule.addToSchedulingSet(lesson);
+      modified(schedule);
+      retract(lesson);
+  }
+
+}
